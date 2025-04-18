@@ -7,6 +7,7 @@ public class UIClicker : MonoBehaviour
 {
     public Camera playerCamera;
     private Button currentlyHoveredButton;
+    public Animator m_Animator;
 
     void Update()
     {
@@ -61,6 +62,7 @@ public class UIClicker : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("START");
+        m_Animator.SetTrigger("Salute");
     }
 
     public void OpenOptions()
