@@ -9,7 +9,7 @@ public class gameHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 300;
+        Application.targetFrameRate = -1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
