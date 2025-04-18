@@ -94,8 +94,8 @@ public class playerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) jumpOrDash();
 
 
-        distMultGoal -= Input.mouseScrollDelta.y / 10f;
-        distMultGoal = Mathf.Clamp(distMultGoal, 0.4f, 3f);
+        distMultGoal -= Input.mouseScrollDelta.y / 20f;
+        distMultGoal = Mathf.Clamp(distMultGoal, 0.2f, 3f);
     }
 
 
@@ -198,7 +198,7 @@ public class playerMovement : MonoBehaviour
         actualCamDist += (camDist - actualCamDist) / 10f;
 
         if (cameraTransform) {
-            cameraTransform.localPosition = new Vector3(0f, actualCamHeight, -actualCamDist * distMult);
+            cameraTransform.localPosition = new Vector3(0f, actualCamHeight * Mathf.Lerp(distMult, 1f, 0.75f), -actualCamDist * distMult);
             // GetComponent<MeshRenderer>().enabled = distMult > 0.4f;
             
             cameraTransform.LookAt(transform.position + Vector3.up * heightAbove);
