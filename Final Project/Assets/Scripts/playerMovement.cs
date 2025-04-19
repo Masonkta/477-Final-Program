@@ -8,6 +8,8 @@ public class playerMovement : MonoBehaviour
     public Transform forwardTransform;
     public Transform cameraTransform;
     public Transform PovCameraTransform;
+    public Transform lookAt;
+    public Animator playerAnimator;
     public bool isFirstPerson;
 
     [Header("Moving")]
@@ -35,7 +37,6 @@ public class playerMovement : MonoBehaviour
     [Header("Camera")]
     public float distMult = 1f;
     float distMultGoal = 1f;
-    public float heightAbove = 0f;
         
     float camHeight = 2f;
     public float actualCamHeight;
@@ -66,6 +67,11 @@ public class playerMovement : MonoBehaviour
         
         if (transform.Find("POV"))
             PovCameraTransform = transform.Find("POV");
+        
+        if (transform.Find("Look At"))
+            lookAt = transform.Find("Look At");
+
+        playerAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -94,8 +100,8 @@ public class playerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) jumpOrDash();
 
 
-        distMultGoal -= Input.mouseScrollDelta.y / 20f;
-        distMultGoal = Mathf.Clamp(distMultGoal, 0.2f, 3f);
+        distMultGoal -= Input.mouseScrollDelta.y / 25f;
+        distMultGoal = Mathf.Clamp(distMultGoal, 0.2f, 1.5f);
     }
 
 
@@ -106,9 +112,12 @@ public class playerMovement : MonoBehaviour
         if (movement.magnitude == 0) moveSpeed = 0f;
 
 
-        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 50f;
+        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 10f;
+        playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
+        playerAnimator.speed = 0.8f + actualMoveSpeed / runSpeed * 0.5f;
 
         controller.Move(movement * actualMoveSpeed * Time.deltaTime);
+
 
 
         if (!isGrounded) playerVelocity.y += Time.deltaTime * Physics.gravity.y;
@@ -149,8 +158,8 @@ public class playerMovement : MonoBehaviour
             transform.Rotate(Vector3.up, xTurn);
 
             // Up + Down
-            heightAbove += yTurn;
-            heightAbove = Mathf.Clamp(heightAbove, -1.5f, 3.2f);
+            camHeight -= yTurn;
+            camHeight = Mathf.Clamp(camHeight, 0.1f, 2.2f);
 
             xRotationCam -= yTurnPOV;
             xRotationCam = Mathf.Clamp(xRotationCam, -90f, 75f);
@@ -190,18 +199,19 @@ public class playerMovement : MonoBehaviour
         //
 
         /// LEAVE ///
-        camHeight = -1.46f * heightAbove + 4.45f;
-        camDist = -Mathf.Pow((heightAbove + 1.5f) * 0.3f, 2) + 10f;
+        // camHeight = -1.46f * heightAbove + 4.45f;
+        // camDist = -Mathf.Pow((heightAbove + 1.5f) * 0.3f, 2) + 10f;
+        camDist = -0.74f * Mathf.Pow(actualCamHeight - 1.12f, 2) + 3f; 
         /////////////
 
-        actualCamHeight += (camHeight - actualCamHeight) / 10f;
-        actualCamDist += (camDist - actualCamDist) / 10f;
+        actualCamHeight += (camHeight - actualCamHeight) / 5f;
+        actualCamDist += (camDist - actualCamDist) / 5f;
 
         if (cameraTransform) {
-            cameraTransform.localPosition = new Vector3(0f, actualCamHeight * Mathf.Lerp(distMult, 1f, 0.75f), -actualCamDist * distMult);
+            cameraTransform.localPosition = new Vector3(0f, actualCamHeight, -actualCamDist * distMult);
             // GetComponent<MeshRenderer>().enabled = distMult > 0.4f;
             
-            cameraTransform.LookAt(transform.position + Vector3.up * heightAbove);
+            cameraTransform.LookAt(lookAt);
         }
     }
 
