@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class HeadLook : MonoBehaviour
+public class HeadLock : MonoBehaviour
 {
     public float sensitivity = 2f;
     public Vector2 clampY = new Vector2(55f, 120f);    
