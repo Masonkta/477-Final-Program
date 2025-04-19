@@ -84,9 +84,13 @@ public class playerMovement : MonoBehaviour
             turning();
         }
 
-        if (GetComponent<NPCManager>().freezeCamera == false){
-            handleCamera();
+        if (GetComponent<NPCManager>())
+            if (GetComponent<NPCManager>().freezeCamera == false){
+                handleCamera();
         }
+
+        if (!GetComponent<NPCManager>())
+            handleCamera();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +118,7 @@ public class playerMovement : MonoBehaviour
         if (movement.magnitude == 0) moveSpeed = 0f;
 
 
-        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 10f;
+        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 50f;
         playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
         playerAnimator.speed = 0.8f + actualMoveSpeed / runSpeed * 0.5f;
 
