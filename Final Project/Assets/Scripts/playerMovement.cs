@@ -84,7 +84,9 @@ public class playerMovement : MonoBehaviour
             turning();
         }
 
-        handleCamera();
+        if (GetComponent<NPCManager>().freezeCamera == false){
+            handleCamera();
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
