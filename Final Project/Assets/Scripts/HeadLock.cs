@@ -1,31 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class HeadLock : MonoBehaviour
 {
+    // Sensitivity
     public float sensitivity = 2f;
-    public Vector2 clampY = new Vector2(55f, 120f);    
-    public Vector2 clampX = new Vector2(-17f, 43f);    
-    private float rotationY = 0f; 
-    private float rotationX = 0f; 
 
+    // X and Y Constraints
+    public Vector2 clampY = new Vector2(55f, 120f);
+    public Vector2 clampX = new Vector2(-17f, 43f);
+
+    private float rotationY = 0f;
+    private float rotationX = 0f;
+    private float mouseX = 0f;
+    private float mouseY = 0f;
+    public WakingEffect WakingupScript;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        rotationY = transform.eulerAngles.y;
-        rotationX = transform.eulerAngles.x;
+
+        if (Camera.main != null)
+        {
+            rotationX = -7.6f;
+            rotationY = 88f;
+            Camera.main.transform.localPosition = Vector3.zero;
+            Camera.main.transform.localRotation = Quaternion.Euler(-7.6f, 88f, 0f);
+            mouseX = rotationY / sensitivity;
+            mouseY = -rotationX / sensitivity;
+        }
+    }
+
+    void OnEnable()
+    {
+        if (Camera.main != null)
+        {
+            rotationX = -7.6f;
+            rotationY = 88f;
+            Camera.main.transform.localRotation = Quaternion.Euler(-7.6f, 88f, 0f);
+            mouseX = rotationY / sensitivity;
+            mouseY = -rotationX / sensitivity;
+        }
+        WakingupScript.enabled = false;
     }
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+        // Capture input
+        mouseX = Input.GetAxis("Mouse X") * sensitivity;
+        mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+
+        // Apply rotation
         rotationY += mouseX;
         rotationX -= mouseY;
+
+        // Clamp rotation
         rotationY = Mathf.Clamp(rotationY, clampY.x, clampY.y);
         rotationX = Mathf.Clamp(rotationX, clampX.x, clampX.y);
+
+        // Apply to transform
         transform.rotation = Quaternion.Euler(rotationX, rotationY, 0f);
     }
 }

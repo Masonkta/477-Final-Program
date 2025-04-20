@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StandUpSequence : MonoBehaviour
+public class PlayerStandup : MonoBehaviour
 {
     public Camera playerCamera;              
     public GameObject playerController;      
@@ -41,7 +41,7 @@ public class StandUpSequence : MonoBehaviour
 
     public void StartSequence()
     {
-        Debug.Log("SEQUQNECE");
+        Debug.Log("Stand");
         if (isRotating || isRising) return;
         // Disable the HeadLock script
         HeadLock headLockScript = playerCamera.GetComponent<HeadLock>();
@@ -57,7 +57,6 @@ public class StandUpSequence : MonoBehaviour
             uiClickerScript.enabled = false;
         }
         standUpButton.image.color = new Color(1, 1, 1, 0f);
-
         isRotating = true;
     }
 
