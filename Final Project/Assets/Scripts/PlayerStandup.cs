@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,14 +21,19 @@ public class PlayerStandup : MonoBehaviour
 
     public GameObject UiEventSystem;
     public GameObject CursorCanvas;
+    public GameObject Canvastv1;
+    public GameObject Canvastv2;
+    public GameObject tv1;
+    public GameObject tv2;
     public GameObject GameHandler;
+    public PlayerSitDown SitScript;
+
 
     void Start()
     {
         // Attach button press to function
         standUpButton.onClick.AddListener(StartSequence);
 
-        // Calculate target rotation (looking straight ahead)
         targetRotation = Quaternion.Euler(0, 88, 0);
 
         // Save the starting seated position of the camera
@@ -64,7 +70,6 @@ public class PlayerStandup : MonoBehaviour
     {
         if (isRotating)
         {
-            // Rotate towards forward smoothly
             playerCamera.transform.rotation = Quaternion.Slerp(
                 playerCamera.transform.rotation,
                 targetRotation,
@@ -80,7 +85,6 @@ public class PlayerStandup : MonoBehaviour
         }
         else if (isRising)
         {
-            // Move up smoothly to standing height
             playerCamera.transform.position = Vector3.MoveTowards(
                 playerCamera.transform.position,
                 targetPosition,
@@ -91,7 +95,6 @@ public class PlayerStandup : MonoBehaviour
             {
                 playerCamera.transform.position = targetPosition;
                 isRising = false;
-
                 CompleteTransition();
             }
         }
@@ -104,5 +107,17 @@ public class PlayerStandup : MonoBehaviour
         CursorCanvas.SetActive(false);
         UiEventSystem.SetActive(false);
         GameHandler.SetActive(true);
+        SitScript.enabled = true;
+        SitScript.isSitting = false;
+        SitScript.playerMovementScript.enabled = true;
+        SitScript.player2Model.SetActive(true);
+        Canvastv1.SetActive(false);
+        Canvastv2.SetActive(false);
+
+        //Set TV screens to black
+        Material blackMaterial = new Material(Shader.Find("Unlit/Color"));
+        blackMaterial.color = Color.black;
+        tv1.GetComponent<MeshRenderer>().material = blackMaterial;
+        tv2.GetComponent<MeshRenderer>().material = blackMaterial;
     }
 }

@@ -22,10 +22,10 @@ public class HeadLock : MonoBehaviour
 
         if (Camera.main != null)
         {
-            rotationX = -7.6f;
+            rotationX = -9.7f;
             rotationY = 88f;
             Camera.main.transform.localPosition = Vector3.zero;
-            Camera.main.transform.localRotation = Quaternion.Euler(-7.6f, 88f, 0f);
+            Camera.main.transform.localRotation = Quaternion.Euler(-9.7f, 88f, 0f);
             mouseX = rotationY / sensitivity;
             mouseY = -rotationX / sensitivity;
         }
@@ -35,9 +35,9 @@ public class HeadLock : MonoBehaviour
     {
         if (Camera.main != null)
         {
-            rotationX = -7.6f;
+            rotationX = -9.7f;
             rotationY = 88f;
-            Camera.main.transform.localRotation = Quaternion.Euler(-7.6f, 88f, 0f);
+            Camera.main.transform.localRotation = Quaternion.Euler(-9.7f, 88f, 0f);
             mouseX = rotationY / sensitivity;
             mouseY = -rotationX / sensitivity;
         }
