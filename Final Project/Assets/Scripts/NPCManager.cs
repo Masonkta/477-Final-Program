@@ -20,7 +20,7 @@ public class NPCManager : MonoBehaviour
     public GameObject defaultCameraPos;
     public GameObject talkCameraPos;
     public bool freezeCamera = false;
-    List<string> littleGuyDialogue = new List<string> { "Little Guy: Hello There!", "You: What are you doing here?", "Little Guy: IDK I just woke up yo" };
+    List<string> littleGuyDialogue = new List<string> { "Little Guy: Hello There!", "You: What are you doing here?", "Little Guy: IDK I just woke up" };
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +32,7 @@ public class NPCManager : MonoBehaviour
         GameObject UI = GameObject.Find("Game UI");
         GameObject Panel = UI.transform.Find("Panel").gameObject;
         talkPanel = Panel.transform.Find("NPC Captions").gameObject;
+        Debug.Log(talkPanel.transform.name);
         Transform talkTextTransform = talkPanel.transform.Find("NPC Words");
         talkText = talkTextTransform.GetComponent<TextMeshProUGUI>();
     }
