@@ -10,8 +10,8 @@ public class WakingEffect : MonoBehaviour
     public AudioSource heartbeatAudio;
     public Volume postProcessVolume;
 
-    public float[] blinkDurations = { 1f, 1.5f, 2f }; 
-    public float fadeDuration = .8f; 
+    private float[] blinkDurations = { 1f, 1.5f, 2f }; 
+    private float fadeDuration = .5f; 
 
     private Vignette vignette;
     private DepthOfField dof;
