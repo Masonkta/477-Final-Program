@@ -29,7 +29,7 @@ public class gameHandler : MonoBehaviour
 
     /////////////////////////////////////////////////////////////  
 
-    void QuitGame()
+    public void QuitGame()
     {
         Application.Quit();
 
