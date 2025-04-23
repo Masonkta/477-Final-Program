@@ -28,8 +28,7 @@ public class TalkScript : MonoBehaviour
     {
         if (other.transform.name.StartsWith("Alien Player") && spoke == false){
             helpText.text = "Press T to talk";
-            spoke = true;
-            Player.GetComponent<NPCManager>().talkingTo = gameObject;
+                Player.GetComponent<NPCManager>().talkingTo = gameObject;
         }
     }
 

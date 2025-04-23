@@ -631,7 +631,7 @@ GameObject:
   - component: {fileID: 419235503}
   - component: {fileID: 419235502}
   - component: {fileID: 419235501}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NPC Little Guy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1961,7 +1961,7 @@ GameObject:
   - component: {fileID: 2044049802}
   - component: {fileID: 2044049804}
   - component: {fileID: 2044049803}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NPC Little Guy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -42,24 +42,31 @@ public class NPCManager : MonoBehaviour
     {
         float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
 
-        if (speed > 0.01f)
-        {
-            isMoving = true;
-            freezeCamera = false;
-            if (talking != null){
-                StopCoroutine(talking);
+        if (freezeCamera){
+            if (speed > 0.01f)
+            {
+                isMoving = true;
+                freezeCamera = false;
+                talkingTo.GetComponent<TalkScript>().spoke = false;
+                if (talking != null){
+                    StopCoroutine(talking);
+                }
+                //playerCamera.transform.position = defaultCameraPos.transform.position;
+                if (talkPanel.activeInHierarchy){
+                    talkPanel.SetActive(false);
+                }
             }
-            playerCamera.transform.position = defaultCameraPos.transform.position;
-            if (talkPanel.activeInHierarchy){
-                talkPanel.SetActive(false);
+            else{
+                isMoving = false;
             }
         }
         else{
             isMoving = false;
         }
 
-        if (talkingTo != null && isMoving == false && Input.GetKeyDown(KeyCode.T)){
+        if (talkingTo != null && isMoving == false && Input.GetKeyDown(KeyCode.T) && talkingTo.GetComponent<TalkScript>().spoke == false){
             freezeCamera = true;
+            talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Little Guy"){
                 Coroutine talking = StartCoroutine(TalkToCharacter(littleGuyDialogue)); 
             }
