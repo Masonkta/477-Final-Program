@@ -91,5 +91,6 @@ public class NPCManager : MonoBehaviour
                 yield return null; // wait for next frame
             }
         }
+    
     }
 }

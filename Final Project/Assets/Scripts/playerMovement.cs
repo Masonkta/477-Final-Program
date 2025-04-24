@@ -74,7 +74,16 @@ public class playerMovement : MonoBehaviour
         {
             handleInput();
             moving();
-            turning();
+            
+            if (GetComponent<NPCManager>())
+            {
+                if (!GetComponent<NPCManager>().freezeCamera)
+                    turning();
+            }
+            else
+            {
+                turning();
+            }
         }
 
         if (GetComponent<NPCManager>())
