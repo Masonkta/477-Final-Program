@@ -23,6 +23,15 @@ public class NPCManager : MonoBehaviour
     public TextMeshProUGUI speakerText;
     List<string> littleGuyDialogue = new List<string> { "Hello There!", "What are you doing here?", "IDK I just woke up" };
     List<string> littleGuySpeakers = new List<string> {"Little Guy", "You", "Little Guy"};
+    public GameObject oneOptionPanel;
+    public TextMeshProUGUI oneOptionOneText;
+    public GameObject twoOptionPanel;
+    public TextMeshProUGUI twoOptionOneText;
+    public TextMeshProUGUI twoOptionTwoText;
+    public GameObject threeOptionPanel;
+    public TextMeshProUGUI threeOptionOneText;
+    public TextMeshProUGUI threeOptionTwoText;
+    public TextMeshProUGUI threeOptionThreeText;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,11 +43,19 @@ public class NPCManager : MonoBehaviour
         GameObject UI = GameObject.Find("Game UI");
         GameObject Panel = UI.transform.Find("Panel").gameObject;
         talkPanel = Panel.transform.Find("NPC Captions").gameObject;
-        Debug.Log(talkPanel.transform.name);
         Transform talkTextTransform = talkPanel.transform.Find("NPC Words");
         Transform speakerTextTransform = talkPanel.transform.Find("Speaker");
         speakerText = speakerTextTransform.GetComponent<TextMeshProUGUI>();
         talkText = talkTextTransform.GetComponent<TextMeshProUGUI>();
+        oneOptionPanel = talkPanel.transform.Find("1Options").gameObject;
+        twoOptionPanel = talkPanel.transform.Find("2Options").gameObject;
+        threeOptionPanel = talkPanel.transform.Find("3Options").gameObject;
+        oneOptionOneText = oneOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
+        twoOptionOneText = twoOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
+        twoOptionTwoText = twoOptionPanel.transform.Find("Option2").GetComponent<TextMeshProUGUI>();
+        threeOptionOneText = threeOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
+        threeOptionTwoText = threeOptionPanel.transform.Find("Option2").GetComponent<TextMeshProUGUI>();
+        threeOptionThreeText = threeOptionPanel.transform.Find("Option3").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -46,6 +63,17 @@ public class NPCManager : MonoBehaviour
     {
         float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
 
+        //toggling the cursor based on whether or not the talk panel is active
+        if (talkPanel.activeInHierarchy){
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else{
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        //ending a conversation
         if (freezeCamera){
             if (speed > 0.01f)
             {
@@ -55,7 +83,6 @@ public class NPCManager : MonoBehaviour
                 if (talking != null){
                     StopCoroutine(talking);
                 }
-                //playerCamera.transform.position = defaultCameraPos.transform.position;
                 if (talkPanel.activeInHierarchy){
                     talkPanel.SetActive(false);
                 }
@@ -68,6 +95,7 @@ public class NPCManager : MonoBehaviour
             isMoving = false;
         }
 
+        // starting a convorsation 
         if (talkingTo != null && isMoving == false && Input.GetKeyDown(KeyCode.T) && talkingTo.GetComponent<TalkScript>().spoke == false){
             freezeCamera = true;
             talkingTo.GetComponent<TalkScript>().spoke = true;
@@ -97,5 +125,12 @@ public class NPCManager : MonoBehaviour
             }
         }
     
+    }
+
+    IEnumerator TalkToLittleGuy(){
+        playerCamera.transform.position = talkCameraPos.transform.position;
+        talkPanel.SetActive(true);
+
+        yield return null;
     }
 }
