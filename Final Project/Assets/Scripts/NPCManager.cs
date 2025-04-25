@@ -20,7 +20,9 @@ public class NPCManager : MonoBehaviour
     public GameObject defaultCameraPos;
     public GameObject talkCameraPos;
     public bool freezeCamera = false;
-    List<string> littleGuyDialogue = new List<string> { "Little Guy: Hello There!", "You: What are you doing here?", "Little Guy: IDK I just woke up" };
+    public TextMeshProUGUI speakerText;
+    List<string> littleGuyDialogue = new List<string> { "Hello There!", "What are you doing here?", "IDK I just woke up" };
+    List<string> littleGuySpeakers = new List<string> {"Little Guy", "You", "Little Guy"};
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,8 @@ public class NPCManager : MonoBehaviour
         talkPanel = Panel.transform.Find("NPC Captions").gameObject;
         Debug.Log(talkPanel.transform.name);
         Transform talkTextTransform = talkPanel.transform.Find("NPC Words");
+        Transform speakerTextTransform = talkPanel.transform.Find("Speaker");
+        speakerText = speakerTextTransform.GetComponent<TextMeshProUGUI>();
         talkText = talkTextTransform.GetComponent<TextMeshProUGUI>();
     }
 
@@ -68,20 +72,21 @@ public class NPCManager : MonoBehaviour
             freezeCamera = true;
             talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Little Guy"){
-                Coroutine talking = StartCoroutine(TalkToCharacter(littleGuyDialogue)); 
+                Coroutine talking = StartCoroutine(TalkToCharacter(littleGuyDialogue, littleGuySpeakers)); 
             }
         }
 
         lastPosition = transform.position; 
     }
 
-    IEnumerator TalkToCharacter(List<String> dialogue){
+    IEnumerator TalkToCharacter(List<String> dialogue, List<String> speakers){
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
-
-        foreach (String line in dialogue){
+        
+        for (int i = 0; i < dialogue.Count; i++){
+            speakerText.text = speakers[i];
             String displayedText = "";
-            foreach(char letter in line){
+            foreach(char letter in dialogue[i]){
                 displayedText += letter;
                 talkText.text = displayedText;
                 yield return new WaitForSeconds(0.1f);
