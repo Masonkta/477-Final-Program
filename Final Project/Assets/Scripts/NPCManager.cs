@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using System.IO;
 using System;
 using System.Runtime.ExceptionServices;
+using UnityEngine.UI;
 
 public class NPCManager : MonoBehaviour
 {
@@ -32,6 +33,13 @@ public class NPCManager : MonoBehaviour
     public TextMeshProUGUI threeOptionOneText;
     public TextMeshProUGUI threeOptionTwoText;
     public TextMeshProUGUI threeOptionThreeText;
+    public string buttonSelection = "";
+    public Button oneOptionOneButton;
+    public Button twoOptionOneButton;
+    public Button twoOptionTwoButton;
+    public Button threeOptionOneButton;
+    public Button threeOptionTwoButton;
+    public Button threeOptionThreeButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,12 +58,30 @@ public class NPCManager : MonoBehaviour
         oneOptionPanel = talkPanel.transform.Find("1Options").gameObject;
         twoOptionPanel = talkPanel.transform.Find("2Options").gameObject;
         threeOptionPanel = talkPanel.transform.Find("3Options").gameObject;
-        oneOptionOneText = oneOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
-        twoOptionOneText = twoOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
-        twoOptionTwoText = twoOptionPanel.transform.Find("Option2").GetComponent<TextMeshProUGUI>();
-        threeOptionOneText = threeOptionPanel.transform.Find("Option1").GetComponent<TextMeshProUGUI>();
-        threeOptionTwoText = threeOptionPanel.transform.Find("Option2").GetComponent<TextMeshProUGUI>();
-        threeOptionThreeText = threeOptionPanel.transform.Find("Option3").GetComponent<TextMeshProUGUI>();
+        GameObject oneOptionOne = oneOptionPanel.transform.Find("Option1").gameObject;
+        GameObject twoOptionOne = twoOptionPanel.transform.Find("Option1").gameObject;
+        GameObject twoOptionTwo = twoOptionPanel.transform.Find("Option2").gameObject;
+        GameObject threeOptionOne = threeOptionPanel.transform.Find("Option1").gameObject;
+        GameObject threeOptionTwo = threeOptionPanel.transform.Find("Option2").gameObject;
+        GameObject threeOptionThree = threeOptionPanel.transform.Find("Option3").gameObject;
+        oneOptionOneButton = oneOptionOne.transform.Find("Button").GetComponent<Button>();
+        twoOptionOneButton = twoOptionOne.transform.Find("Button").GetComponent<Button>();
+        twoOptionTwoButton = twoOptionTwo.transform.Find("Button").GetComponent<Button>();
+        threeOptionOneButton = threeOptionOne.transform.Find("Button").GetComponent<Button>();
+        threeOptionTwoButton = threeOptionTwo.transform.Find("Button").GetComponent<Button>();
+        threeOptionThreeButton = threeOptionThree.transform.Find("Button").GetComponent<Button>();
+        oneOptionOneButton.onClick.AddListener(() => OnButtonClicked("oneOptionOne"));
+        twoOptionOneButton.onClick.AddListener(() => OnButtonClicked("twoOptionOne"));
+        twoOptionTwoButton.onClick.AddListener(() => OnButtonClicked("twoOptionTwo"));
+        threeOptionOneButton.onClick.AddListener(() => OnButtonClicked("threeOptionOne"));
+        threeOptionTwoButton.onClick.AddListener(() => OnButtonClicked("threeOptionTwo"));
+        threeOptionThreeButton.onClick.AddListener(() => OnButtonClicked("threeOptionThree"));
+        oneOptionOneText = oneOptionOneButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        twoOptionOneText = twoOptionOneButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        twoOptionTwoText = twoOptionTwoButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        threeOptionOneText = threeOptionOneButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        threeOptionTwoText = threeOptionTwoButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        threeOptionThreeText = threeOptionThreeButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -80,12 +106,23 @@ public class NPCManager : MonoBehaviour
                 isMoving = true;
                 freezeCamera = false;
                 talkingTo.GetComponent<TalkScript>().spoke = false;
+                buttonSelection = "";
                 if (talking != null){
                     StopCoroutine(talking);
+                }
+                if (oneOptionPanel.activeInHierarchy){
+                    oneOptionPanel.SetActive(false);
+                }
+                if (twoOptionPanel.activeInHierarchy){
+                    twoOptionPanel.SetActive(false);
+                }
+                if (threeOptionPanel.activeInHierarchy){
+                    threeOptionPanel.SetActive(false);
                 }
                 if (talkPanel.activeInHierarchy){
                     talkPanel.SetActive(false);
                 }
+                
             }
             else{
                 isMoving = false;
@@ -100,11 +137,17 @@ public class NPCManager : MonoBehaviour
             freezeCamera = true;
             talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Little Guy"){
-                Coroutine talking = StartCoroutine(TalkToCharacter(littleGuyDialogue, littleGuySpeakers)); 
+                Coroutine talking = StartCoroutine(TalkToLittleGuy()); 
             }
         }
 
         lastPosition = transform.position; 
+    }
+
+    void OnButtonClicked(string buttonName)
+    {
+        buttonSelection = buttonName; 
+        Debug.Log("Button Name: " + buttonName);
     }
 
     IEnumerator TalkToCharacter(List<String> dialogue, List<String> speakers){
@@ -127,10 +170,112 @@ public class NPCManager : MonoBehaviour
     
     }
 
-    IEnumerator TalkToLittleGuy(){
+    IEnumerator TalkToLittleGuy()
+    {
+        //you are talking
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
-
-        yield return null;
+        twoOptionPanel.SetActive(true);
+        speakerText.text = "You";
+        twoOptionOneText.text = "Hello! How are you?";
+        twoOptionTwoText.text = "Get out of my face.";
+        while (buttonSelection == "")
+        {
+            yield return null; // wait for next frame
+        }
+        twoOptionPanel.SetActive(false);
+        //little guy is talking
+        if (buttonSelection == "twoOptionOne")
+        {
+            buttonSelection = "";
+            speakerText.text = "Little Guy";
+            String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife and... and its growing and its fairly happy... and its difficult because I'm working a second shift at the factory to put food on the table but all the love that I see in that little guy's face it makes it worth it in the end. True story.";
+            String displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(1f);
+            //you are talking
+            speakerText.text = "You";
+            threeOptionPanel.SetActive(true);
+            threeOptionOneText.text = "Oh whats its name?";
+            threeOptionTwoText.text = "Cool story man.";
+            threeOptionThreeText.text = "IDK how you want me to respond to that.";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            threeOptionPanel.SetActive(false);
+            //little guy is talking
+            if (buttonSelection == "threeOptionOne"){
+                speakerText.text = "Little Guy";
+                dialogue = "hees name is little shrimp";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return new WaitForSeconds(1f);
+            }
+            else if (buttonSelection == "threeOptionTwo"){
+                speakerText.text = "Little Guy";
+                dialogue = "Yep.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return new WaitForSeconds(1f);
+            }
+            else if (buttonSelection == "threeOptionThree"){
+                speakerText.text = "Little Guy";
+                dialogue = "...";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return new WaitForSeconds(1f);
+            }
+        }
+        //little guy is talking
+        else if (buttonSelection == "twoOptionTwo")
+        {
+            buttonSelection = "";
+            String dialogue = "Ah! A territorial display! Fascinating. I shall recalibrate my proximity protocols and hover... respectfully.";
+            speakerText.text = "Little Guy";
+            String displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(1f);
+            //you are talking
+            speakerText.text = "You";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "Woah now I'll back off.";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            threeOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne"){
+                speakerText.text = "Little Guy";
+                dialogue = "See you around man.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return new WaitForSeconds(1f);
+            }
+        }
     }
 }

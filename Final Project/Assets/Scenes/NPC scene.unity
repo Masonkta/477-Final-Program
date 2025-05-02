@@ -1417,6 +1417,16 @@ MonoBehaviour:
   defaultCameraPos: {fileID: 0}
   talkCameraPos: {fileID: 0}
   freezeCamera: 0
+  speakerText: {fileID: 0}
+  oneOptionPanel: {fileID: 0}
+  oneOptionOneText: {fileID: 0}
+  twoOptionPanel: {fileID: 0}
+  twoOptionOneText: {fileID: 0}
+  twoOptionTwoText: {fileID: 0}
+  threeOptionPanel: {fileID: 0}
+  threeOptionOneText: {fileID: 0}
+  threeOptionTwoText: {fileID: 0}
+  threeOptionThreeText: {fileID: 0}
 --- !u!1001 &1355897466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2036,7 +2046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2065411726
 RectTransform:
   m_ObjectHideFlags: 0
