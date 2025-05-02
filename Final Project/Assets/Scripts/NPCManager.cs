@@ -147,7 +147,7 @@ public class NPCManager : MonoBehaviour
     void OnButtonClicked(string buttonName)
     {
         buttonSelection = buttonName; 
-        Debug.Log("Button Name: " + buttonName);
+        //Debug.Log("Button Name: " + buttonName);
     }
 
     IEnumerator TalkToCharacter(List<String> dialogue, List<String> speakers){
@@ -189,14 +189,18 @@ public class NPCManager : MonoBehaviour
         {
             buttonSelection = "";
             speakerText.text = "Little Guy";
-            String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife and... and its growing and its fairly happy... and its difficult because I'm working a second shift at the factory to put food on the table but all the love that I see in that little guy's face it makes it worth it in the end. True story.";
+            String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife. True story.";
             String displayedText = "";
             foreach(char letter in dialogue){
                 displayedText += letter;
                 talkText.text = displayedText;
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
             }
-            yield return new WaitForSeconds(1f);
+            while (!Input.GetKeyDown(KeyCode.Return))
+            {
+                yield return null; // wait for next frame
+            }
+            talkText.text = "";
             //you are talking
             speakerText.text = "You";
             threeOptionPanel.SetActive(true);
@@ -216,9 +220,13 @@ public class NPCManager : MonoBehaviour
                 foreach(char letter in dialogue){
                     displayedText += letter;
                     talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
-                yield return new WaitForSeconds(1f);
+                while (!Input.GetKeyDown(KeyCode.Return))
+                {
+                    yield return null; // wait for next frame
+                }
+                talkText.text = "";
             }
             else if (buttonSelection == "threeOptionTwo"){
                 speakerText.text = "Little Guy";
@@ -227,9 +235,13 @@ public class NPCManager : MonoBehaviour
                 foreach(char letter in dialogue){
                     displayedText += letter;
                     talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
-                yield return new WaitForSeconds(1f);
+                while (!Input.GetKeyDown(KeyCode.Return))
+                {
+                    yield return null; // wait for next frame
+                }
+                talkText.text = "";
             }
             else if (buttonSelection == "threeOptionThree"){
                 speakerText.text = "Little Guy";
@@ -238,9 +250,13 @@ public class NPCManager : MonoBehaviour
                 foreach(char letter in dialogue){
                     displayedText += letter;
                     talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
-                yield return new WaitForSeconds(1f);
+                while (!Input.GetKeyDown(KeyCode.Return))
+                {
+                    yield return null; // wait for next frame
+                }
+                talkText.text = "";
             }
         }
         //little guy is talking
@@ -253,9 +269,13 @@ public class NPCManager : MonoBehaviour
             foreach(char letter in dialogue){
                 displayedText += letter;
                 talkText.text = displayedText;
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.05f);
             }
-            yield return new WaitForSeconds(1f);
+            while (!Input.GetKeyDown(KeyCode.Return))
+            {
+                yield return null; // wait for next frame
+            }
+            talkText.text = "";
             //you are talking
             speakerText.text = "You";
             oneOptionPanel.SetActive(true);
@@ -264,7 +284,7 @@ public class NPCManager : MonoBehaviour
             {
                 yield return null; // wait for next frame
             }
-            threeOptionPanel.SetActive(false);
+            oneOptionPanel.SetActive(false);
             if (buttonSelection == "oneOptionOne"){
                 speakerText.text = "Little Guy";
                 dialogue = "See you around man.";
@@ -272,9 +292,13 @@ public class NPCManager : MonoBehaviour
                 foreach(char letter in dialogue){
                     displayedText += letter;
                     talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.05f);
                 }
-                yield return new WaitForSeconds(1f);
+                while (!Input.GetKeyDown(KeyCode.Return))
+                {
+                    yield return null; // wait for next frame
+                }
+                talkText.text = "";
             }
         }
     }
