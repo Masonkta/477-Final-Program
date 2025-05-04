@@ -6,12 +6,16 @@ using UnityEngine;
 public class gameHandler : MonoBehaviour
 {
 
+    GameObject InventoryPanel; 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 144;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        GameObject UI = GameObject.Find("Game UI");
+        InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
 
     }
 
@@ -22,9 +26,11 @@ public class gameHandler : MonoBehaviour
         {
             QuitGame();
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-            ToggleCursor();
+        if (!InventoryPanel.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+                ToggleCursor();
+        }
     }
 
     /////////////////////////////////////////////////////////////  
