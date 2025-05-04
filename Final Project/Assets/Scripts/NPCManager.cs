@@ -40,6 +40,7 @@ public class NPCManager : MonoBehaviour
     public Button threeOptionOneButton;
     public Button threeOptionTwoButton;
     public Button threeOptionThreeButton;
+    public bool talkPanelStatus = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -90,13 +91,18 @@ public class NPCManager : MonoBehaviour
         float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
 
         //toggling the cursor based on whether or not the talk panel is active
-        if (talkPanel.activeInHierarchy){
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else{
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+        //if (talkPanel.activeInHierarchy){
+        //    Cursor.lockState = CursorLockMode.None;
+        //    Cursor.visible = true;
+        //}
+        //else{
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //    Cursor.visible = false;
+        //}
+
+        if (talkPanel.activeInHierarchy != talkPanelStatus){
+            ToggleCursor();
+            talkPanelStatus = !talkPanelStatus;
         }
 
         //ending a conversation
@@ -300,6 +306,20 @@ public class NPCManager : MonoBehaviour
                 }
                 talkText.text = "";
             }
+        }
+    }
+
+    void ToggleCursor()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }
