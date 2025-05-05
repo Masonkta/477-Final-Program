@@ -10,8 +10,8 @@ public class WakingEffect : MonoBehaviour
     public AudioSource heartbeatAudio;
     public Volume postProcessVolume;
 
-    private float[] blinkDurations = { 1f, 1.5f, 2f }; 
-    private float fadeDuration = .5f; 
+    private float[] blinkDurations = { 0.6f, 0.8f }; 
+    private float fadeDuration = 0.3f;
 
     private Vignette vignette;
     private DepthOfField dof;
@@ -55,34 +55,30 @@ public class WakingEffect : MonoBehaviour
 
     IEnumerator BlinkSequence()
     {
-        yield return new WaitForSeconds(3f); //initial pause before first blink
-        //heartbeatAudio.Play();
-
+        yield return new WaitForSeconds(1f); //initial pause before first blink
+                                             //heartbeatAudio.Play();
         while (currentBlink < blinkDurations.Length)
         {
-            // Fade to black
             yield return StartCoroutine(Fade(1, 0));
-
-            // Eyes stay closed longer — like struggling to open
             yield return new WaitForSeconds(blinkDurations[currentBlink]);
 
-            // Update camera rotation, progressively lowering head
             float t = (currentBlink + 1) / (float)blinkDurations.Length;
             float newXRotation = Mathf.Lerp(startXRotation, endXRotation, t);
             targetRotation = Quaternion.Euler(newXRotation, yRotation, 0f);
 
-            // Fade back open
             yield return StartCoroutine(Fade(0, 1));
-
-            yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
+            yield return new WaitForSeconds(0.4f); // short pause between blinks
 
             currentBlink++;
         }
 
-        // Final long fade to fully open
+        // Final fade in
         yield return StartCoroutine(Fade(1, 0));
 
         targetRotation = Quaternion.Euler(endXRotation, yRotation, 0f);
+        yield return new WaitForSeconds(0.1f); // allow a few frames to smooth rotation
+
+        yield return StartCoroutine(Fade(1, 0));
         fadeImage.gameObject.SetActive(false);
 
         //heartbeatAudio.Stop();
@@ -107,7 +103,7 @@ public class WakingEffect : MonoBehaviour
         }
 
         // Fade timing
-        float fadeTimeMultiplier = (endAlpha == 0) ? 3.0f : 1.0f;
+        float fadeTimeMultiplier = 1.0f;
 
         while (elapsed < fadeDuration * fadeTimeMultiplier)
         {
