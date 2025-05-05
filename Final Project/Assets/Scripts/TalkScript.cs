@@ -9,6 +9,7 @@ public class TalkScript : MonoBehaviour
     public TextMeshProUGUI helpText;
     public bool spoke = false;
     public GameObject Player;
+    TextMeshProUGUI pickUpText;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,8 @@ public class TalkScript : MonoBehaviour
         GameObject Panel = UI.transform.Find("Panel").gameObject;
         Transform textTransform = Panel.transform.Find("Help Text");
         helpText = textTransform.GetComponent<TextMeshProUGUI>();
+        Transform textTransformPickUp = Panel.transform.Find("PickUpText");
+        pickUpText = textTransformPickUp.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -27,8 +30,10 @@ public class TalkScript : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.name.StartsWith("Alien Player") && spoke == false){
-            helpText.text = "Press T to talk";
-                Player.GetComponent<NPCManager>().talkingTo = gameObject;
+            if (pickUpText.text == ""){
+                helpText.text = "Press T to talk";
+            }
+            Player.GetComponent<NPCManager>().talkingTo = gameObject;
         }
     }
 

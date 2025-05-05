@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UIButton
   - Chair
+  - Collectable
   layers:
   - Default
   - TransparentFX
