@@ -15,7 +15,9 @@ public class gameHandler : MonoBehaviour
         Cursor.visible = false;
 
         GameObject UI = GameObject.Find("Game UI");
-        InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+        if (transform.Find("Inventory Panel")){
+            InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+        }
 
     }
 
@@ -26,10 +28,12 @@ public class gameHandler : MonoBehaviour
         {
             QuitGame();
         }
-        if (!InventoryPanel.activeInHierarchy)
-        {
-            if (Input.GetKeyDown(KeyCode.Tab))
-                ToggleCursor();
+        if (InventoryPanel){
+            if (!InventoryPanel.activeInHierarchy)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
+                    ToggleCursor();
+            }
         }
     }
 
