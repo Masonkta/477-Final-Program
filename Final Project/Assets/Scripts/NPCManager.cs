@@ -13,7 +13,6 @@ public class NPCManager : MonoBehaviour
     public GameObject talkingTo = null;
     private Vector3 lastPosition;
     public bool isMoving;
-    Coroutine talking;
     GameObject Player;
     TextMeshProUGUI talkText;
     GameObject talkPanel;
@@ -40,6 +39,8 @@ public class NPCManager : MonoBehaviour
     public Button threeOptionOneButton;
     public Button threeOptionTwoButton;
     public Button threeOptionThreeButton;
+    public bool talkPanelStatus = false;
+    public Coroutine Talking; 
     // Start is called before the first frame update
     void Start()
     {
@@ -90,13 +91,9 @@ public class NPCManager : MonoBehaviour
         float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
 
         //toggling the cursor based on whether or not the talk panel is active
-        if (talkPanel.activeInHierarchy){
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else{
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+        if (talkPanel.activeInHierarchy != talkPanelStatus){
+            ToggleCursor();
+            talkPanelStatus = !talkPanelStatus;
         }
 
         //ending a conversation
@@ -107,22 +104,26 @@ public class NPCManager : MonoBehaviour
                 freezeCamera = false;
                 talkingTo.GetComponent<TalkScript>().spoke = false;
                 buttonSelection = "";
-                if (talking != null){
-                    StopCoroutine(talking);
+                if (Talking != null){
+                    StopCoroutine(Talking);
+                    Talking = null;
                 }
-                if (oneOptionPanel.activeInHierarchy){
-                    oneOptionPanel.SetActive(false);
-                }
-                if (twoOptionPanel.activeInHierarchy){
-                    twoOptionPanel.SetActive(false);
-                }
-                if (threeOptionPanel.activeInHierarchy){
-                    threeOptionPanel.SetActive(false);
-                }
-                if (talkPanel.activeInHierarchy){
-                    talkPanel.SetActive(false);
-                }
-                
+
+                oneOptionOneText.text = "";
+                twoOptionOneText.text = "";
+                twoOptionTwoText.text = "";
+                threeOptionOneText.text = "";
+                threeOptionTwoText.text = "";
+                threeOptionThreeText.text = "";
+
+                oneOptionPanel.SetActive(false);
+                twoOptionPanel.SetActive(false);
+                threeOptionPanel.SetActive(false);
+
+                talkText.text = "";
+                speakerText.text = "";
+
+                talkPanel.SetActive(false);
             }
             else{
                 isMoving = false;
@@ -137,7 +138,7 @@ public class NPCManager : MonoBehaviour
             freezeCamera = true;
             talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Little Guy"){
-                Coroutine talking = StartCoroutine(TalkToLittleGuy()); 
+                Talking = StartCoroutine(TalkToLittleGuy()); 
             }
         }
 
@@ -300,6 +301,20 @@ public class NPCManager : MonoBehaviour
                 }
                 talkText.text = "";
             }
+        }
+    }
+
+    void ToggleCursor()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (Cursor.lockState == CursorLockMode.None)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

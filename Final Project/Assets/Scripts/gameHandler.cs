@@ -6,13 +6,20 @@ using UnityEngine;
 public class gameHandler : MonoBehaviour
 {
 
+    GameObject InventoryPanel; 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 144;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        if (GameObject.Find("Game UI")){
+            GameObject UI = GameObject.Find("Game UI");
+            if (UI.transform.Find("Inventory Panel")){
+                Debug.Log("found panel");
+                InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -22,9 +29,17 @@ public class gameHandler : MonoBehaviour
         {
             QuitGame();
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-            ToggleCursor();
+        if (InventoryPanel){
+            if (!InventoryPanel.activeInHierarchy)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
+                    ToggleCursor();
+            }
+        }
+        else{
+            if (Input.GetKeyDown(KeyCode.Tab))
+                    ToggleCursor();
+        }
     }
 
     /////////////////////////////////////////////////////////////  
