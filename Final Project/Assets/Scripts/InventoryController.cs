@@ -17,6 +17,7 @@ public class InventoryController : MonoBehaviour
     GameObject hand;
     GameObject Collectables;
     public NoteManager noteScript;
+    public bool hasSeenInventoryPanel = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,20 +44,22 @@ public class InventoryController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //toggles inventory panel
-        if (Input.GetKeyDown(KeyCode.E)){
+        if (Input.GetKeyDown(KeyCode.E) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
+            hasSeenInventoryPanel = true;
             ToggleCursor();
         } 
 
         //drop object if desired   im thinking x to drop and c to collect/add to inventory
         if (hand.transform.childCount > 0){
-            pickUpText.text = "Press X to drop " + hand.transform.GetChild(0).name + " or press C to store it in your inventory. Press E to access your inventory at any time.";
-            if (Input.GetKeyDown(KeyCode.X)){
+            pickUpText.text = "Press C to drop " + hand.transform.GetChild(0).name + " or press E to store it in your inventory.";
+            if (Input.GetKeyDown(KeyCode.C)){
                 DropObject();
             }
-            else if (Input.GetKeyDown(KeyCode.C)){
+            else if (Input.GetKeyDown(KeyCode.E)){
                 //put the object in inventory
                 grabObject(hand.transform.GetChild(0).gameObject);
             }

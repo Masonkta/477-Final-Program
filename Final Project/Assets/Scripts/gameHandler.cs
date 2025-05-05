@@ -35,6 +35,10 @@ public class gameHandler : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Tab))
                     ToggleCursor();
             }
+            else{
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
         }
         else{
             if (Input.GetKeyDown(KeyCode.Tab))
