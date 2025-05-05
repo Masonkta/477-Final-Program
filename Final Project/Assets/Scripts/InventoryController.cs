@@ -16,6 +16,7 @@ public class InventoryController : MonoBehaviour
     TextMeshProUGUI pickUpText;
     GameObject hand;
     GameObject Collectables;
+    public NoteManager noteScript;
 
     // Start is called before the first frame update
     void Start()
@@ -68,8 +69,12 @@ public class InventoryController : MonoBehaviour
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
                     if (distance < grabDistance){
                         pickUpText.text = "Press C to collect " + obj.transform.name;
-                        if (Input.GetKeyDown(KeyCode.C)){
+                        if (Input.GetKeyDown(KeyCode.C) && !obj.name.StartsWith("note")){
                             PickUpObject(obj);
+                        } else if (Input.GetKeyDown(KeyCode.C) && obj.name.StartsWith("note")) {
+                            Debug.Log("pressed c while near note");
+                            grabObject(obj);
+                            Debug.Log("the obj was a note and called grabObject");
                         }
                     }
                     else{
@@ -84,7 +89,7 @@ public class InventoryController : MonoBehaviour
 
         //puts the selected object in your "hand"
         Debug.Log(hand.transform.transform.childCount);
-        if (hand.transform.transform.childCount == 0){
+        if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note"){
             boxContents[num].SetActive(true);
             boxContents[num].transform.position = hand.transform.position;
             boxContents[num].transform.SetParent(hand.transform);
@@ -97,6 +102,8 @@ public class InventoryController : MonoBehaviour
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
             ToggleCursor();
+        } else if (boxContents[num].name == "note") {
+            Debug.Log("This item cannot be taken out of inventory. It can be looked at though");
         }
     } 
     
@@ -127,12 +134,22 @@ public class InventoryController : MonoBehaviour
         //maybe add a shrink and destroy effect here
         obj.transform.SetParent(null);
         obj.SetActive(false);
+
+        if (obj.name.StartsWith("note")) {
+            noteScript.noteImage.enabled = false;
+            noteScript.storeToMemory.enabled = false;
+        }
     }
 
     void DropObject(){
-        hand.transform.GetChild(0).tag = "Collectable";
-        hand.transform.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
-        hand.transform.GetChild(0).SetParent(Collectables.transform);
+        // notes cannot be dropped - maybe a UI statement that says "cant drop this item"
+        if (hand.transform.GetChild(0).name != "note") {
+            hand.transform.GetChild(0).tag = "Collectable";
+            hand.transform.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
+            hand.transform.GetChild(0).SetParent(Collectables.transform);
+        } else {
+            Debug.Log("cant drop notes my dude");
+        }
     }
 
     void PickUpObject(GameObject obj){

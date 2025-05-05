@@ -6,8 +6,9 @@ using TMPro;
 
 public class NoteManager : MonoBehaviour
 {
-    [SerializeField] private Image noteImage;
-    [SerializeField] private TextMeshProUGUI storeToMemory;
+    public Image noteImage;
+    public TextMeshProUGUI storeToMemory;
+    public GameObject physicalNote;
     //public GameObject physicalNote;
     //public playerMovement movementScript;
 
@@ -30,6 +31,7 @@ public class NoteManager : MonoBehaviour
         if (other.CompareTag("Player")) {
             noteImage.enabled = true;
             storeToMemory.enabled = true;
+
             //movementScript.enabled = false;
             //Destroy(physicalNote);
         }
