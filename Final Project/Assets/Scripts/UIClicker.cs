@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class UIClicker : MonoBehaviour
 {
     public Camera playerCamera;
@@ -64,6 +64,7 @@ public class UIClicker : MonoBehaviour
     {
         Debug.Log("START");
         m_Animator.SetTrigger("Salute");
+        SceneManager.LoadScene("City Scene");
     }
 
     public void OpenOptions()
