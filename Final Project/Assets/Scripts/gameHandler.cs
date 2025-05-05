@@ -15,7 +15,8 @@ public class gameHandler : MonoBehaviour
         Cursor.visible = false;
 
         GameObject UI = GameObject.Find("Game UI");
-        if (transform.Find("Inventory Panel")){
+        if (UI.transform.Find("Inventory Panel") != null){
+            Debug.Log("found panel");
             InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
         }
 
@@ -34,6 +35,10 @@ public class gameHandler : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Tab))
                     ToggleCursor();
             }
+        }
+        else{
+            if (Input.GetKeyDown(KeyCode.Tab))
+                    ToggleCursor();
         }
     }
 
