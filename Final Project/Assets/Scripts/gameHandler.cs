@@ -13,13 +13,13 @@ public class gameHandler : MonoBehaviour
         Application.targetFrameRate = 144;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        GameObject UI = GameObject.Find("Game UI");
-        if (UI.transform.Find("Inventory Panel") != null){
-            Debug.Log("found panel");
-            InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+        if (GameObject.Find("Game UI")){
+            GameObject UI = GameObject.Find("Game UI");
+            if (UI.transform.Find("Inventory Panel")){
+                Debug.Log("found panel");
+                InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+            }
         }
-
     }
 
     // Update is called once per frame
