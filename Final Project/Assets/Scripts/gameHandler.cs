@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class gameHandler : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class gameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Block space from triggering buttons
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             QuitGame();
