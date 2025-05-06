@@ -114,9 +114,10 @@ public class playerMovement : MonoBehaviour
         movement = forwardTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
         if (movement.magnitude == 0) moveSpeed = 0f;
 
-        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 50f;
+        actualMoveSpeed += (moveSpeed - actualMoveSpeed) * Time.deltaTime * 3f;
         playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
-        playerAnimator.speed = 0.8f + actualMoveSpeed / runSpeed * 0.5f;
+        // playerAnimator.speed = Map(actualMoveSpeed / runSpeed, 0f, 1f, 3f, 1.4f);
+        playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
 
         controller.Move(movement * actualMoveSpeed * Time.deltaTime);
 
@@ -137,6 +138,11 @@ public class playerMovement : MonoBehaviour
         {
             playerVelocity = Vector3.down * Mathf.Max(3f, -playerVelocity.y);
         }
+    }
+
+    float Map(float value, float start1, float end1, float start2, float end2)
+    {
+        return (value - start1) / (end1 - start1) * (end2 - start2) + start2;
     }
 
     void turning()

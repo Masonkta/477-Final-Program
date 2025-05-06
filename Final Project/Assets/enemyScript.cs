@@ -21,9 +21,11 @@ public class enemyScript : MonoBehaviour
     public float moveSpeed = 3f;
     float timeOfLastDestinationSet;
     int pointsVisited = 0;
-    float timeOfLastAICheck;
-    private const float destinationChangeCooldown = 2f;
-    private const float reachThresholdSqr = 4f; // squared distance of 2 units
+    private float lastAIUpdateTime;
+
+    private const float aiUpdateInterval = 0.1f; // Update AI every 0.1 seconds
+    private const float destinationChangeCooldown = 3f;
+    private const float reachThresholdSqr = 9f; // squared distance of 3 units
 
     // Start is called before the first frame update
     void Start()
@@ -64,15 +66,17 @@ public class enemyScript : MonoBehaviour
         }
 
         // Simple movement (more efficient than CharacterController.Move)
-        transform.position += directionToTarget.normalized * moveSpeed * Time.deltaTime;
+        // transform.position += directionToTarget.normalized * moveSpeed * Time.deltaTime;
+        controller.Move(directionToTarget.normalized * moveSpeed * Time.deltaTime);
 
         // Check if close enough to switch destinations
-        if (directionToTarget.sqrMagnitude < reachThresholdSqr &&
-            Time.time - timeOfLastDestinationSet >= destinationChangeCooldown)
-        {
-            SelectNewDestination();
-            timeOfLastDestinationSet = Time.time;
-        }
+        if (Time.time - lastAIUpdateTime > aiUpdateInterval)
+            if (directionToTarget.sqrMagnitude < reachThresholdSqr &&
+                Time.time - timeOfLastDestinationSet >= destinationChangeCooldown)
+            {
+                SelectNewDestination();
+                timeOfLastDestinationSet = Time.time;
+            }
     }
 
     void SelectNewDestination()

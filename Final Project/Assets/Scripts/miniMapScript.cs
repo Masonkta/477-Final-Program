@@ -36,4 +36,9 @@ public class miniMapScript : MonoBehaviour
     void toggleMap(){
         mapButtonClicked = true;
     }
+
+    float Map(float value, float start1, float end1, float start2, float end2)
+    {
+        return (value - start1) / (end1 - start1) * (end2 - start2) + start2;
+    }
 }
