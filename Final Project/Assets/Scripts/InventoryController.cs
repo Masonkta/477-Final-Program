@@ -48,7 +48,6 @@ public class InventoryController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //toggles inventory panel
         if ((Input.GetKeyDown(KeyCode.E) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
             InventoryPanel.SetActive(!inventoryPanelStatus);

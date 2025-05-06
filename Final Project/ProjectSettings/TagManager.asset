@@ -7,11 +7,12 @@ TagManager:
   - UIButton
   - Chair
   - Collectable
+  - map icon
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - map icon
   - Water
   - UI
   - 
