@@ -114,10 +114,10 @@ public class playerMovement : MonoBehaviour
         movement = forwardTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
         if (movement.magnitude == 0) moveSpeed = 0f;
 
-        actualMoveSpeed += (moveSpeed - actualMoveSpeed) * Time.deltaTime * 3f;
+        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 10f;
         playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
-        // playerAnimator.speed = Map(actualMoveSpeed / runSpeed, 0f, 1f, 3f, 1.4f);
-        playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
+        playerAnimator.speed = Map(actualMoveSpeed / runSpeed, 0f, 1f, 3f, 1.5f);
+        // playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
 
         controller.Move(movement * actualMoveSpeed * Time.deltaTime);
 
