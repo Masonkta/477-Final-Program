@@ -70,7 +70,7 @@ public class playerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeSinceLevelLoad > 0.1f)
+        if (Time.timeSinceLevelLoad > 0.5f)
         {
             handleInput();
             moving();
