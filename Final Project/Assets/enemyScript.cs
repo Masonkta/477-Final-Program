@@ -16,69 +16,99 @@ public class enemyScript : MonoBehaviour
     public Direction direction;
 
     [Header("Other")]
+    private Dictionary<string, Transform> pointCache;
     public Transform currentDestination;
     public float moveSpeed = 3f;
     float timeOfLastDestinationSet;
     int pointsVisited = 0;
+    float timeOfLastAICheck;
+    private const float destinationChangeCooldown = 2f;
+    private const float reachThresholdSqr = 4f; // squared distance of 2 units
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        CacheDestinationPoints();
         controller = GetComponent<CharacterController>();
-        currentDestination = transform.parent.Find("First Fork");
+        currentDestination = pointCache["First Fork"];
         timeOfLastDestinationSet = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        moveToCurrentPoint();
+        MoveToCurrentPoint();
     }
 
-    void moveToCurrentPoint(){
-        Vector3 moveDirection = currentDestination.position - transform.position; moveDirection.y = 0f;
+    void CacheDestinationPoints()
+    {
+        pointCache = new Dictionary<string, Transform>();
+        foreach (Transform child in transform.parent.Find("Points"))
+        {
+            pointCache[child.name] = child;
+        }
+    }
 
-        // Only rotate if we're actually moving
-        if (moveDirection.sqrMagnitude > 0.001f) {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+    void MoveToCurrentPoint()
+    {
+        if (!currentDestination) return;
+
+        Vector3 directionToTarget = currentDestination.position - transform.position;
+        directionToTarget.y = 0f;
+
+        // Rotate toward the destination if necessary
+        if (directionToTarget.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
         }
 
-        controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
-                                                                    //  Dist from point
-        if (Vector3.Distance(transform.position, currentDestination.position) < 2f && Time.time - timeOfLastDestinationSet > 2f){ // Second timeout before destination updates can be made
-            selectNewDestination();
+        // Simple movement (more efficient than CharacterController.Move)
+        transform.position += directionToTarget.normalized * moveSpeed * Time.deltaTime;
+
+        // Check if close enough to switch destinations
+        if (directionToTarget.sqrMagnitude < reachThresholdSqr &&
+            Time.time - timeOfLastDestinationSet >= destinationChangeCooldown)
+        {
+            SelectNewDestination();
             timeOfLastDestinationSet = Time.time;
         }
     }
 
-    void selectNewDestination(){
-        if (direction == Direction.Left){
-            if (pointsVisited == 0) currentDestination = transform.parent.Find("Left Point 1");
-            if (pointsVisited == 1) currentDestination = transform.parent.Find("Left Point 2");
-            if (pointsVisited == 2) currentDestination = transform.parent.Find("Back Of City");
-            pointsVisited += 1;
+    void SelectNewDestination()
+    {
+        string pointName = null;
+
+        switch (direction)
+        {
+            case Direction.Left:
+                if (pointsVisited == 0) pointName = "Left Point 1";
+                else if (pointsVisited == 1) pointName = "Left Point 2";
+                else if (pointsVisited == 2) pointName = "Back Of City";
+                break;
+
+            case Direction.Right:
+                if (pointsVisited == 0) pointName = "Right Point 1";
+                else if (pointsVisited == 1) pointName = "Right Point 2";
+                break;
+
+            case Direction.Straight:
+                if (pointsVisited == 0) pointName = "Straight Point 1";
+                else if (pointsVisited == 1) pointName = "Straight Point 2";
+                break;
+
+            case Direction.Neighborhood:
+                if (pointsVisited == 0) pointName = "Straight Point 1";
+                else if (pointsVisited == 1) pointName = "To Neighborhood";
+                else if (pointsVisited == 2) pointName = "Inside Neighborhood";
+                break;
         }
 
-        if (direction == Direction.Right){
-            if (pointsVisited == 0) currentDestination = transform.parent.Find("Right Point 1");
-            if (pointsVisited == 1) currentDestination = transform.parent.Find("Right Point 2");
-            pointsVisited += 1;
+        if (pointName != null && pointCache.TryGetValue(pointName, out Transform nextPoint))
+        {
+            currentDestination = nextPoint;
         }
-        
-        if (direction == Direction.Straight){
-            if (pointsVisited == 0) currentDestination = transform.parent.Find("Straight Point 1");
-            if (pointsVisited == 1) currentDestination = transform.parent.Find("Straight Point 2");
-            
-            pointsVisited += 1;
-        }
-        
-        if (direction == Direction.Neighborhood){
-            if (pointsVisited == 0) currentDestination = transform.parent.Find("Straight Point 1");
-            if (pointsVisited == 1) currentDestination = transform.parent.Find("To Neighborhood");
-            if (pointsVisited == 2) currentDestination = transform.parent.Find("Inside Neighborhood");
-            
-            pointsVisited += 1;
-        }
+
+        pointsVisited++;
     }
 }
