@@ -18,6 +18,8 @@ public class InventoryController : MonoBehaviour
     GameObject Collectables;
     public NoteManager noteScript;
     public bool hasSeenInventoryPanel = false;
+    Button InventoryButton;
+    bool inventoryButtonClicked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,8 @@ public class InventoryController : MonoBehaviour
         //assigning variables
         GameObject UI = GameObject.Find("Game UI");
         InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
+        InventoryButton = UI.transform.Find("Inventory Button").GetComponent<Button>();
+        InventoryButton.onClick.AddListener(toggleInventory);
         Player = GameObject.Find("Alien Player");
         hand = Player.transform.Find("Hand").gameObject;
         GameObject Panel = UI.transform.Find("Panel").gameObject;
@@ -46,10 +50,11 @@ public class InventoryController : MonoBehaviour
     {
 
         //toggles inventory panel
-        if (Input.GetKeyDown(KeyCode.E) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
+        if ((Input.GetKeyDown(KeyCode.E) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
             hasSeenInventoryPanel = true;
+            inventoryButtonClicked = false;
             ToggleCursor();
         } 
 
@@ -85,7 +90,11 @@ public class InventoryController : MonoBehaviour
                     }
             }
         }
-    }     
+    }   
+
+    void toggleInventory(){
+        inventoryButtonClicked = true;
+    }  
 
     void inventoryBoxClicked(int num){
         Debug.Log("Box # " + num + " clicked");
