@@ -101,21 +101,23 @@ public class InventoryController : MonoBehaviour
 
         //puts the selected object in your "hand"
         Debug.Log(hand.transform.transform.childCount);
-        if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note"){
-            boxContents[num].SetActive(true);
-            boxContents[num].transform.position = hand.transform.position;
-            boxContents[num].transform.SetParent(hand.transform);
-            boxContents[num].GetComponent<Rigidbody>().isKinematic = true;
-            boxContents[num].tag = "Untagged";
-            boxContents[num] = null;
-            TextMeshProUGUI boxText = inventoryBoxes[num].transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
-            boxText.text = "";
+        if (boxContents[num] != null){
+            if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note"){
+                boxContents[num].SetActive(true);
+                boxContents[num].transform.position = hand.transform.position;
+                boxContents[num].transform.SetParent(hand.transform);
+                boxContents[num].GetComponent<Rigidbody>().isKinematic = true;
+                boxContents[num].tag = "Untagged";
+                boxContents[num] = null;
+                TextMeshProUGUI boxText = inventoryBoxes[num].transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
+                boxText.text = "";
 
-            InventoryPanel.SetActive(!inventoryPanelStatus);
-            inventoryPanelStatus = !inventoryPanelStatus;
-            ToggleCursor();
-        } else if (boxContents[num].name == "note") {
-            Debug.Log("This item cannot be taken out of inventory. It can be looked at though");
+                InventoryPanel.SetActive(!inventoryPanelStatus);
+                inventoryPanelStatus = !inventoryPanelStatus;
+                ToggleCursor();
+            } else if (boxContents[num].name == "note") {
+                Debug.Log("This item cannot be taken out of inventory. It can be looked at though");
+            }
         }
     } 
     
