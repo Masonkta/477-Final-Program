@@ -6,7 +6,7 @@ using TMPro;
 public class TeleportNewScene : MonoBehaviour
 {
     public TextMeshProUGUI enterText;
-    public transform spawnPoint;
+    public Transform spawnPoint;
     public GameObject player;
     // Start is called before the first frame update
     void Start(){
@@ -23,7 +23,7 @@ public class TeleportNewScene : MonoBehaviour
         enterText.enabled = true;
         if (Input.GetKeyDown(KeyCode.G)) {
             enterText.enabled = false;
-            player.transform.point = SpawnPoint.position;
+            player.transform.position = spawnPoint.position;
         }
     }
 
