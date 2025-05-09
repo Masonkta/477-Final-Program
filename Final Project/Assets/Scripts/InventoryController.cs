@@ -17,7 +17,7 @@ public class InventoryController : MonoBehaviour
     GameObject hand;
     GameObject Collectables;
     public NoteManager noteScript;
-    public bool hasSeenInventoryPanel = false;
+    public bool hasSeenInventoryPanel = true;
     Button InventoryButton;
     bool inventoryButtonClicked = false;
 
@@ -49,7 +49,7 @@ public class InventoryController : MonoBehaviour
     void Update()
     {
         //toggles inventory panel
-        if ((Input.GetKeyDown(KeyCode.E) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
+        if ((Input.GetKeyDown(KeyCode.I) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
             hasSeenInventoryPanel = true;
@@ -59,8 +59,8 @@ public class InventoryController : MonoBehaviour
 
         //drop object if desired   im thinking x to drop and c to collect/add to inventory
         if (hand.transform.childCount > 0){
-            pickUpText.text = "Press C to drop " + hand.transform.GetChild(0).name + " or press E to store it in your inventory.";
-            if (Input.GetKeyDown(KeyCode.C)){
+            pickUpText.text = "R to drop " + hand.transform.GetChild(0).name + " or press E to store it in your inventory.";
+            if (Input.GetKeyDown(KeyCode.R)){
                 DropObject();
             }
             else if (Input.GetKeyDown(KeyCode.E)){
@@ -75,11 +75,11 @@ public class InventoryController : MonoBehaviour
             foreach (GameObject obj in collectable){
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
                     if (distance < grabDistance){
-                        pickUpText.text = "Press C to collect " + obj.transform.name;
-                        if (Input.GetKeyDown(KeyCode.C) && !obj.name.StartsWith("note")){
+                        pickUpText.text = "Press E to collect " + obj.transform.name;
+                        if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note")){
                             PickUpObject(obj);
-                        } else if (Input.GetKeyDown(KeyCode.C) && obj.name.StartsWith("note")) {
-                            Debug.Log("pressed c while near note");
+                        } else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note")) {
+                            Debug.Log("pressed E while near note");
                             grabObject(obj);
                             Debug.Log("the obj was a note and called grabObject");
                         }

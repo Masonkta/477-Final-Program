@@ -101,29 +101,7 @@ public class NPCManager : MonoBehaviour
             if (speed > 0.01f)
             {
                 isMoving = true;
-                freezeCamera = false;
-                talkingTo.GetComponent<TalkScript>().spoke = false;
-                buttonSelection = "";
-                if (Talking != null){
-                    StopCoroutine(Talking);
-                    Talking = null;
-                }
-
-                oneOptionOneText.text = "";
-                twoOptionOneText.text = "";
-                twoOptionTwoText.text = "";
-                threeOptionOneText.text = "";
-                threeOptionTwoText.text = "";
-                threeOptionThreeText.text = "";
-
-                oneOptionPanel.SetActive(false);
-                twoOptionPanel.SetActive(false);
-                threeOptionPanel.SetActive(false);
-
-                talkText.text = "";
-                speakerText.text = "";
-
-                talkPanel.SetActive(false);
+                endConversation();
             }
             else{
                 isMoving = false;
@@ -149,6 +127,28 @@ public class NPCManager : MonoBehaviour
     {
         buttonSelection = buttonName; 
         //Debug.Log("Button Name: " + buttonName);
+    }
+
+    void endConversation(){
+        freezeCamera = false;
+        talkingTo.GetComponent<TalkScript>().spoke = false;
+        buttonSelection = "";
+        if (Talking != null){
+            StopCoroutine(Talking);
+            Talking = null;   
+        oneOptionOneText.text = "";
+        twoOptionOneText.text = "";
+        twoOptionTwoText.text = "";
+        threeOptionOneText.text = "";
+        threeOptionTwoText.text = "";
+        threeOptionThreeText.text = "";
+        oneOptionPanel.SetActive(false);
+        twoOptionPanel.SetActive(false);
+        threeOptionPanel.SetActive(false);
+        talkText.text = "";
+        speakerText.text = "";
+        talkPanel.SetActive(false);
+        }
     }
 
     IEnumerator TalkToCharacter(List<String> dialogue, List<String> speakers){
@@ -196,8 +196,13 @@ public class NPCManager : MonoBehaviour
                 displayedText += letter;
                 talkText.text = displayedText;
                 yield return new WaitForSeconds(0.05f);
+                if (Input.GetMouseButtonDown(0)){
+                    break;
+                }
             }
-            while (!Input.GetKeyDown(KeyCode.Return))
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
             {
                 yield return null; // wait for next frame
             }
@@ -223,7 +228,9 @@ public class NPCManager : MonoBehaviour
                     talkText.text = displayedText;
                     yield return new WaitForSeconds(0.05f);
                 }
-                while (!Input.GetKeyDown(KeyCode.Return))
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
                 {
                     yield return null; // wait for next frame
                 }
@@ -237,8 +244,13 @@ public class NPCManager : MonoBehaviour
                     displayedText += letter;
                     talkText.text = displayedText;
                     yield return new WaitForSeconds(0.05f);
+                    if (Input.GetMouseButtonDown(0)){
+                        break;
+                    }
                 }
-                while (!Input.GetKeyDown(KeyCode.Return))
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
                 {
                     yield return null; // wait for next frame
                 }
@@ -252,8 +264,13 @@ public class NPCManager : MonoBehaviour
                     displayedText += letter;
                     talkText.text = displayedText;
                     yield return new WaitForSeconds(0.05f);
+                    if (Input.GetMouseButtonDown(0)){
+                        break;
+                    }
                 }
-                while (!Input.GetKeyDown(KeyCode.Return))
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
                 {
                     yield return null; // wait for next frame
                 }
@@ -271,8 +288,13 @@ public class NPCManager : MonoBehaviour
                 displayedText += letter;
                 talkText.text = displayedText;
                 yield return new WaitForSeconds(0.05f);
+                if (Input.GetMouseButtonDown(0)){
+                    break;
+                }
             }
-            while (!Input.GetKeyDown(KeyCode.Return))
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
             {
                 yield return null; // wait for next frame
             }
@@ -294,14 +316,20 @@ public class NPCManager : MonoBehaviour
                     displayedText += letter;
                     talkText.text = displayedText;
                     yield return new WaitForSeconds(0.05f);
+                    if (Input.GetMouseButtonDown(0)){
+                        break;
+                    }
                 }
-                while (!Input.GetKeyDown(KeyCode.Return))
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
                 {
                     yield return null; // wait for next frame
                 }
                 talkText.text = "";
             }
         }
+        endConversation();
     }
 
     void ToggleCursor()
