@@ -10,10 +10,10 @@ public class TalkScript : MonoBehaviour
     public bool spoke = false;
     public GameObject Player;
     TextMeshProUGUI pickUpText;
+    public bool hasBeenSpokenTo = false;
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.Find("Alien Player");
         GameObject UI = GameObject.Find("Game UI");
         GameObject Panel = UI.transform.Find("Panel").gameObject;
         Transform textTransform = Panel.transform.Find("Help Text");
@@ -25,15 +25,20 @@ public class TalkScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!Player && GameObject.Find("Alien Player")){
+            Player = GameObject.Find("Alien Player");
+        }
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.name.StartsWith("Alien Player") && spoke == false){
-            if (pickUpText.text == ""){
-                helpText.text = "Press T to talk";
+        if (Player){
+            if (other.transform.name.StartsWith("Alien Player") && spoke == false){
+                if (pickUpText.text == ""){
+                    helpText.text = "Press T to talk";
+                }
+                Debug.Log(Player.transform.name);
+                Player.GetComponent<NPCManager>().talkingTo = gameObject;
             }
-            Player.GetComponent<NPCManager>().talkingTo = gameObject;
         }
     }
 
@@ -41,6 +46,7 @@ public class TalkScript : MonoBehaviour
     {
         if (other.transform.name.StartsWith("Alien Player")){
             helpText.text = "";
+            Player.GetComponent<NPCManager>().talkingTo = null;
         }
     }
 }

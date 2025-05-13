@@ -105,7 +105,7 @@ public class PlayerStandup : MonoBehaviour
         playerCamera.gameObject.SetActive(false);
         playerController.SetActive(true);
         CursorCanvas.SetActive(false);
-        UiEventSystem.SetActive(false);
+        UiEventSystem.SetActive(true);
         GameHandler.SetActive(true);
         SitScript.enabled = true;
         SitScript.isSitting = false;

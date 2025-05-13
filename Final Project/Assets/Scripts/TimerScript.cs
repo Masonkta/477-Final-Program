@@ -61,7 +61,7 @@ public class TimerScript : MonoBehaviour
             yield return new WaitForSeconds(1f);
             time = time.AddSeconds(1);
             Timer.text = "Time: \n" + time.ToString("HH:mm:ss");
-            Debug.Log(time);
+            //Debug.Log(time);
         }
     }
 }
