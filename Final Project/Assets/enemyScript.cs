@@ -86,25 +86,37 @@ public class enemyScript : MonoBehaviour
         switch (direction)
         {
             case Direction.Left:
+                if (pointsVisited == 5) pointsVisited = 1;
                 if (pointsVisited == 0) pointName = "Left Point 1";
                 else if (pointsVisited == 1) pointName = "Left Point 2";
                 else if (pointsVisited == 2) pointName = "Back Of City";
+                else if (pointsVisited == 3) pointName = "Left Point 4";
+                else if (pointsVisited == 4) pointName = "Left Point 5";
                 break;
 
             case Direction.Right:
+                if (pointsVisited == 5) pointsVisited = 0;
                 if (pointsVisited == 0) pointName = "Right Point 1";
                 else if (pointsVisited == 1) pointName = "Right Point 2";
+                else if (pointsVisited == 2) pointName = "Right Point 3";
+                else if (pointsVisited == 3) pointName = "Right Point 4";
+                else if (pointsVisited == 4) pointName = "Right Point 5";
                 break;
 
             case Direction.Straight:
+                if (pointsVisited == 3) pointsVisited = 0;
                 if (pointsVisited == 0) pointName = "Straight Point 1";
                 else if (pointsVisited == 1) pointName = "Straight Point 2";
+                else if (pointsVisited == 2) pointName = "Straight Point 3";
                 break;
 
             case Direction.Neighborhood:
+                if (pointsVisited == 5) pointsVisited = 1;
                 if (pointsVisited == 0) pointName = "Straight Point 1";
                 else if (pointsVisited == 1) pointName = "To Neighborhood";
                 else if (pointsVisited == 2) pointName = "Inside Neighborhood";
+                else if (pointsVisited == 3) pointName = "Inside Neighborhood 2";
+                else if (pointsVisited == 4) pointName = "Inside Neighborhood 3";
                 break;
         }
 
