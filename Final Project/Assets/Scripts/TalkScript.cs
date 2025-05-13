@@ -46,7 +46,6 @@ public class TalkScript : MonoBehaviour
     {
         if (other.transform.name.StartsWith("Alien Player")){
             helpText.text = "";
-            Player.GetComponent<NPCManager>().talkingTo = null;
         }
     }
 }

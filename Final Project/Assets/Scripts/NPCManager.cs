@@ -42,6 +42,7 @@ public class NPCManager : MonoBehaviour
     public bool talkPanelStatus = false;
     public Coroutine Talking; 
     public bool mouseClicked = false;
+    //public bool canLeave = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -115,6 +116,11 @@ public class NPCManager : MonoBehaviour
         // starting a convorsation 
         if (talkingTo != null && isMoving == false && Input.GetKeyDown(KeyCode.T) && talkingTo.GetComponent<TalkScript>().spoke == false){
             freezeCamera = true;
+            Vector3 playerChest = Player.transform.position;
+            playerChest.y = talkingTo.transform.parent.position.y;
+            talkingTo.transform.parent.LookAt(playerChest);
+            StartCoroutine(leaveDelay());
+
             talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Little Guy"){
                 Talking = StartCoroutine(TalkToLittleGuy()); 
@@ -144,6 +150,11 @@ public class NPCManager : MonoBehaviour
         Debug.Log("Button Name: " + buttonName);
     }
 
+    IEnumerator leaveDelay(){
+        Player.GetComponent<playerMovement>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        Player.GetComponent<playerMovement>().enabled = true;
+    }
     void endConversation(){
         freezeCamera = false;
         talkingTo.GetComponent<TalkScript>().spoke = false;
@@ -164,6 +175,7 @@ public class NPCManager : MonoBehaviour
         talkText.text = "";
         speakerText.text = "";
         talkPanel.SetActive(false);
+        Player.GetComponent<NPCManager>().talkingTo = null;
         }
     }
 
@@ -393,7 +405,7 @@ public class NPCManager : MonoBehaviour
             oneOptionPanel.SetActive(false);
             if (buttonSelection == "oneOptionOne"){
                 speakerText.text = "Private";
-                dialogue = "If you insist, I’m sure there’s a map around here somewhere. Try looking for one in the grocery store or the tower.";
+                dialogue = "Nevermind that. Go clear the parking garage private. There have been complaints of rebel scum hiding out there.";
                 displayedText = "";
                 foreach(char letter in dialogue){
                     displayedText += letter;
