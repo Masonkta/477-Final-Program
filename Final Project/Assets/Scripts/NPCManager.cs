@@ -140,6 +140,9 @@ public class NPCManager : MonoBehaviour
             else if (talkingTo.transform.name == "NPC Key Guard"){
                 Talking = StartCoroutine(TalkToKeyGuard()); 
             }
+            else if (talkingTo.transform.name == "NPC Human"){
+                Talking = StartCoroutine(talkToHuman());
+            }
         }
 
         lastPosition = transform.position; 
@@ -477,7 +480,8 @@ public class NPCManager : MonoBehaviour
             {
                 "It takes some time to get used to a new body. You'll get em next time. ",
                 "Remember that this is a costly procedure for the resistance. Try to make the most of it.",
-                "Thank you for your service. Get back in that chair and we can try again."
+                "Thank you for your service. Get back in that chair and we can try again.",
+                "You should visit my house when you go back. It's a beutiful purple two story home. My wife and kids are dead but the house was cool."
             }; 
             int index = UnityEngine.Random.Range(0, dialogueLines.Count);
             String dialogue = dialogueLines[index];
@@ -793,6 +797,135 @@ public class NPCManager : MonoBehaviour
                 mouseClicked = false;
                 talkText.text = "";
             }
+        }
+        endConversation();
+    }
+
+    IEnumerator talkToHuman(){
+        playerCamera.transform.position = talkCameraPos.transform.position;
+        talkPanel.SetActive(true);
+
+        speakerText.text = "Human";
+        dialogue = "Wait! No! Get Away!";
+        displayedText = "";
+        foreach(char letter in dialogue){
+            displayedText += letter;
+            talkText.text = displayedText;
+            yield return new WaitForSeconds(0.05f);
+            if (mouseClicked){
+                mouseClicked = false;
+                break;
+            }
+        }
+        talkText.text = dialogue;
+        yield return new WaitForSeconds(0.5f);
+        while (!Input.GetMouseButtonDown(0))
+        {
+            yield return null; // wait for next frame
+        }
+        mouseClicked = false;
+        talkText.text = "";
+
+        //you are talking
+        speakerText.text = "You";
+        buttonSelection = "";
+        oneOptionPanel.SetActive(true);
+        oneOptionOneText.text = "Wait, I’m not here to hurt you! I promise, I come in peace.";
+        while (buttonSelection == "")
+        {
+            yield return null; // wait for next frame
+        }
+        mouseClicked = false;
+        oneOptionPanel.SetActive(false);
+        if (buttonSelection == "oneOptionOne"){
+            speakerText.text = "Human";
+            dialogue = "How can we trust you? You’ve killed thousands of our kind!";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
+        }
+
+        //you are talking
+        speakerText.text = "You";
+        buttonSelection = "";
+        oneOptionPanel.SetActive(true);
+        oneOptionOneText.text = "I’m human, just like you. I’m posing as a soldier in the alien army.";
+        while (buttonSelection == "")
+        {
+            yield return null; // wait for next frame
+        }
+        mouseClicked = false;
+        oneOptionPanel.SetActive(false);
+        if (buttonSelection == "oneOptionOne"){
+            speakerText.text = "Human";
+            dialogue = "So why are you even here, if you really are human?";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
+        }
+
+        //you are talking
+        speakerText.text = "You";
+        buttonSelection = "";
+        oneOptionPanel.SetActive(true);
+        oneOptionOneText.text = "I’ve come from the past to find research that will save the human race.";
+        while (buttonSelection == "")
+        {
+            yield return null; // wait for next frame
+        }
+        mouseClicked = false;
+        oneOptionPanel.SetActive(false);
+        if (buttonSelection == "oneOptionOne"){
+            speakerText.text = "Human";
+            dialogue = "Good enough for me. I left some old notes of mine in my backyard. If you're really from the future you'll know where that is.";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
         }
         endConversation();
     }
