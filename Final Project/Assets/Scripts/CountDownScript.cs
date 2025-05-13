@@ -5,8 +5,8 @@ using System;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Animations;
-using UnityEngine.Apple;
+// using UnityEditor.Animations;
+// using UnityEngine.Apple;
 
 public class CountDownScript : MonoBehaviour
 {
