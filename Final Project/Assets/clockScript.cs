@@ -1,9 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class clockScript : MonoBehaviour
-{   
+{      
+    public Transform baseOfTower;
+    public GameObject player;
+    public GameObject playerCamera;
+    public GameObject helpTextForClock;
+    public GameObject hintForClock;
+    public GameObject clockCamera;
+
     public float timeElapsed = 0f;
     public float seconds;
     public float minutes;
@@ -21,9 +29,36 @@ public class clockScript : MonoBehaviour
     public Transform m4;
     public Transform h4;
 
+    void Start()
+    {
+        player = GameObject.Find("Alien Player");
+        playerCamera = player.transform.Find("Player Camera").gameObject;   
+    }
+
     // Update is called once per frame
     void Update()
     {
+        timeStuff();
+        
+        // print(Vector3.Distance(player.transform.position, baseOfTower.position));
+        helpTextForClock.SetActive(Vector3.Distance(player.transform.position, baseOfTower.position) < 17f);
+        if (Vector3.Distance(player.transform.position, baseOfTower.position) < 17f){
+            if (Input.GetMouseButton(1)){
+                helpTextForClock.SetActive(false);
+                hintForClock.SetActive(true);
+                playerCamera.SetActive(false);
+                clockCamera.SetActive(true);
+            }
+            else{
+                hintForClock.SetActive(false);
+                playerCamera.SetActive(true);
+                clockCamera.SetActive(false);
+            }
+        }
+        
+    }
+
+    void timeStuff(){
         timeElapsed += Time.deltaTime;
         seconds = Mathf.RoundToInt(timeElapsed % 60f);
         minutes = (timeElapsed / 60f) % 60f;
