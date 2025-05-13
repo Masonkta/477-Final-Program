@@ -20,6 +20,9 @@ public class InventoryController : MonoBehaviour
     public bool hasSeenInventoryPanel = true;
     Button InventoryButton;
     bool inventoryButtonClicked = false;
+    public float timeOfNoteGrabbed; bool noteGrabbed;
+    public GameObject noteItself;
+
 
     // Start is called before the first frame update
     void Start()
@@ -79,9 +82,14 @@ public class InventoryController : MonoBehaviour
                         if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note")){
                             PickUpObject(obj);
                         } else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note")) {
-                            Debug.Log("pressed E while near note");
-                            grabObject(obj);
-                            Debug.Log("the obj was a note and called grabObject");
+                            // Debug.Log("pressed E while near note");
+                            // grabObject(obj);
+                            obj.SetActive(false);
+                            // Debug.Log("the obj was a note and called grabObject");
+                            noteGrabbed = true;
+                            timeOfNoteGrabbed = Time.time;
+                            noteItself.SetActive(true);
+                            
                         }
                     }
                     else{
@@ -89,6 +97,10 @@ public class InventoryController : MonoBehaviour
                     }
             }
         }
+
+        if (noteGrabbed && Time.time - timeOfNoteGrabbed > 5f && noteItself.activeInHierarchy)
+            noteItself.SetActive(false);
+            
     }   
 
     void toggleInventory(){
