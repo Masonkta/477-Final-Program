@@ -43,6 +43,18 @@ public class TeleportNewScene : MonoBehaviour
             
 
         }
+        if (willTeleport && Input.GetKeyDown(KeyCode.G) && Vector3.Distance(player.transform.position, new Vector3(22.0195084f,2.10881805f,35.0512962f)) < 15f || Vector3.Distance(player.transform.position, new Vector3(-5.09248972f,-14.9272423f, -5.47575569f)) < 15f){
+            Debug.Log("G was pressed");
+            enterText.enabled = false;
+            willTeleport = false;
+
+            
+            player.SetActive(false);
+            Debug.Log("SpawnPoint position: " + spawnPoint.localPosition);
+            player.transform.position = spawnPoint.position;
+            Debug.Log("New player position: " + player.transform.position);
+            player.SetActive(true);
+        }
         if (Vector3.Distance(player.transform.position, new Vector3(-12.7874985f,-37.2249985f,76.3000031f)) < 30f){
                 print(1);
                 playerMovement.canMove = false;
