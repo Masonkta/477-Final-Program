@@ -61,7 +61,7 @@ public class TeleportNewScene : MonoBehaviour
 
                 if (blackFadeOut.color.a < 0.97f){
                     Color temp = blackFadeOut.color;
-                    temp.a += Time.deltaTime / 2;
+                    temp.a += Time.deltaTime / 10f;
                     blackFadeOut.color = temp;
                 }
                 else{
