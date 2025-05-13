@@ -32,10 +32,10 @@ public class gameHandler : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            QuitGame();
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     QuitGame();
+        // }
         if (InventoryPanel){
             if (!InventoryPanel.activeInHierarchy)
             {
