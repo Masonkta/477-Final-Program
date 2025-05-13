@@ -23,7 +23,7 @@ public class TeleportNewScene : MonoBehaviour
     }
 
     void Update() {
-        if (willTeleport && Input.GetKeyDown(KeyCode.G)) {
+        if (willTeleport && Input.GetKeyDown(KeyCode.G) && player.GetComponent<playerMovement>().hasKey == true) {
             Debug.Log("G was pressed");
             enterText.enabled = false;
             willTeleport = false;

@@ -43,6 +43,7 @@ public class playerMovement : MonoBehaviour
 
     float camDist = 8f;
     public float actualCamDist;
+    public bool hasKey = false;
 
     void Start()
     {
