@@ -11,6 +11,7 @@ public class TimerScript : MonoBehaviour
     public TextMeshProUGUI Timer;
     DateTime time;
     public static TimerScript Instance;
+    public bool hasTryedAtLeastOnce = false;
     
     // Start is called before the first frame update
     void Awake()
@@ -51,6 +52,7 @@ public class TimerScript : MonoBehaviour
         }
         else{
             paused = true;
+            hasTryedAtLeastOnce = true;
         }
     }
     IEnumerator TimeRunning(){

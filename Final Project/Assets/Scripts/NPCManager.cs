@@ -42,6 +42,10 @@ public class NPCManager : MonoBehaviour
     public bool talkPanelStatus = false;
     public Coroutine Talking; 
     public bool mouseClicked = false;
+    String dialogue;
+    String displayedText;
+    public GameObject GameHandler;
+    public GameObject TimeManager;
     //public bool canLeave = true;
     // Start is called before the first frame update
     void Start()
@@ -85,6 +89,8 @@ public class NPCManager : MonoBehaviour
         threeOptionOneText = threeOptionOneButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
         threeOptionTwoText = threeOptionTwoButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
         threeOptionThreeText = threeOptionThreeButton.transform.Find("DialogueOption").GetComponent<TextMeshProUGUI>();
+        GameHandler = GameObject.Find("GameHandler");
+        TimeManager = GameObject.Find("TimeManager");
     }
 
     // Update is called once per frame
@@ -257,6 +263,7 @@ public class NPCManager : MonoBehaviour
             }
             else{
                 //THIS HAS AROUSED SUSPICION
+                GameHandler.GetComponent<CountDownScript>().captured = true;
                 String dialogue = "Why are you so curious. I'm going to have to report you.";
                 String displayedText = "";
                 foreach(char letter in dialogue){
@@ -431,6 +438,7 @@ public class NPCManager : MonoBehaviour
         if (buttonSelection == "twoOptionTwo")
         {
             //THIS HAS AROUSED SUSPICION
+            GameHandler.GetComponent<CountDownScript>().captured = true;
             buttonSelection = "";
             speakerText.text = "Private";
             String dialogue = "You don't look like a Colonel. I'm going to have to call this in.";
@@ -462,22 +470,17 @@ public class NPCManager : MonoBehaviour
         //you are talking
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
-        twoOptionPanel.SetActive(true);
-        speakerText.text = "You";
-        twoOptionOneText.text = "Hello! How are you?";
-        twoOptionTwoText.text = "Get out of my face.";
-        while (buttonSelection == "")
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        twoOptionPanel.SetActive(false);
-        //little guy is talking
-        if (buttonSelection == "twoOptionOne")
-        {
-            buttonSelection = "";
-            speakerText.text = "Little Guy";
-            String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife. True story.";
+
+
+        if (TimeManager.GetComponent<TimerScript>().hasTryedAtLeastOnce == true){
+            List<string> dialogueLines = new List<string>
+            {
+                "It takes some time to get used to a new body. You'll get em next time. ",
+                "Remember that this is a costly procedure for the resistance. Try to make the most of it.",
+                "Thank you for your service. Get back in that chair and we can try again."
+            }; 
+            int index = UnityEngine.Random.Range(0, dialogueLines.Count);
+            String dialogue = dialogueLines[index];
             String displayedText = "";
             foreach(char letter in dialogue){
                 displayedText += letter;
@@ -496,114 +499,12 @@ public class NPCManager : MonoBehaviour
             }
             mouseClicked = false;
             talkText.text = "";
-            //you are talking
-            speakerText.text = "You";
-            threeOptionPanel.SetActive(true);
-            threeOptionOneText.text = "Oh whats its name?";
-            threeOptionTwoText.text = "Cool story man.";
-            threeOptionThreeText.text = "IDK how you want me to respond to that.";
-            while (buttonSelection == "")
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            threeOptionPanel.SetActive(false);
-            //little guy is talking
-            if (buttonSelection == "threeOptionOne"){
-                speakerText.text = "Little Guy";
-                dialogue = "hees name is little shrimp";
-                displayedText = "";
-                foreach(char letter in dialogue){
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked){
-                    mouseClicked = false;
-                    break;
-                }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
-            }
-            else if (buttonSelection == "threeOptionTwo"){
-                speakerText.text = "Little Guy";
-                dialogue = "Yep.";
-                displayedText = "";
-                foreach(char letter in dialogue){
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked){
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
-            }
-            else if (buttonSelection == "threeOptionThree"){
-                speakerText.text = "Little Guy";
-                dialogue = "...";
-                displayedText = "";
-                foreach(char letter in dialogue){
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked){
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
-            }
         }
-        //little guy is talking
-        else if (buttonSelection == "twoOptionTwo")
-        {
-            buttonSelection = "";
-            String dialogue = "Ah! A territorial display! Fascinating. I shall recalibrate my proximity protocols and hover... respectfully.";
-            speakerText.text = "Little Guy";
-            String displayedText = "";
-            foreach(char letter in dialogue){
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked){
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+        else{
             //you are talking
             speakerText.text = "You";
             oneOptionPanel.SetActive(true);
-            oneOptionOneText.text = "Woah now I'll back off.";
+            oneOptionOneText.text = "Where am I?";
             while (buttonSelection == "")
             {
                 yield return null; // wait for next frame
@@ -611,8 +512,8 @@ public class NPCManager : MonoBehaviour
             mouseClicked = false;
             oneOptionPanel.SetActive(false);
             if (buttonSelection == "oneOptionOne"){
-                speakerText.text = "Little Guy";
-                dialogue = "See you around man.";
+                speakerText.text = "Doctor";
+                dialogue = "Whoah take it slow. You just woke up. You're safe. You must be disoriented from the last mission.";
                 displayedText = "";
                 foreach(char letter in dialogue){
                     displayedText += letter;
@@ -623,6 +524,266 @@ public class NPCManager : MonoBehaviour
                         break;
                     }
                 }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+            }
+
+            //you are talking
+            speakerText.text = "You";
+            buttonSelection = "";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "What mission?";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            oneOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne"){
+                speakerText.text = "Doctor";
+                dialogue = "Wow you're really out of it. Those troopers must have really done a number on you. Don't worry, hopefully it won't be much longer. ";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+
+                speakerText.text = "Doctor";
+                dialogue = "Three years ago, the first troops showed up and took out our major power centers. They've been terraforming ever since... getting stronger. ";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+
+                speakerText.text = "Doctor";
+                dialogue = "It's too late to beat them now with the information we have and the only human with the key to stop them is long gone. ";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+            }
+
+            //you are talking 
+            twoOptionPanel.SetActive(true);
+            speakerText.text = "You";
+            buttonSelection = "";
+            twoOptionOneText.text = "What Key?";
+            twoOptionTwoText.text = "Why do you need me?";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            twoOptionPanel.SetActive(false);
+            //little guy is talking
+            if (buttonSelection == "twoOptionOne")
+            {
+                buttonSelection = "";
+                speakerText.text = "Doctor";
+                dialogue = "That's on a need to know basis, Private.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+            }
+
+            speakerText.text = "Doctor";
+            dialogue = "We found a vulnerable point in their attack timeline when some resistance resources were still available. We need you to retrieve these resources. ";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
+
+            speakerText.text = "Doctor";
+            dialogue = "We found a weak link in their forces and have penatrated the digital conciousness through time. You are here to act as a pilot in a way for this conciousness.";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
+
+            speakerText.text = "Doctor";
+            dialogue = "We have limited resources, so we can only give you five minutes in that time before we have to reset you. You'll return back to the very moment you left. ";
+            displayedText = "";
+            foreach(char letter in dialogue){
+                displayedText += letter;
+                talkText.text = displayedText;
+                yield return new WaitForSeconds(0.05f);
+                if (mouseClicked){
+                    mouseClicked = false;
+                    break;
+                }
+            }
+            talkText.text = dialogue;
+            yield return new WaitForSeconds(0.5f);
+            while (!Input.GetMouseButtonDown(0))
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            talkText.text = "";
+
+            //you are talking
+            speakerText.text = "You";
+            buttonSelection = "";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "So what do you need me to do?";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            oneOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne"){
+                speakerText.text = "Doctor";
+                dialogue = "There was a small resistance group still intact at this time that we were able to access. Your mission is to find their base and report back here.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+
+                speakerText.text = "Doctor";
+                dialogue = "Be careful to not arouse suspicion though because from what I hear these things play pretty fast and loose with the death penalty which would not be fun for your nervous system.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
+                talkText.text = dialogue;
+                yield return new WaitForSeconds(0.5f);
+                while (!Input.GetMouseButtonDown(0))
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                talkText.text = "";
+
+                speakerText.text = "Doctor";
+                dialogue = "Once you get back in the chair we can get started. Hop to it.";
+                displayedText = "";
+                foreach(char letter in dialogue){
+                    displayedText += letter;
+                    talkText.text = displayedText;
+                    yield return new WaitForSeconds(0.05f);
+                    if (mouseClicked){
+                        mouseClicked = false;
+                        break;
+                    }
+                }
+
                 talkText.text = dialogue;
                 yield return new WaitForSeconds(0.5f);
                 while (!Input.GetMouseButtonDown(0))
