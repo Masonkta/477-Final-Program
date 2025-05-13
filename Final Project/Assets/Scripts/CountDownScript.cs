@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEditor.Animations;
 using UnityEngine.Apple;
 
@@ -18,6 +19,7 @@ public class CountDownScript : MonoBehaviour
     public Transform Aliens;
     public List<GameObject> marchingAliens = new List<GameObject>();
     public bool captured = false;
+    public Image blackFadeOut;
 
     // float timeRemaining;
     // public DateTime timerValue;
@@ -66,6 +68,15 @@ public class CountDownScript : MonoBehaviour
 
         if (captured){
             playerMovement.canMove = false;
+
+            if (blackFadeOut.color.a < 0.97f){
+                Color temp = blackFadeOut.color;
+                temp.a += Time.deltaTime / 2;
+                blackFadeOut.color = temp;
+            }
+            else{
+                SceneManager.LoadScene("StartScene");
+            }
         }
 
 
