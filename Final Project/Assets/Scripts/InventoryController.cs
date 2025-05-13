@@ -148,6 +148,9 @@ public class InventoryController : MonoBehaviour
 
     void grabObject(GameObject obj){
         //find the next inventory box to put the item in
+        if (obj.transform.name == "key"){
+            Player.GetComponent<playerMovement>().hasKey = true;
+        }
         for (int i = 0; i < inventoryBoxes.Count; i++){
             if (boxContents[i] == null){
                 boxContents[i] = obj;
