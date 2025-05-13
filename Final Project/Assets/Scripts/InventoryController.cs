@@ -150,7 +150,7 @@ public class InventoryController : MonoBehaviour
 
         if (obj.name.StartsWith("note")) {
             noteScript.noteImage.enabled = false;
-            noteScript.storeToMemory.enabled = false;
+            //noteScript.storeToMemory.enabled = false;
         }
     }
 

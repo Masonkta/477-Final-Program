@@ -7,7 +7,7 @@ using TMPro;
 public class NoteManager : MonoBehaviour
 {
     public Image noteImage;
-    public TextMeshProUGUI storeToMemory;
+    //public TextMeshProUGUI storeToMemory;
     public GameObject physicalNote;
     //public GameObject physicalNote;
     //public playerMovement movementScript;
@@ -30,7 +30,7 @@ public class NoteManager : MonoBehaviour
     void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
             noteImage.enabled = true;
-            storeToMemory.enabled = true;
+            //storeToMemory.enabled = true;
 
             //movementScript.enabled = false;
             //Destroy(physicalNote);
@@ -40,7 +40,7 @@ public class NoteManager : MonoBehaviour
     void OnTriggerExit(Collider other) {
         if (other.CompareTag("Player")) {
             noteImage.enabled = false;
-            storeToMemory.enabled = false;
+            //storeToMemory.enabled = false;
         }
     }
 }
