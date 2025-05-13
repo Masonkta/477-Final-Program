@@ -9,6 +9,7 @@ public class playerMovement : MonoBehaviour
     public Transform cameraTransform;
     public Transform PovCameraTransform;
     public Transform lookAt;
+    public bool canMove = true;
     public Animator playerAnimator;
     public bool isFirstPerson;
 
@@ -119,7 +120,8 @@ public class playerMovement : MonoBehaviour
         playerAnimator.speed = Map(actualMoveSpeed / runSpeed, 0f, 1f, 3f, 1.2f);
         // playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
 
-        controller.Move(movement * actualMoveSpeed * Time.deltaTime);
+        if (canMove)
+            controller.Move(movement * actualMoveSpeed * Time.deltaTime);
 
         if (!isGrounded) playerVelocity.y += Time.deltaTime * Physics.gravity.y;
         controller.Move(playerVelocity * Time.deltaTime);

@@ -8,6 +8,7 @@ public class clockScript : MonoBehaviour
     public Transform baseOfTower;
     public GameObject player;
     public GameObject playerCamera;
+    public playerMovement playerMovement;
     public GameObject helpTextForClock;
     public GameObject hintForClock;
     public GameObject clockCamera;
@@ -32,7 +33,8 @@ public class clockScript : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Alien Player");
-        playerCamera = player.transform.Find("Player Camera").gameObject;   
+        playerCamera = player.transform.Find("Player Camera").gameObject;
+        playerMovement = player.GetComponent<playerMovement>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,7 @@ public class clockScript : MonoBehaviour
         // print(Vector3.Distance(player.transform.position, baseOfTower.position));
         helpTextForClock.SetActive(Vector3.Distance(player.transform.position, baseOfTower.position) < 17f);
         if (Vector3.Distance(player.transform.position, baseOfTower.position) < 17f){
+            playerMovement.canMove = !Input.GetMouseButton(1);
             if (Input.GetMouseButton(1)){
                 helpTextForClock.SetActive(false);
                 hintForClock.SetActive(true);
