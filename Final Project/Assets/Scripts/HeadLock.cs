@@ -11,8 +11,8 @@ public class HeadLock : MonoBehaviour
     public Vector2 clampY = new Vector2(55f, 120f);
     public Vector2 clampX = new Vector2(-17f, 43f);
 
-    private float rotationY = 0f;
-    private float rotationX = 0f;
+    public float rotationY = 0f;
+    public float rotationX = 0f;
     private float mouseX = 0f;
     private float mouseY = 0f;
     public WakingEffect WakingupScript;

@@ -98,7 +98,7 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        if (noteGrabbed && Time.time - timeOfNoteGrabbed > 5f && noteItself.activeInHierarchy)
+        if (noteGrabbed && noteItself.activeInHierarchy && Time.time - timeOfNoteGrabbed > 4f && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.W)))
             noteItself.SetActive(false);
             
     }   

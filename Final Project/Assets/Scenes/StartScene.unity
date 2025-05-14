@@ -3587,6 +3587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paused: 0
   Timer: {fileID: 547126696}
+  hasTryedAtLeastOnce: 0
 --- !u!4 &929402216
 Transform:
   m_ObjectHideFlags: 0
@@ -3766,6 +3767,8 @@ MonoBehaviour:
   sensitivity: 2
   clampY: {x: 55, y: 150}
   clampX: {x: -17, y: 43}
+  rotationY: 120
+  rotationX: 0
   WakingupScript: {fileID: 1446611160}
 --- !u!114 &985568420
 MonoBehaviour:
