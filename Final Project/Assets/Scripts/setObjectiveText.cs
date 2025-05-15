@@ -7,6 +7,7 @@ public class setObjectiveText : MonoBehaviour
 {
     public TextMeshProUGUI objectiveText;
     public DDOL DDOL;
+    public GameObject inventoryPanel;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,20 +18,36 @@ public class setObjectiveText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY)
-            objectiveText.text = "Current Objective:\nExplore the city, gather intel. Be careful of other soldiers.";
-        if (DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
-            objectiveText.text = "Current Objective:\nInvestigate the parking garage to avoid suspicion. Maybe you'll find something.";
-        if (DDOL.highestTaskAchieved == GameState.TALKED_TO_NPC)
-            objectiveText.text = "Current Objective:\nFind the note the doctor is referring to. It is in his backyard.";
-        if (DDOL.highestTaskAchieved == GameState.GRABBED_NOTE)
-            objectiveText.text = "Current Objective:\nRefer to the note for finding the key. The note is in your inventory.";
-        if (DDOL.highestTaskAchieved == GameState.GRABBED_KEY)
-            objectiveText.text = "Current Objective:\nWith the key you grabbed, unlock the door to the hideout.";
-        else
-            objectiveText.text = "Current Objective:\n";
+        hideObjectiveTextIfInventoryIsOpen();
 
-        
+
+        if (DDOL)
+        {
+            if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY)
+                objectiveText.text = "Current Objective:\nExplore the city, gather intel. Keep distance from marching soldiers.";
+            else if (DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
+                objectiveText.text = "Current Objective:\nInvestigate the parking garage as instructed. Maybe you'll find something.";
+            else if (DDOL.highestTaskAchieved == GameState.TALKED_TO_NPC)
+                if (DDOL.hasEverTalkedToFirstDoctorInStartScene)
+                    objectiveText.text = "Current Objective:\nFind the note the doctor is referring to. Remember he said he lived in a two story purple house.";
+                else
+                    objectiveText.text = "Current Objective:\nFind the note the doctor is referring to.";
+            else if (DDOL.highestTaskAchieved == GameState.GRABBED_NOTE)
+                objectiveText.text = "Current Objective:\nRefer to the note for finding the key. The note is in your inventory.";
+            else if (DDOL.highestTaskAchieved == GameState.GRABBED_KEY)
+                objectiveText.text = "Current Objective:\nWith the key you grabbed, unlock the door to the hideout. Check the map for location";
+            else
+                objectiveText.text = "You shouldn't see this.";
+        }
+
+        else
+            objectiveText.text = "NO DDOL!";
+
+    }
+
+    void hideObjectiveTextIfInventoryIsOpen()
+    {
+        objectiveText.enabled = !inventoryPanel.activeInHierarchy;
     }
 
 }

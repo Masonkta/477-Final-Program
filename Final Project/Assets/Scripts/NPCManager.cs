@@ -394,7 +394,7 @@ public class NPCManager : MonoBehaviour
                 "It takes some time to get used to a new body. You'll get em next time. ",
                 "Remember that this is a costly procedure for the resistance. Try to make the most of it.",
                 "Thank you for your service. Get back in that chair and we can try again.",
-                "You should visit my house when you go back. It's a beutiful purple two story home. My wife and kids are dead but the house was cool."
+                "You should visit my house when you go back. It's a beautiful purple two story home. My wife and kids are dead but the house was cool."
             };
             int index = UnityEngine.Random.Range(0, dialogueLines.Count);
             String dialogue = dialogueLines[index];
@@ -514,26 +514,7 @@ public class NPCManager : MonoBehaviour
 
         speakerText.text = "Human";
         dialogue = "Wait! No! Get Away!";
-        displayedText = "";
-        foreach (char letter in dialogue)
-        {
-            displayedText += letter;
-            talkText.text = displayedText;
-            yield return new WaitForSeconds(0.05f);
-            if (mouseClicked)
-            {
-                mouseClicked = false;
-                break;
-            }
-        }
-        talkText.text = dialogue;
-        yield return new WaitForSeconds(0.5f);
-        while (!Input.GetMouseButtonDown(0))
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        talkText.text = "";
+        yield return StartCoroutine(TypeText(dialogue, talkText));
 
         //you are talking
         speakerText.text = "You";
@@ -550,26 +531,7 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Human";
             dialogue = "How can we trust you? You’ve killed thousands of our kind!";
-            displayedText = "";
-            foreach (char letter in dialogue)
-            {
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked)
-                {
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+            yield return StartCoroutine(TypeText(dialogue, talkText));
         }
 
         //you are talking
@@ -587,26 +549,7 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Human";
             dialogue = "So why are you even here, if you really are human?";
-            displayedText = "";
-            foreach (char letter in dialogue)
-            {
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked)
-                {
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+            yield return StartCoroutine(TypeText(dialogue, talkText));
         }
 
         //you are talking
@@ -624,26 +567,13 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Human";
             dialogue = "Good enough for me. I left some old notes of mine in my backyard. If you're really from the future you'll know where that is.";
-            displayedText = "";
-            foreach (char letter in dialogue)
-            {
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked)
-                {
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+
+             // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+                if (DDOL)
+                    if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
+                        DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+
+            yield return StartCoroutine(TypeText(dialogue, talkText));
         }
         endConversation();
     }
@@ -669,26 +599,9 @@ public class NPCManager : MonoBehaviour
             buttonSelection = "";
             speakerText.text = "Little Guy";
             String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife. True story.";
-            String displayedText = "";
-            foreach (char letter in dialogue)
-            {
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked)
-                {
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+            yield return StartCoroutine(TypeText(dialogue, talkText));
+
+
             //you are talking
             speakerText.text = "You";
             threeOptionPanel.SetActive(true);
@@ -706,76 +619,19 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Little Guy";
                 dialogue = "hees name is little shrimp";
-                displayedText = "";
-                foreach (char letter in dialogue)
-                {
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked)
-                    {
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
             }
             else if (buttonSelection == "threeOptionTwo")
             {
                 speakerText.text = "Little Guy";
                 dialogue = "Yep.";
-                displayedText = "";
-                foreach (char letter in dialogue)
-                {
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked)
-                    {
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
             }
             else if (buttonSelection == "threeOptionThree")
             {
                 speakerText.text = "Little Guy";
                 dialogue = "...";
-                displayedText = "";
-                foreach (char letter in dialogue)
-                {
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked)
-                    {
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
             }
         }
         //little guy is talking
@@ -784,26 +640,28 @@ public class NPCManager : MonoBehaviour
             buttonSelection = "";
             String dialogue = "Ah! A territorial display! Fascinating. I shall recalibrate my proximity protocols and hover... respectfully.";
             speakerText.text = "Little Guy";
-            String displayedText = "";
-            foreach (char letter in dialogue)
-            {
-                displayedText += letter;
-                talkText.text = displayedText;
-                yield return new WaitForSeconds(0.05f);
-                if (mouseClicked)
-                {
-                    mouseClicked = false;
-                    break;
-                }
-            }
-            talkText.text = dialogue;
-            yield return new WaitForSeconds(0.5f);
-            while (!Input.GetMouseButtonDown(0))
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            talkText.text = "";
+            // String displayedText = "";
+            // foreach (char letter in dialogue)
+            // {
+            //     displayedText += letter;
+            //     talkText.text = displayedText;
+            //     yield return new WaitForSeconds(0.05f);
+            //     if (mouseClicked)
+            //     {
+            //         mouseClicked = false;
+            //         break;
+            //     }
+            // }
+            // talkText.text = dialogue;
+            // yield return new WaitForSeconds(0.5f);
+            // while (!Input.GetMouseButtonDown(0))
+            // {
+            //     yield return null; // wait for next frame
+            // }
+            // mouseClicked = false;
+            // talkText.text = "";
+            yield return StartCoroutine(TypeText(dialogue, talkText));  // ^^^^ Is this special ellie ? ^^^^ 
+
             //you are talking
             speakerText.text = "You";
             oneOptionPanel.SetActive(true);
@@ -818,26 +676,7 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Little Guy";
                 dialogue = "See you around man.";
-                displayedText = "";
-                foreach (char letter in dialogue)
-                {
-                    displayedText += letter;
-                    talkText.text = displayedText;
-                    yield return new WaitForSeconds(0.05f);
-                    if (mouseClicked)
-                    {
-                        mouseClicked = false;
-                        break;
-                    }
-                }
-                talkText.text = dialogue;
-                yield return new WaitForSeconds(0.5f);
-                while (!Input.GetMouseButtonDown(0))
-                {
-                    yield return null; // wait for next frame
-                }
-                mouseClicked = false;
-                talkText.text = "";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
             }
         }
         endConversation();
