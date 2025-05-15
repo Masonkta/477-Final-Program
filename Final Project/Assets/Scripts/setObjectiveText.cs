@@ -31,7 +31,7 @@ public class setObjectiveText : MonoBehaviour
                 if (DDOL.hasEverTalkedToFirstDoctorInStartScene)
                     objectiveText.text = "Current Objective:\nFind the note the doctor is referring to. Remember he said he lived in a two story purple house.";
                 else
-                    objectiveText.text = "Current Objective:\nFind the note the doctor is referring to.";
+                    objectiveText.text = "Current Objective:\nTry to find the note or find a way to return to the future & speak with the doctor to get information.";
             else if (DDOL.highestTaskAchieved == GameState.GRABBED_NOTE)
                 objectiveText.text = "Current Objective:\nRefer to the note for finding the key. The note is in your inventory.";
             else if (DDOL.highestTaskAchieved == GameState.GRABBED_KEY)

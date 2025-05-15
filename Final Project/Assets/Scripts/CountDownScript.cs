@@ -26,6 +26,7 @@ public class CountDownScript : MonoBehaviour
     public Image susBarImg;
     public TextMeshProUGUI susBarLabel;
 
+    public DDOL DDOL;
 
     // float timeRemaining;
     // public DateTime timerValue;
@@ -37,10 +38,10 @@ public class CountDownScript : MonoBehaviour
         foreach (Transform child in Aliens.transform)
         {
             if (child.name.StartsWith("Enemy Soldier"))
-            {
                 marchingAliens.Add(child.gameObject);
-            }
         }
+
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
 
     }
 
@@ -51,6 +52,7 @@ public class CountDownScript : MonoBehaviour
         if (timeElapsed > timeLimit)
         {
             print("SCENE LOAD");
+            DDOL.resets += 1;
             SceneManager.LoadScene("StartScene");
         }
 
