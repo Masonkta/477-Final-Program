@@ -145,9 +145,13 @@ public class NPCManager : MonoBehaviour
             {
                 Talking = StartCoroutine(TalkToKeyGuard());
             }
-            else if (talkingTo.transform.name == "NPC Human")
+            else if (talkingTo.transform.name == "NPC Good Guy")
             {
                 Talking = StartCoroutine(talkToHuman());
+            }
+            else if (talkingTo.transform.name == "NPC Human")
+            {
+                Talking = StartCoroutine(talkToHider());
             }
         }
 
@@ -221,6 +225,53 @@ public class NPCManager : MonoBehaviour
 
     }
 
+    IEnumerator talkToHider()
+    {
+        yield return null;
+        //you are talking
+        playerCamera.transform.position = talkCameraPos.transform.position;
+        talkPanel.SetActive(true);
+
+        //you are talking
+        speakerText.text = "You";
+        oneOptionPanel.SetActive(true);
+        oneOptionOneText.text = "Don't be afraid! I come in peace.";
+        while (buttonSelection == "")
+        {
+            yield return null; // wait for next frame
+        }
+        mouseClicked = false;
+        oneOptionPanel.SetActive(false);
+        if (buttonSelection == "oneOptionOne")
+        {
+            speakerText.text = "Private";
+            if (talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo == false)
+            {
+                List<string> dialogueLines = new List<string>
+                {
+                    "No! Get away! I hate you!",
+                    "You may be terraforming but you'll never squash the resistance!",
+                    "Wha wha bu bu huhhh get away",
+                    "I want my mommy.",
+                    "I'll never tell you anything.",
+                    "There's a suspicious guy in that parking garage maybe he knows something. Please don't kill me!"
+                };
+
+                int index = UnityEngine.Random.Range(0, dialogueLines.Count);
+
+                String dialogue = dialogueLines[index];
+                yield return StartCoroutine(TypeText(dialogue, talkText));
+            }
+            else
+            {
+                String dialogue = "Please leave me alone.";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
+            }
+        }
+
+        endConversation();
+    }
+
     IEnumerator TalkToGuard()
     {
         //you are talking
@@ -264,10 +315,10 @@ public class NPCManager : MonoBehaviour
             }
             else
             {
-                //THIS HAS AROUSED SUSPICION
-                GameHandler.GetComponent<CountDownScript>().captured = true;
                 String dialogue = "Why are you so curious. I'm going to have to report you.";
                 yield return StartCoroutine(TypeText(dialogue, talkText));
+                //THIS HAS AROUSED SUSPICION
+                GameHandler.GetComponent<CountDownScript>().captured = true;
             }
         }
 
