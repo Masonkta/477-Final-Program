@@ -88,9 +88,9 @@ public class InventoryController : MonoBehaviour
             foreach (GameObject obj in collectable)
             {
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
-                Debug.Log(obj.transform.name);
-                Debug.Log(distance);
-                Debug.Log(grabDistance);
+                //Debug.Log(obj.transform.name);
+                //Debug.Log(distance);
+                //Debug.Log(grabDistance);
                 //Debug.Log(obj.transform.name);
                 if (distance < grabDistance)
                 {
