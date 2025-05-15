@@ -21,8 +21,6 @@ public class NPCManager : MonoBehaviour
     public GameObject talkCameraPos;
     public bool freezeCamera = false;
     public TextMeshProUGUI speakerText;
-    List<string> littleGuyDialogue = new List<string> { "Hello There!", "What are you doing here?", "IDK I just woke up" };
-    List<string> littleGuySpeakers = new List<string> { "Little Guy", "You", "Little Guy" };
     public GameObject oneOptionPanel;
     public TextMeshProUGUI oneOptionOneText;
     public GameObject twoOptionPanel;
@@ -135,11 +133,7 @@ public class NPCManager : MonoBehaviour
             StartCoroutine(leaveDelay());
 
             talkingTo.GetComponent<TalkScript>().spoke = true;
-            if (talkingTo.transform.name == "NPC Little Guy")
-            {
-                Talking = StartCoroutine(TalkToLittleGuy());
-            }
-            else if (talkingTo.transform.name == "NPC Doctor")
+            if (talkingTo.transform.name == "NPC Doctor")
             {
                 Talking = StartCoroutine(TalkToDoctor());
             }
@@ -285,6 +279,7 @@ public class NPCManager : MonoBehaviour
         //you are talking
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
+
         //you are talking
         speakerText.text = "You";
         oneOptionPanel.SetActive(true);
@@ -369,12 +364,12 @@ public class NPCManager : MonoBehaviour
         if (buttonSelection == "twoOptionTwo")
         {
             //THIS HAS AROUSED SUSPICION
-            GameHandler.GetComponent<CountDownScript>().captured = true;
             buttonSelection = "";
             speakerText.text = "Private";
             String dialogue = "You don't look like a Colonel. I'm going to have to call this in.";
             yield return StartCoroutine(TypeText(dialogue, talkText));
         }
+        GameHandler.GetComponent<CountDownScript>().captured = true;
 
         endConversation();
     }
@@ -439,10 +434,6 @@ public class NPCManager : MonoBehaviour
                 speakerText.text = "Doctor";
                 dialogue = "Three years ago, the first troops showed up and took out our major power centers. They've been terraforming ever since... getting stronger. ";
                 yield return StartCoroutine(TypeText(dialogue, talkText));
-
-                speakerText.text = "Doctor";
-                dialogue = "It's too late to beat them now with the information we have and the only human with the key to stop them is long gone. ";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
             }
 
             //you are talking 
@@ -476,6 +467,10 @@ public class NPCManager : MonoBehaviour
 
             speakerText.text = "Doctor";
             dialogue = "We have limited resources, so we can only give you five minutes in that time before we have to reset you. You'll return back to the very moment you left. ";
+            yield return StartCoroutine(TypeText(dialogue, talkText));
+
+            speakerText.text = "Doctor";
+            dialogue = "It's too late to beat them now with the information we have and the only human with the key to stop them is long gone. ";
             yield return StartCoroutine(TypeText(dialogue, talkText));
 
             //you are talking
@@ -556,7 +551,7 @@ public class NPCManager : MonoBehaviour
         speakerText.text = "You";
         buttonSelection = "";
         oneOptionPanel.SetActive(true);
-        oneOptionOneText.text = "I’ve come from the past to find research that will save the human race.";
+        oneOptionOneText.text = "I’ve come from the future to find research that will save the human race. You sent me.";
         while (buttonSelection == "")
         {
             yield return null; // wait for next frame
@@ -578,110 +573,7 @@ public class NPCManager : MonoBehaviour
         endConversation();
     }
 
-    IEnumerator TalkToLittleGuy()
-    {
-        //you are talking
-        playerCamera.transform.position = talkCameraPos.transform.position;
-        talkPanel.SetActive(true);
-        twoOptionPanel.SetActive(true);
-        speakerText.text = "You";
-        twoOptionOneText.text = "Hello! How are you?";
-        twoOptionTwoText.text = "Get out of my face.";
-        while (buttonSelection == "")
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        twoOptionPanel.SetActive(false);
-        //little guy is talking
-        if (buttonSelection == "twoOptionOne")
-        {
-            buttonSelection = "";
-            speakerText.text = "Little Guy";
-            String dialogue = "I'm doing great!  And the other thing is, my sister had a baby and I took it over after she passed away and the baby lost all its legs and arms and now its just a stump but I take care of it with my wife. True story.";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
-
-
-            //you are talking
-            speakerText.text = "You";
-            threeOptionPanel.SetActive(true);
-            threeOptionOneText.text = "Oh whats its name?";
-            threeOptionTwoText.text = "Cool story man.";
-            threeOptionThreeText.text = "IDK how you want me to respond to that.";
-            while (buttonSelection == "")
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            threeOptionPanel.SetActive(false);
-            //little guy is talking
-            if (buttonSelection == "threeOptionOne")
-            {
-                speakerText.text = "Little Guy";
-                dialogue = "hees name is little shrimp";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
-            }
-            else if (buttonSelection == "threeOptionTwo")
-            {
-                speakerText.text = "Little Guy";
-                dialogue = "Yep.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
-            }
-            else if (buttonSelection == "threeOptionThree")
-            {
-                speakerText.text = "Little Guy";
-                dialogue = "...";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
-            }
-        }
-        //little guy is talking
-        else if (buttonSelection == "twoOptionTwo")
-        {
-            buttonSelection = "";
-            String dialogue = "Ah! A territorial display! Fascinating. I shall recalibrate my proximity protocols and hover... respectfully.";
-            speakerText.text = "Little Guy";
-            // String displayedText = "";
-            // foreach (char letter in dialogue)
-            // {
-            //     displayedText += letter;
-            //     talkText.text = displayedText;
-            //     yield return new WaitForSeconds(0.05f);
-            //     if (mouseClicked)
-            //     {
-            //         mouseClicked = false;
-            //         break;
-            //     }
-            // }
-            // talkText.text = dialogue;
-            // yield return new WaitForSeconds(0.5f);
-            // while (!Input.GetMouseButtonDown(0))
-            // {
-            //     yield return null; // wait for next frame
-            // }
-            // mouseClicked = false;
-            // talkText.text = "";
-            yield return StartCoroutine(TypeText(dialogue, talkText));  // ^^^^ Is this special ellie ? ^^^^ 
-
-            //you are talking
-            speakerText.text = "You";
-            oneOptionPanel.SetActive(true);
-            oneOptionOneText.text = "Woah now I'll back off.";
-            while (buttonSelection == "")
-            {
-                yield return null; // wait for next frame
-            }
-            mouseClicked = false;
-            oneOptionPanel.SetActive(false);
-            if (buttonSelection == "oneOptionOne")
-            {
-                speakerText.text = "Little Guy";
-                dialogue = "See you around man.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
-            }
-        }
-        endConversation();
-    }
-
+    
     void ToggleCursor()
     {
         if (Cursor.lockState == CursorLockMode.Locked)
