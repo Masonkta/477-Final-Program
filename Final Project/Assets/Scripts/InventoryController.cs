@@ -129,7 +129,7 @@ public class InventoryController : MonoBehaviour
         }
         objInRange = false;
 
-        if (noteGrabbed && noteItself.activeInHierarchy && Time.time - timeOfNoteGrabbed > 4f && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.W)))
+        if (noteGrabbed && noteItself.activeInHierarchy && Time.time - timeOfNoteGrabbed > 2 && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.W)))
             noteItself.SetActive(false);
             
     }   

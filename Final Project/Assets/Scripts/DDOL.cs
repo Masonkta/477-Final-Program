@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using HighScore;
 
 public enum GameState
 {
@@ -43,6 +44,8 @@ public class DDOL : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        HS.Init(this, "Final Directive");
     }
 
 
@@ -68,8 +71,11 @@ public class DDOL : MonoBehaviour
     void calculateAndSubmitHighScore()
     {
         score = 1200 - totalPlayTime - 100 * resets - 20 * (NPCVisits - 3);
+
+        if (score < 0f) score = 0f;
         // Submit this score to cherry's site
         print(score);
+        HS.SubmitHighScore(this, "Carl", (int)score);
     }
 
     private void OnEnable()
