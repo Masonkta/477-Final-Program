@@ -23,6 +23,7 @@ public class InventoryController : MonoBehaviour
     public float timeOfNoteGrabbed; bool noteGrabbed;
     public GameObject noteItself;
     public DDOL DDOL;
+    bool objInRange = false;
 
     // Start is called before the first frame update
     void Start()
@@ -87,8 +88,13 @@ public class InventoryController : MonoBehaviour
             foreach (GameObject obj in collectable)
             {
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
+                Debug.Log(obj.transform.name);
+                Debug.Log(distance);
+                Debug.Log(grabDistance);
+                //Debug.Log(obj.transform.name);
                 if (distance < grabDistance)
                 {
+                    objInRange = true;
                     pickUpText.text = "Press E to collect " + obj.transform.name;
                     if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note"))
                     {
@@ -115,12 +121,13 @@ public class InventoryController : MonoBehaviour
 
                     }
                 }
-                else
+                else if (!objInRange)
                 {
                     pickUpText.text = "";
                 }
             }
         }
+        objInRange = false;
 
         if (noteGrabbed && noteItself.activeInHierarchy && Time.time - timeOfNoteGrabbed > 4f && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.W)))
             noteItself.SetActive(false);
