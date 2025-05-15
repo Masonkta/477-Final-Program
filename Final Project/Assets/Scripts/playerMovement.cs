@@ -44,11 +44,13 @@ public class playerMovement : MonoBehaviour
     float camDist = 8f;
     public float actualCamDist;
     public bool hasKey = false;
+    public DDOL DDOL;
 
     void Start()
     {
         assignPlayerComponents();
         isFirstPerson = PovCameraTransform;
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
     }
 
     void assignPlayerComponents()
@@ -156,6 +158,13 @@ public class playerMovement : MonoBehaviour
         float xTurn = mouseMovement[0] * xSens * Time.deltaTime;
         float yTurn = mouseMovement[1] * ySens * Time.deltaTime;
         float yTurnPOV = mouseMovement[1] * ySensPOV * Time.deltaTime;
+
+        if (DDOL)
+        {
+            xTurn *= DDOL.sensitivityMultiplier;
+            yTurn *= DDOL.sensitivityMultiplier;
+            yTurnPOV *= DDOL.sensitivityMultiplier;
+        }
 
         if (turningEnabled)
         {

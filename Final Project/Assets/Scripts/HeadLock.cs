@@ -16,6 +16,7 @@ public class HeadLock : MonoBehaviour
     private float mouseX = 0f;
     private float mouseY = 0f;
     public WakingEffect WakingupScript;
+    public DDOL DDOL;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -23,12 +24,13 @@ public class HeadLock : MonoBehaviour
         if (Camera.main != null)
         {
             rotationX = -9.7f;
-            rotationY = 88f;
+            rotationY = 120f;
             Camera.main.transform.localPosition = Vector3.zero;
             Camera.main.transform.localRotation = Quaternion.Euler(-9.7f, 88f, 0f);
             mouseX = rotationY / sensitivity;
             mouseY = -rotationX / sensitivity;
         }
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
     }
 
     void OnEnable()
@@ -49,6 +51,12 @@ public class HeadLock : MonoBehaviour
         // Capture input
         mouseX = Input.GetAxis("Mouse X") * sensitivity;
         mouseY = Input.GetAxis("Mouse Y") * sensitivity;
+
+        if (DDOL)
+        {
+            mouseX *= DDOL.sensitivityMultiplier;
+            mouseY *= DDOL.sensitivityMultiplier;
+        }
 
         // Apply rotation
         rotationY += mouseX;
