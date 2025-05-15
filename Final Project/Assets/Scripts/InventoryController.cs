@@ -61,55 +61,64 @@ public class InventoryController : MonoBehaviour
             hasSeenInventoryPanel = true;
             inventoryButtonClicked = false;
             ToggleCursor();
-        } 
+        }
 
         //drop object if desired   im thinking x to drop and c to collect/add to inventory
-        if (hand.transform.childCount > 0){
+        if (hand.transform.childCount > 0)
+        {
             pickUpText.text = "R to drop " + hand.transform.GetChild(0).name + " or press E to store it in your inventory.";
-            if (Input.GetKeyDown(KeyCode.R)){
+            if (Input.GetKeyDown(KeyCode.R))
+            {
                 DropObject();
             }
-            else if (Input.GetKeyDown(KeyCode.E)){
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
                 //put the object in inventory
                 grabObject(hand.transform.GetChild(0).gameObject);
             }
+            if (hand.transform.GetChild(0).name == "key")
+                grabObject(hand.transform.GetChild(0).gameObject);
         }
         //the player is not holding anything
-        else{
+        else
+        {
             //determines if the player can and should grab the object
             GameObject[] collectable = GameObject.FindGameObjectsWithTag("Collectable");
-            foreach (GameObject obj in collectable){
+            foreach (GameObject obj in collectable)
+            {
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
-                    if (distance < grabDistance){
-                        pickUpText.text = "Press E to collect " + obj.transform.name;
-                        if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note"))
-                        {
-                            PickUpObject(obj);
-                        }
-                        else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note"))
-                        {
-                            // Debug.Log("pressed E while near note");
-                            // grabObject(obj);
-                            obj.SetActive(false);
-                            // Debug.Log("the obj was a note and called grabObject");
-                            noteGrabbed = true;
-                            timeOfNoteGrabbed = Time.time;
-                            noteItself.SetActive(true);
-                                
-                                // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
-                            if (DDOL)
-                                if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
-                                    DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
-                                    
-                                    
-                                    
-                                    
-                                    
-                            }
+                if (distance < grabDistance)
+                {
+                    pickUpText.text = "Press E to collect " + obj.transform.name;
+                    if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note"))
+                    {
+                        PickUpObject(obj);
                     }
-                    else{
-                        pickUpText.text = "";
+                    else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note"))
+                    {
+                        // Debug.Log("pressed E while near note");
+                        // grabObject(obj);
+                        obj.SetActive(false);
+                        // Debug.Log("the obj was a note and called grabObject");
+                        noteGrabbed = true;
+                        timeOfNoteGrabbed = Time.time;
+                        noteItself.SetActive(true);
+
+                        // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+                        if (DDOL)
+                            if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
+                                DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
+
+
+
+
+
                     }
+                }
+                else
+                {
+                    pickUpText.text = "";
+                }
             }
         }
 

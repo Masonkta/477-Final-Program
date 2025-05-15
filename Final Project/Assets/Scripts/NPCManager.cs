@@ -711,9 +711,9 @@ public class NPCManager : MonoBehaviour
 
             // Wait a scaled duration for the text
             if (DDOL)
-                yield return new WaitForSeconds(0.05f / DDOL.textReadSpeedMultiplier);
+                yield return new WaitForSeconds(0.04f / DDOL.textReadSpeedMultiplier);
             else
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.04f);
 
 
             if (mouseClicked) // allow skipping
@@ -724,7 +724,7 @@ public class NPCManager : MonoBehaviour
         }
         targetText.text = dialogue;
 
-        yield return new WaitForSeconds(0.5f); // slight delay before continuing
+        yield return new WaitForSeconds(0.375f); // slight delay before continuing
 
         while (!Input.GetMouseButtonDown(0)) // wait for player click to proceed
         {

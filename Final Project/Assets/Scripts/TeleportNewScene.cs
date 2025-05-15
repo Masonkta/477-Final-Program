@@ -19,17 +19,19 @@ public class TeleportNewScene : MonoBehaviour
     public playerMovement playerMovement;
     public Image blackFadeOut;
     public String nameOfBuilding;
-    public DDOL progressTracker;
+    public DDOL DDOL;
     public bool readyToTeleport;
 
     [SerializeField]
     private bool willTeleport;
     // Start is called before the first frame update
-    void Start(){
+    void Start()
+    {
         player = GameObject.Find("Alien Player");
         playerMovement = player.GetComponent<playerMovement>();
         if (enterText) enterText.enabled = false;
         willTeleport = false;
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
     }
 
     void Update() {
@@ -47,7 +49,8 @@ public class TeleportNewScene : MonoBehaviour
 
             if (nameOfBuilding == "Wiley")
             {
-                print("WE ARE READY TO TELEPORT");
+                if (DDOL)
+                    DDOL.highestTaskAchieved = GameState.EXIT;
                 readyToTeleport = true;
 
             }

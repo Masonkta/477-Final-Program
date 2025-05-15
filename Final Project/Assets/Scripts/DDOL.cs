@@ -51,7 +51,7 @@ public class DDOL : MonoBehaviour
         Debug.Log("Scene loaded: " + scene.name + ", Mode: " + mode);
         if (scene.name == "City Scene")
             player = GameObject.Find("Alien Player");
-        if (scene.name == "Victory Scene")
+        if (scene.name == "Victory Screen")
             calculateAndSubmitHighScore();
     }
 
@@ -69,7 +69,7 @@ public class DDOL : MonoBehaviour
     {
         score = 1200 - totalPlayTime - 100 * resets - 20 * (NPCVisits - 3);
         // Submit this score to cherry's site
-
+        print(score);
     }
 
     private void OnEnable()

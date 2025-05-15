@@ -36,6 +36,8 @@ public class setObjectiveText : MonoBehaviour
                 objectiveText.text = "Current Objective:\nRefer to the note for finding the key. The note is in your inventory.";
             else if (DDOL.highestTaskAchieved == GameState.GRABBED_KEY)
                 objectiveText.text = "Current Objective:\nWith the key you grabbed, unlock the door to the hideout. Check the map for location";
+            else if (DDOL.highestTaskAchieved == GameState.EXIT)
+                objectiveText.text = "You have found the other humans.";
             else
                 objectiveText.text = "You shouldn't see this.";
         }
