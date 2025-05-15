@@ -388,8 +388,7 @@ public class NPCManager : MonoBehaviour
             {
                 "It takes some time to get used to a new body. You'll get em next time. ",
                 "Remember that this is a costly procedure for the resistance. Try to make the most of it.",
-                "Thank you for your service. Get back in that chair and we can try again.",
-                "You should visit my house when you go back. It's a beautiful purple two story home. My wife and kids are dead but the house was cool."
+                "Thank you for your service. Get back in that chair and we can try again."
             };
             int index = UnityEngine.Random.Range(0, dialogueLines.Count);
             String dialogue = dialogueLines[index];
@@ -428,10 +427,6 @@ public class NPCManager : MonoBehaviour
             if (buttonSelection == "oneOptionOne")
             {
                 speakerText.text = "Doctor";
-                dialogue = "Wow you're really out of it. Those troopers must have really done a number on you. Don't worry, hopefully it won't be much longer. ";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
-
-                speakerText.text = "Doctor";
                 dialogue = "Three years ago, the first troops showed up and took out our major power centers. They've been terraforming ever since... getting stronger. ";
                 yield return StartCoroutine(TypeText(dialogue, talkText));
             }
@@ -456,11 +451,6 @@ public class NPCManager : MonoBehaviour
                 dialogue = "That's on a need to know basis, Private.";
                 yield return StartCoroutine(TypeText(dialogue, talkText));
             }
-
-            speakerText.text = "Doctor";
-            dialogue = "We found a vulnerable point in their attack timeline when some resistance resources were still available. We need you to retrieve these resources. ";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
-
             speakerText.text = "Doctor";
             dialogue = "We found a weak link in their forces and have penatrated the digital conciousness through time. You are here to act as a pilot in a way for this conciousness.";
             yield return StartCoroutine(TypeText(dialogue, talkText));
@@ -470,7 +460,7 @@ public class NPCManager : MonoBehaviour
             yield return StartCoroutine(TypeText(dialogue, talkText));
 
             speakerText.text = "Doctor";
-            dialogue = "It's too late to beat them now with the information we have and the only human with the key to stop them is long gone. ";
+            dialogue = "You should visit my house when you go back. It's a beautiful purple two story home. My wife and kids are dead but the house was cool.";
             yield return StartCoroutine(TypeText(dialogue, talkText));
 
             //you are talking
