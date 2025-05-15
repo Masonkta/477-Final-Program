@@ -41,7 +41,7 @@ public class setObjectiveText : MonoBehaviour
         }
 
         else
-            objectiveText.text = "NO DDOL!";
+            objectiveText.text = "NO DDOL! You have to start in Start Scene";
 
     }
 

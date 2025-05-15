@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
+using System.Threading;
 
 public class TeleportNewScene : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class TeleportNewScene : MonoBehaviour
     public Image blackFadeOut;
     public String nameOfBuilding;
     public DDOL progressTracker;
+    public bool readyToTeleport;
 
     [SerializeField]
     private bool willTeleport;
@@ -31,12 +33,12 @@ public class TeleportNewScene : MonoBehaviour
     }
 
     void Update() {
-        if (willTeleport && Input.GetKeyDown(KeyCode.G) && player.GetComponent<playerMovement>().hasKey == true) {
+        if (willTeleport && Input.GetKeyDown(KeyCode.G) && playerMovement.hasKey) {
             Debug.Log("G was pressed");
             enterText.enabled = false;
             willTeleport = false;
 
-            
+
             player.SetActive(false);
             Debug.Log("SpawnPoint position: " + spawnPoint.localPosition);
             player.transform.position = spawnPoint.position;
@@ -46,14 +48,14 @@ public class TeleportNewScene : MonoBehaviour
             if (nameOfBuilding == "Wiley")
             {
                 print("WE ARE READY TO TELEPORT");
-                // playerMovement.canMove = false;
-                // hasEnteredWiley = true;
+                readyToTeleport = true;
 
-            }   
+            }
 
         }
 
-        
+        if (readyToTeleport)
+            loadVictoryScene();
     }
 
     public void loadVictoryScene()
@@ -74,6 +76,7 @@ public class TeleportNewScene : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         enterText.enabled = true;
+        enterText.text = playerMovement.hasKey ? "[G] Enter Building" : "You need a key to access.";
         willTeleport = true;
     }
 
