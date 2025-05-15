@@ -120,6 +120,8 @@ public class CountDownScript : MonoBehaviour
             }
             else
             {
+                
+                DDOL.resets += 1;
                 SceneManager.LoadScene("StartScene");
             }
         }
