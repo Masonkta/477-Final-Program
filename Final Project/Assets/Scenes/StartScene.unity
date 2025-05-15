@@ -4907,6 +4907,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9053624440051633375, guid: 2518603d14b587149905aae26c52049b, type: 3}
   m_PrefabInstance: {fileID: 569412479}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1205486284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205486286}
+  - component: {fileID: 1205486285}
+  m_Layer: 0
+  m_Name: DDOL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1205486285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205486284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490b857a9d4845d438539f86e667affc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highestTaskAchieved: 0
+  resets: 0
+  sensitivityMultiplier: 1
+  textReadSpeed: 1
+  hasEverTalkedToFirstDoctorInStartScene: 0
+  score: 1200
+  player: {fileID: 0}
+--- !u!4 &1205486286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205486284}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.621334, y: 1.1520462, z: 33.616566}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1227371520
 GameObject:
   m_ObjectHideFlags: 0
@@ -12175,3 +12226,4 @@ SceneRoots:
   - {fileID: 569412479}
   - {fileID: 194314924}
   - {fileID: 543450653079105306}
+  - {fileID: 1205486286}

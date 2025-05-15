@@ -52,7 +52,7 @@ public class InventoryController : MonoBehaviour
     void Update()
     {
         //toggles inventory panel
-        if ((Input.GetKeyDown(KeyCode.I) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
+        if ((Input.GetKeyDown(KeyCode.Tab) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
             hasSeenInventoryPanel = true;

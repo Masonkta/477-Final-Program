@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TeleportNewScene : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TeleportNewScene : MonoBehaviour
     public GameObject player;
     public playerMovement playerMovement;
     public Image blackFadeOut;
+    public String nameOfBuilding;
+    public DDOL progressTracker;
 
     [SerializeField]
     private bool willTeleport;
@@ -23,7 +26,7 @@ public class TeleportNewScene : MonoBehaviour
     void Start(){
         player = GameObject.Find("Alien Player");
         playerMovement = player.GetComponent<playerMovement>();
-        enterText.enabled = false;
+        if (enterText) enterText.enabled = false;
         willTeleport = false;
     }
 
@@ -40,38 +43,36 @@ public class TeleportNewScene : MonoBehaviour
             Debug.Log("New player position: " + player.transform.position);
             player.SetActive(true);
 
-            
+            if (nameOfBuilding == "Wiley")
+            {
+                print("WE ARE READY TO TELEPORT");
+                // playerMovement.canMove = false;
+                // hasEnteredWiley = true;
+
+            }   
 
         }
-        if (willTeleport && Input.GetKeyDown(KeyCode.G) && Vector3.Distance(player.transform.position, new Vector3(22.0195084f,2.10881805f,35.0512962f)) < 15f || Vector3.Distance(player.transform.position, new Vector3(-5.09248972f,-14.9272423f, -5.47575569f)) < 15f){
-            Debug.Log("G was pressed");
-            enterText.enabled = false;
-            willTeleport = false;
 
-            
-            player.SetActive(false);
-            Debug.Log("SpawnPoint position: " + spawnPoint.localPosition);
-            player.transform.position = spawnPoint.position;
-            Debug.Log("New player position: " + player.transform.position);
-            player.SetActive(true);
+        
+    }
+
+    public void loadVictoryScene()
+    {
+        if (blackFadeOut.color.a < 0.97f)
+        {
+            Color temp = blackFadeOut.color;
+            temp.a += Time.deltaTime / 10f;
+            blackFadeOut.color = temp;
         }
-        if (Vector3.Distance(player.transform.position, new Vector3(-12.7874985f,-37.2249985f,76.3000031f)) < 30f){
-                print(1);
-                playerMovement.canMove = false;
-
-                if (blackFadeOut.color.a < 0.97f){
-                    Color temp = blackFadeOut.color;
-                    temp.a += Time.deltaTime / 10f;
-                    blackFadeOut.color = temp;
-                }
-                else{
-                    SceneManager.LoadScene("Victory Screen");
-                }
-            
+        else
+        {
+            SceneManager.LoadScene("Victory Screen");
         }
     }
 
-    public void OnTriggerEnter(Collider other) {
+
+    public void OnTriggerEnter(Collider other)
+    {
         enterText.enabled = true;
         willTeleport = true;
     }

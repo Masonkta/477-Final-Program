@@ -9,6 +9,12 @@ public class UIClicker : MonoBehaviour
     public Camera playerCamera;
     private Button currentlyHoveredButton;
     public Animator m_Animator;
+    public DDOL godScript;
+
+    void Start()
+    {
+        godScript = GameObject.Find("DDOL").GetComponent<DDOL>();
+    }
 
     void Update()
     {
@@ -62,6 +68,9 @@ public class UIClicker : MonoBehaviour
 
     public void StartGame()
     {
+        if (godScript.highestTaskAchieved == GameState.WOKE_UP)
+            godScript.highestTaskAchieved = GameState.ENTERED_CITY;
+            
         Debug.Log("START");
         m_Animator.SetTrigger("Salute");
         SceneManager.LoadScene("City Scene");
