@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 public class UIClicker : MonoBehaviour
 {
     public Camera playerCamera;
@@ -66,13 +67,20 @@ public class UIClicker : MonoBehaviour
         }
     }
 
+
     public void StartGame()
     {
         if (godScript.highestTaskAchieved == GameState.WOKE_UP)
             godScript.highestTaskAchieved = GameState.ENTERED_CITY;
-            
+
         Debug.Log("START");
+        StartCoroutine(PlaySaluteAndLoadScene());
+    }
+
+    private IEnumerator PlaySaluteAndLoadScene()
+    {
         m_Animator.SetTrigger("Salute");
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("City Scene");
     }
 
