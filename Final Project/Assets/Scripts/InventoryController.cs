@@ -22,7 +22,7 @@ public class InventoryController : MonoBehaviour
     bool inventoryButtonClicked = false;
     public float timeOfNoteGrabbed; bool noteGrabbed;
     public GameObject noteItself;
-
+    public DDOL DDOL;
 
     // Start is called before the first frame update
     void Start()
@@ -39,13 +39,16 @@ public class InventoryController : MonoBehaviour
         pickUpText = textTransform.GetComponent<TextMeshProUGUI>();
         Collectables = GameObject.Find("Collectables");
 
-        for (int i = 0; i < inventoryBoxes.Count; i++){
+        for (int i = 0; i < inventoryBoxes.Count; i++)
+        {
             //Debug.Log(i);
-            inventoryBoxes[i] = InventoryPanel.transform.GetChild(i+1).gameObject;
+            inventoryBoxes[i] = InventoryPanel.transform.GetChild(i + 1).gameObject;
             Button boxButton = inventoryBoxes[i].GetComponent<Button>();
             int boxClicked = i;
             boxButton.onClick.AddListener(() => inventoryBoxClicked(boxClicked));
         }
+
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
     }
 
     // Update is called once per frame
@@ -79,9 +82,12 @@ public class InventoryController : MonoBehaviour
                 float distance = (Player.transform.position - obj.transform.position).magnitude;
                     if (distance < grabDistance){
                         pickUpText.text = "Press E to collect " + obj.transform.name;
-                        if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note")){
+                        if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note"))
+                        {
                             PickUpObject(obj);
-                        } else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note")) {
+                        }
+                        else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note"))
+                        {
                             // Debug.Log("pressed E while near note");
                             // grabObject(obj);
                             obj.SetActive(false);
@@ -89,8 +95,17 @@ public class InventoryController : MonoBehaviour
                             noteGrabbed = true;
                             timeOfNoteGrabbed = Time.time;
                             noteItself.SetActive(true);
-                            
-                        }
+                                
+                                // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+                            if (DDOL)
+                                if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
+                                    DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
+                                    
+                                    
+                                    
+                                    
+                                    
+                            }
                     }
                     else{
                         pickUpText.text = "";
@@ -148,8 +163,11 @@ public class InventoryController : MonoBehaviour
 
     void grabObject(GameObject obj){
         //find the next inventory box to put the item in
-        if (obj.transform.name == "key"){
+        if (obj.transform.name == "key")
+        {
             Player.GetComponent<playerMovement>().hasKey = true;
+            if (DDOL)
+                DDOL.highestTaskAchieved = GameState.GRABBED_KEY; // NOW WE GRABBED KEY AND ARE READY
         }
         for (int i = 0; i < inventoryBoxes.Count; i++){
             if (boxContents[i] == null){
