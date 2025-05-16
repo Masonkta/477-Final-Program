@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    bool inventoryPanelStatus = false; 
-    GameObject InventoryPanel;
+    public bool inventoryPanelStatus = false; 
+    public GameObject InventoryPanel;
     GameObject Player;
     public float grabDistance = 5f;
     List<GameObject> inventoryBoxes = new List<GameObject>{null, null, null, null, null, null, null, null, null, null};
