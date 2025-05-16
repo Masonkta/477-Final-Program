@@ -45,6 +45,7 @@ public class NPCManager : MonoBehaviour
     public GameObject GameHandler;
     public GameObject TimeManager;
     public DDOL DDOL;
+    Coroutine typing;
     //public bool canLeave = true;
     // Start is called before the first frame update
     void Start()
@@ -153,6 +154,10 @@ public class NPCManager : MonoBehaviour
             {
                 Talking = StartCoroutine(talkToHider());
             }
+            else if (talkingTo.transform.name == "NPC Special Human")
+            {
+                Talking = StartCoroutine(talkToSpecialHuman());
+            }
         }
 
         lastPosition = transform.position;
@@ -181,6 +186,10 @@ public class NPCManager : MonoBehaviour
         freezeCamera = false;
         talkingTo.GetComponent<TalkScript>().spoke = false;
         buttonSelection = "";
+        if (typing != null)
+        {
+            StopCoroutine(typing);
+        }
         //talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         if (Talking != null)
         {
@@ -198,6 +207,8 @@ public class NPCManager : MonoBehaviour
             talkText.text = "";
             speakerText.text = "";
             talkPanel.SetActive(false);
+            dialogue = "";
+            displayedText = "";
             // Player.GetComponent<NPCManager>().talkingTo = null;
         }
     }
@@ -260,12 +271,14 @@ public class NPCManager : MonoBehaviour
                 int index = UnityEngine.Random.Range(0, dialogueLines.Count);
 
                 String dialogue = dialogueLines[index];
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
             else
             {
                 String dialogue = "Please leave me alone.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
         }
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
@@ -311,12 +324,14 @@ public class NPCManager : MonoBehaviour
                 int index = UnityEngine.Random.Range(0, dialogueLines.Count);
 
                 String dialogue = dialogueLines[index];
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
             else
             {
                 String dialogue = "Why are you so curious. I'm going to have to report you.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
                 //THIS HAS AROUSED SUSPICION
                 GameHandler.GetComponent<CountDownScript>().captured = true;
             }
@@ -345,7 +360,8 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Private";
             String dialogue = "Why do you need to find the human base?";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
         }
 
         //you are talking
@@ -363,7 +379,8 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Private";
             String dialogue = "A strange request from the captain. What is your rank again, solider?";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
         }
         //you are talking
         buttonSelection = "";
@@ -384,7 +401,8 @@ public class NPCManager : MonoBehaviour
             buttonSelection = "";
             speakerText.text = "Private";
             String dialogue = "Well the base was cleared many years ago, I doubt you’ll find any maps on base.";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
 
             //you are talking
             buttonSelection = "";
@@ -407,7 +425,8 @@ public class NPCManager : MonoBehaviour
                     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY)
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_COLONEL; // NOW WE TALKED TO COLONEL
 
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
 
         }
@@ -418,9 +437,10 @@ public class NPCManager : MonoBehaviour
             buttonSelection = "";
             speakerText.text = "Private";
             String dialogue = "You don't look like a Colonel. I'm going to have to call this in.";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
+            GameHandler.GetComponent<CountDownScript>().captured = true;
         }
-        GameHandler.GetComponent<CountDownScript>().captured = true;
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
@@ -439,11 +459,13 @@ public class NPCManager : MonoBehaviour
             {
                 "It takes some time to get used to a new body. You'll get em next time. ",
                 "Remember that this is a costly procedure for the resistance. Try to make the most of it.",
-                "Thank you for your service. Get back in that chair and we can try again."
+                "Thank you for your service. Get back in that chair and we can try again.",
+                "You should visit my house when you go back. It's a beautiful purple two story home. My wife and kids are dead but the house was cool."
             };
             int index = UnityEngine.Random.Range(0, dialogueLines.Count);
             String dialogue = dialogueLines[index];
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
         }
         else
         {
@@ -460,8 +482,9 @@ public class NPCManager : MonoBehaviour
             if (buttonSelection == "oneOptionOne")
             {
                 speakerText.text = "Doctor";
-                dialogue = "Whoah take it slow. You just woke up. You're safe. You must be disoriented from the last mission.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                dialogue = "Woah take it slow. You just woke up. You're safe. You must be disoriented from the last mission.";
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
 
             //you are talking
@@ -479,7 +502,8 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Doctor";
                 dialogue = "Three years ago, the first troops showed up and took out our major power centers. They've been terraforming ever since... getting stronger. ";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
 
             //you are talking 
@@ -500,19 +524,23 @@ public class NPCManager : MonoBehaviour
                 buttonSelection = "";
                 speakerText.text = "Doctor";
                 dialogue = "That's on a need to know basis, Private.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
             speakerText.text = "Doctor";
             dialogue = "We found a weak link in their forces and have penatrated the digital conciousness through time. You are here to act as a pilot in a way for this conciousness.";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
 
             speakerText.text = "Doctor";
             dialogue = "We have limited resources, so we can only give you five minutes in that time before we have to reset you. You'll return back to the very moment you left. ";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
 
             speakerText.text = "Doctor";
             dialogue = "You should visit my house when you go back. It's a beautiful purple two story home. My wife and kids are dead but the house was cool.";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
 
             //you are talking
             speakerText.text = "You";
@@ -529,17 +557,133 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Doctor";
                 dialogue = "There was a small resistance group still intact at this time that we were able to access. Your mission is to find their base and report back here.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
 
                 speakerText.text = "Doctor";
                 dialogue = "Be careful to not arouse suspicion though because from what I hear these things play pretty fast and loose with the death penalty which would not be fun for your nervous system.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
 
                 speakerText.text = "Doctor";
                 dialogue = "Once you get back in the chair we can get started. Hop to it.";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
         }
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
+        endConversation();
+    }
+
+    IEnumerator talkToSpecialHuman()
+    {
+        playerCamera.transform.position = talkCameraPos.transform.position;
+        talkPanel.SetActive(true);
+
+        if (talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo)
+        {
+            speakerText.text = "Brett";
+            dialogue = "Why are you still talking to me lol.";
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
+        }
+        else
+        {
+            speakerText.text = "Brett";
+            dialogue = "Stay back. I don’t care if you’re a trooper or one of their pets. I’ll break your faceplate open.";
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
+            //you are talking 
+            twoOptionPanel.SetActive(true);
+            speakerText.text = "You";
+            buttonSelection = "";
+            twoOptionOneText.text = "Easy. I’m not here to report. I’m looking for... Dr. Hail. That ring a bell?";
+            twoOptionTwoText.text = "Wait! Pizza. Uhh... New York pizza. You miss it too, right?";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            twoOptionPanel.SetActive(false);
+            //little guy is talking
+            if (buttonSelection == "twoOptionOne")
+            {
+                buttonSelection = "";
+                speakerText.text = "Brett";
+                dialogue = "That’s my uncle… wait… how do you know him?";
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
+
+                //you are talking 
+                twoOptionPanel.SetActive(true);
+                speakerText.text = "You";
+                buttonSelection = "";
+                twoOptionOneText.text = "I know him... or will know him.";
+                twoOptionTwoText.text = "That's not important.";
+                while (buttonSelection == "")
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                twoOptionPanel.SetActive(false);
+                //little guy is talking
+                if (buttonSelection == "twoOptionOne")
+                {
+                    buttonSelection = "";
+                    speakerText.text = "Brett";
+                    dialogue = "What? Thats trippy. Last I heard he was on the roof of the parking garage. Better catch him.";
+                    typing = StartCoroutine(TypeText(dialogue, talkText));
+                    yield return typing;
+                }
+                if (buttonSelection == "twoOptionTwo")
+                {
+                    buttonSelection = "";
+                    speakerText.text = "Brett";
+                    dialogue = "The hell it's not? Get away from me!";
+                    typing = StartCoroutine(TypeText(dialogue, talkText));
+                    yield return typing;
+                }
+            }
+            if (buttonSelection == "twoOptionTwo")
+            {
+                buttonSelection = "";
+                speakerText.text = "Brett";
+                dialogue = "…What toppings?";
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
+
+                //you are talking 
+                twoOptionPanel.SetActive(true);
+                speakerText.text = "You";
+                buttonSelection = "";
+                twoOptionOneText.text = "Pepperoni";
+                twoOptionTwoText.text = "Anchovies";
+                while (buttonSelection == "")
+                {
+                    yield return null; // wait for next frame
+                }
+                mouseClicked = false;
+                twoOptionPanel.SetActive(false);
+                //little guy is talking
+                if (buttonSelection == "twoOptionOne")
+                {
+                    buttonSelection = "";
+                    speakerText.text = "Brett";
+                    dialogue = "Ok Thats cool man";
+                    typing = StartCoroutine(TypeText(dialogue, talkText));
+                    yield return typing;
+                }
+                if (buttonSelection == "twoOptionTwo")
+                {
+                    buttonSelection = "";
+                    speakerText.text = "Brett";
+                    dialogue = "Even if you aren't an alien, you must be a sociopath. Get away, scum!";
+                    typing = StartCoroutine(TypeText(dialogue, talkText));
+                    yield return typing;
+                }
+            }
+        }
+        
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
@@ -556,13 +700,15 @@ public class NPCManager : MonoBehaviour
                 if (DDOL)
                     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
         }
         else
         {
             speakerText.text = "Human";
             dialogue = "Wait! No! Get Away!";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
+            typing = StartCoroutine(TypeText(dialogue, talkText));
+            yield return typing;
 
             //you are talking
             speakerText.text = "You";
@@ -579,7 +725,8 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Human";
                 dialogue = "How can we trust you? You’ve killed thousands of our kind!";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
 
             //you are talking
@@ -597,7 +744,8 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Human";
                 dialogue = "So why are you even here, if you really are human?";
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
 
             //you are talking
@@ -621,7 +769,8 @@ public class NPCManager : MonoBehaviour
                         if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
                             DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
 
-                yield return StartCoroutine(TypeText(dialogue, talkText));
+                typing = StartCoroutine(TypeText(dialogue, talkText));
+                yield return typing;
             }
         }
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
