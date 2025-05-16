@@ -180,8 +180,8 @@ public class NPCManager : MonoBehaviour
     {
         freezeCamera = false;
         talkingTo.GetComponent<TalkScript>().spoke = false;
-        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         buttonSelection = "";
+        //talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         if (Talking != null)
         {
             StopCoroutine(Talking);
@@ -268,7 +268,7 @@ public class NPCManager : MonoBehaviour
                 yield return StartCoroutine(TypeText(dialogue, talkText));
             }
         }
-
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
 
@@ -321,7 +321,7 @@ public class NPCManager : MonoBehaviour
                 GameHandler.GetComponent<CountDownScript>().captured = true;
             }
         }
-
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
 
@@ -421,7 +421,7 @@ public class NPCManager : MonoBehaviour
             yield return StartCoroutine(TypeText(dialogue, talkText));
         }
         GameHandler.GetComponent<CountDownScript>().captured = true;
-
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
 
@@ -540,6 +540,7 @@ public class NPCManager : MonoBehaviour
                 yield return StartCoroutine(TypeText(dialogue, talkText));
             }
         }
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
 
@@ -547,70 +548,83 @@ public class NPCManager : MonoBehaviour
     {
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
-
-        speakerText.text = "Human";
-        dialogue = "Wait! No! Get Away!";
-        yield return StartCoroutine(TypeText(dialogue, talkText));
-
-        //you are talking
-        speakerText.text = "You";
-        buttonSelection = "";
-        oneOptionPanel.SetActive(true);
-        oneOptionOneText.text = "Wait, I’m not here to hurt you! I promise, I come in peace.";
-        while (buttonSelection == "")
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        oneOptionPanel.SetActive(false);
-        if (buttonSelection == "oneOptionOne")
+        if (talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo)
         {
             speakerText.text = "Human";
-            dialogue = "How can we trust you? You’ve killed thousands of our kind!";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
-        }
-
-        //you are talking
-        speakerText.text = "You";
-        buttonSelection = "";
-        oneOptionPanel.SetActive(true);
-        oneOptionOneText.text = "I’m human, just like you. I’m posing as a soldier in the alien army.";
-        while (buttonSelection == "")
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        oneOptionPanel.SetActive(false);
-        if (buttonSelection == "oneOptionOne")
-        {
-            speakerText.text = "Human";
-            dialogue = "So why are you even here, if you really are human?";
-            yield return StartCoroutine(TypeText(dialogue, talkText));
-        }
-
-        //you are talking
-        speakerText.text = "You";
-        buttonSelection = "";
-        oneOptionPanel.SetActive(true);
-        oneOptionOneText.text = "I’ve come from the future to find research that will save the human race. You sent me.";
-        while (buttonSelection == "")
-        {
-            yield return null; // wait for next frame
-        }
-        mouseClicked = false;
-        oneOptionPanel.SetActive(false);
-        if (buttonSelection == "oneOptionOne")
-        {
-            speakerText.text = "Human";
-            dialogue = "Good enough for me. I left some old notes of mine in my backyard. If you're really from the future you'll know where that is.";
-
+            dialogue = "What are you doing standing around here? Go find my note it's in my backyard. Don't make me regret this.";
              // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
                 if (DDOL)
                     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
-
             yield return StartCoroutine(TypeText(dialogue, talkText));
         }
+        else
+        {
+            speakerText.text = "Human";
+            dialogue = "Wait! No! Get Away!";
+            yield return StartCoroutine(TypeText(dialogue, talkText));
+
+            //you are talking
+            speakerText.text = "You";
+            buttonSelection = "";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "Wait, I’m not here to hurt you! I promise, I come in peace.";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            oneOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne")
+            {
+                speakerText.text = "Human";
+                dialogue = "How can we trust you? You’ve killed thousands of our kind!";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
+            }
+
+            //you are talking
+            speakerText.text = "You";
+            buttonSelection = "";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "I’m human, just like you. I’m posing as a soldier in the alien army.";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            oneOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne")
+            {
+                speakerText.text = "Human";
+                dialogue = "So why are you even here, if you really are human?";
+                yield return StartCoroutine(TypeText(dialogue, talkText));
+            }
+
+            //you are talking
+            speakerText.text = "You";
+            buttonSelection = "";
+            oneOptionPanel.SetActive(true);
+            oneOptionOneText.text = "I’ve come from the future to find research that will save the human race. You sent me.";
+            while (buttonSelection == "")
+            {
+                yield return null; // wait for next frame
+            }
+            mouseClicked = false;
+            oneOptionPanel.SetActive(false);
+            if (buttonSelection == "oneOptionOne")
+            {
+                speakerText.text = "Human";
+                dialogue = "Good enough for me. I left some old notes of mine in my backyard. If you're really from the future you'll know where that is.";
+
+                 // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+                    if (DDOL)
+                        if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
+                            DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+
+                yield return StartCoroutine(TypeText(dialogue, talkText));
+            }
+        }
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         endConversation();
     }
 
