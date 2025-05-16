@@ -20,7 +20,7 @@ public class InventoryController : MonoBehaviour
     public bool hasSeenInventoryPanel = true;
     Button InventoryButton;
     bool inventoryButtonClicked = false;
-    public float timeOfNoteGrabbed; bool noteGrabbed;
+    public float timeOfNoteGrabbed; bool noteGrabbed = false;
     public GameObject noteItself;
     public DDOL DDOL;
     bool objInRange = false;
@@ -56,7 +56,8 @@ public class InventoryController : MonoBehaviour
     void Update()
     {
         //toggles inventory panel
-        if ((Input.GetKeyDown(KeyCode.Tab) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel)){
+        if ((Input.GetKeyDown(KeyCode.Tab) || inventoryButtonClicked) && (hand.transform.childCount == 0 || !hasSeenInventoryPanel))
+        {
             InventoryPanel.SetActive(!inventoryPanelStatus);
             inventoryPanelStatus = !inventoryPanelStatus;
             hasSeenInventoryPanel = true;
@@ -104,7 +105,7 @@ public class InventoryController : MonoBehaviour
                     {
                         // Debug.Log("pressed E while near note");
                         // grabObject(obj);
-                        obj.SetActive(false);
+                        PickUpObject(obj);
                         // Debug.Log("the obj was a note and called grabObject");
                         noteGrabbed = true;
                         timeOfNoteGrabbed = Time.time;
@@ -114,11 +115,6 @@ public class InventoryController : MonoBehaviour
                         if (DDOL)
                             if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
                                 DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
-
-
-
-
-
                     }
                 }
                 else if (!objInRange)
@@ -128,10 +124,13 @@ public class InventoryController : MonoBehaviour
             }
         }
         objInRange = false;
-
         if (noteGrabbed && noteItself.activeInHierarchy && Time.time - timeOfNoteGrabbed > 2 && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.W)))
+        {
             noteItself.SetActive(false);
-            
+            Debug.Log(hand.transform.GetChild(0).name);
+            grabObject(hand.transform.GetChild(0).gameObject); 
+        }
+                  
     }   
 
     void toggleInventory(){
@@ -144,7 +143,8 @@ public class InventoryController : MonoBehaviour
         //puts the selected object in your "hand"
         Debug.Log(hand.transform.transform.childCount);
         if (boxContents[num] != null){
-            if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note"){
+            if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note")
+            {
                 boxContents[num].SetActive(true);
                 boxContents[num].transform.position = hand.transform.position;
                 boxContents[num].transform.SetParent(hand.transform);
@@ -157,8 +157,24 @@ public class InventoryController : MonoBehaviour
                 InventoryPanel.SetActive(!inventoryPanelStatus);
                 inventoryPanelStatus = !inventoryPanelStatus;
                 ToggleCursor();
-            } else if (boxContents[num].name == "note") {
-                Debug.Log("This item cannot be taken out of inventory. It can be looked at though");
+            }
+            else if (boxContents[num].name == "note")
+            {
+                boxContents[num].SetActive(true);
+                boxContents[num].transform.position = hand.transform.position;
+                boxContents[num].transform.SetParent(hand.transform);
+                boxContents[num].GetComponent<Rigidbody>().isKinematic = true;
+                boxContents[num].tag = "Untagged";
+                boxContents[num] = null;
+                TextMeshProUGUI boxText = inventoryBoxes[num].transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
+                boxText.text = "";
+
+                InventoryPanel.SetActive(!inventoryPanelStatus);
+                inventoryPanelStatus = !inventoryPanelStatus;
+                ToggleCursor();
+                noteGrabbed = true;
+                timeOfNoteGrabbed = Time.time;
+                noteItself.SetActive(true);
             }
         }
     } 
@@ -197,10 +213,10 @@ public class InventoryController : MonoBehaviour
         obj.transform.SetParent(null);
         obj.SetActive(false);
 
-        if (obj.name.StartsWith("note")) {
-            noteScript.noteImage.enabled = false;
-            //noteScript.storeToMemory.enabled = false;
-        }
+        //if (obj.name.StartsWith("note")) {
+        //    noteScript.noteImage.enabled = false;
+        //    //noteScript.storeToMemory.enabled = false;
+        //}
     }
 
     void DropObject(){
