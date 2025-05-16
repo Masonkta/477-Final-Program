@@ -131,6 +131,10 @@ public class NPCManager : MonoBehaviour
             Vector3 playerChest = Player.transform.position;
             playerChest.y = talkingTo.transform.parent.position.y;
             talkingTo.transform.parent.LookAt(playerChest);
+
+            Vector3 NPCChest = talkingTo.transform.parent.position;
+            NPCChest.y = Player.transform.position.y;
+            Player.transform.LookAt(NPCChest);
             StartCoroutine(leaveDelay());
 
             talkingTo.GetComponent<TalkScript>().spoke = true;
@@ -190,7 +194,7 @@ public class NPCManager : MonoBehaviour
         {
             StopCoroutine(typing);
         }
-        //talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
+        talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
         if (Talking != null)
         {
             StopCoroutine(Talking);
@@ -209,7 +213,7 @@ public class NPCManager : MonoBehaviour
             talkPanel.SetActive(false);
             dialogue = "";
             displayedText = "";
-            // Player.GetComponent<NPCManager>().talkingTo = null;
+            talkingTo = null;
         }
     }
 

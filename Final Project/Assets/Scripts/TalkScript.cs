@@ -42,9 +42,23 @@ public class TalkScript : MonoBehaviour
         }
     }
 
+    void OnTriggerStay(Collider other)
+    {
+        if (Player){
+            if (other.transform.name.StartsWith("Alien Player") && spoke == false){
+                if (pickUpText.text == ""){
+                    helpText.text = "Press T to talk";
+                }
+                Debug.Log(Player.transform.name);
+                Player.GetComponent<NPCManager>().talkingTo = gameObject;
+            }
+        }
+    }
+
     void OnTriggerExit(Collider other)
     {
-        if (other.transform.name.StartsWith("Alien Player")){
+        if (other.transform.name.StartsWith("Alien Player"))
+        {
             helpText.text = "";
         }
     }
