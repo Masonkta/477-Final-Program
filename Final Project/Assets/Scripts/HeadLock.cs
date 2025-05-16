@@ -50,7 +50,17 @@ public class HeadLock : MonoBehaviour
     void Update()
     {
         if (!inputEnabled)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             return;
+        }
+        if (Cursor.lockState == CursorLockMode.None && inputEnabled)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        
 
         // Capture input
         mouseX = Input.GetAxis("Mouse X") * sensitivity;

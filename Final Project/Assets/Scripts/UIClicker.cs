@@ -91,15 +91,13 @@ public class UIClicker : MonoBehaviour
         Debug.Log("Opening Options Menu");
 
         optionsCanvas.SetActive(true);
-        Cursor.lockState = CursorLockMode.None;
         headLockScript.inputEnabled = false;
     }
 
     public void CloseOptions()
     {
 
-        optionsCanvas.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
+        optionsCanvas.SetActive(false);  
         headLockScript.inputEnabled = true;
     }
     public void QuitGame()
