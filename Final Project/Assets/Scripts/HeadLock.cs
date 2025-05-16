@@ -17,6 +17,7 @@ public class HeadLock : MonoBehaviour
     private float mouseY = 0f;
     public WakingEffect WakingupScript;
     public DDOL DDOL;
+    public bool inputEnabled = true;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -48,6 +49,9 @@ public class HeadLock : MonoBehaviour
 
     void Update()
     {
+        if (!inputEnabled)
+            return;
+
         // Capture input
         mouseX = Input.GetAxis("Mouse X") * sensitivity;
         mouseY = Input.GetAxis("Mouse Y") * sensitivity;

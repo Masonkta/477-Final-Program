@@ -11,6 +11,8 @@ public class UIClicker : MonoBehaviour
     private Button currentlyHoveredButton;
     public Animator m_Animator;
     public DDOL godScript;
+    public GameObject optionsCanvas;
+    public HeadLock headLockScript;
 
     void Start()
     {
@@ -86,7 +88,19 @@ public class UIClicker : MonoBehaviour
 
     public void OpenOptions()
     {
-        Debug.Log("Options");
+        Debug.Log("Opening Options Menu");
+
+        optionsCanvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        headLockScript.inputEnabled = false;
+    }
+
+    public void CloseOptions()
+    {
+
+        optionsCanvas.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        headLockScript.inputEnabled = true;
     }
     public void QuitGame()
     {
