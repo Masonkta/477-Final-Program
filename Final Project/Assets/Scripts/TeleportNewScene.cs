@@ -24,6 +24,8 @@ public class TeleportNewScene : MonoBehaviour
 
     [SerializeField]
     private bool willTeleport;
+    GameObject MiniMapCamera;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,10 @@ public class TeleportNewScene : MonoBehaviour
         if (enterText) enterText.enabled = false;
         willTeleport = false;
         DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
+        //miniMapCamera = GameObject.Find("minimapCamera");
+        GameObject UI = GameObject.Find("Game UI");
+        GameObject MiniMap = UI.transform.Find("MiniMap").gameObject;
+        MiniMapCamera = MiniMap.GetComponent<miniMapScript>().miniMapCamera;
     }
 
     void Update() {
@@ -49,6 +55,7 @@ public class TeleportNewScene : MonoBehaviour
 
             if (nameOfBuilding == "Wiley")
             {
+                MiniMapCamera.SetActive(false);
                 if (DDOL)
                     DDOL.highestTaskAchieved = GameState.EXIT;
                 readyToTeleport = true;

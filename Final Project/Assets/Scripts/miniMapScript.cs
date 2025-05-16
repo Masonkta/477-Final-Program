@@ -7,7 +7,7 @@ public class miniMapScript : MonoBehaviour
 {
     Button mapButton;
     bool mapButtonClicked;
-    GameObject miniMapCamera;
+    public GameObject miniMapCamera;
     // Start is called before the first frame update
     void Start()
     {
