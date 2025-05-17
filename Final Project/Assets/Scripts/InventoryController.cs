@@ -115,8 +115,8 @@ public class InventoryController : MonoBehaviour
                         if (DDOL)
                             if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
                             {
-                                DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
                                 DDOL.awardPointsForTask();
+                                DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
                             }
                     }
                 }

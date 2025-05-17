@@ -26,6 +26,7 @@ public class DDOL : MonoBehaviour
     public int resets = 0;
     public int NPCVisits = 0;
     public float weightedTasksCompleted = 0;
+    public float taskWeightMult = 1f;
 
     [Header("City Scene Stuff")]
     public GameObject player;
@@ -66,12 +67,15 @@ public class DDOL : MonoBehaviour
 
         sensitivityMultiplier = Mathf.Clamp(sensitivityMultiplier, 0.3f, 3f);
         textReadSpeedMultiplier = Mathf.Clamp(textReadSpeedMultiplier, 0.5f, 5f);
-        
+
+        taskWeightMult -= Time.deltaTime / 30f;
+        taskWeightMult = Mathf.Clamp(taskWeightMult, 1f, 3f);
     }
 
     public void awardPointsForTask()
     {
-        weightedTasksCompleted += 1f;
+        weightedTasksCompleted += taskWeightMult;
+        taskWeightMult = 3f;
     }
 
     void calculateAndSubmitHighScore()

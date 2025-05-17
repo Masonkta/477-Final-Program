@@ -56,8 +56,10 @@ public class TeleportNewScene : MonoBehaviour
             if (nameOfBuilding == "Wiley")
             {
                 MiniMapCamera.SetActive(false);
-                if (DDOL)
+                if (DDOL){
+                    DDOL.awardPointsForTask();
                     DDOL.highestTaskAchieved = GameState.EXIT;
+                }
                 readyToTeleport = true;
 
             }

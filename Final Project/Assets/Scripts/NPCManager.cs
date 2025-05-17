@@ -427,7 +427,10 @@ public class NPCManager : MonoBehaviour
                 // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
                 if (DDOL)
                     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY)
+                    {
+                        DDOL.awardPointsForTask();
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_COLONEL; // NOW WE TALKED TO COLONEL
+                    }
 
                 typing = StartCoroutine(TypeText(dialogue, talkText));
                 yield return typing;
@@ -455,7 +458,10 @@ public class NPCManager : MonoBehaviour
         playerCamera.transform.position = talkCameraPos.transform.position;
         talkPanel.SetActive(true);
         if (DDOL)
+        {
+            DDOL.awardPointsForTask();
             DDOL.hasEverTalkedToFirstDoctorInStartScene = true;
+        }
 
         if (TimeManager.GetComponent<TimerScript>().hasTryedAtLeastOnce == true)
         {
@@ -700,10 +706,11 @@ public class NPCManager : MonoBehaviour
         {
             speakerText.text = "Human";
             dialogue = "What are you doing standing around here? Go find my note it's in my backyard. Don't make me regret this.";
-             // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
-                if (DDOL)
-                    if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
-                        DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+            // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+            // if (DDOL)
+            //     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
+            //         // DO NOT AWARD POINTS HERE
+            //         DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
             typing = StartCoroutine(TypeText(dialogue, talkText));
             yield return typing;
         }
@@ -768,10 +775,13 @@ public class NPCManager : MonoBehaviour
                 speakerText.text = "Human";
                 dialogue = "Good enough for me. I left some old notes of mine in my backyard. If you're really from the future you'll know where that is.";
 
-                 // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
-                    if (DDOL)
-                        if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
-                            DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+                // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
+                if (DDOL)
+                    if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
+                    {                
+                        DDOL.awardPointsForTask();
+                        DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+                    }
 
                 typing = StartCoroutine(TypeText(dialogue, talkText));
                 yield return typing;
