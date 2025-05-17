@@ -5106,6 +5106,8 @@ MonoBehaviour:
   totalPlayTime: 0
   resets: 0
   NPCVisits: 0
+  weightedTasksCompleted: 0
+  taskWeightMult: 1
   player: {fileID: 0}
 --- !u!4 &1205486286
 Transform:

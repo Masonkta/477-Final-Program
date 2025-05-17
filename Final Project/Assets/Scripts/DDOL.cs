@@ -19,7 +19,7 @@ public class DDOL : MonoBehaviour
 {   
     public GameState highestTaskAchieved;
     public float sensitivityMultiplier = 1f; // 0.3x - 3x
-    public float textReadSpeedMultiplier = 1f; // 1 - 5
+    public float textReadSpeedMultiplier = 2f; // 1 - 5
     public bool hasEverTalkedToFirstDoctorInStartScene;
     public float score = 1200f;
     public float totalPlayTime = 0f;
