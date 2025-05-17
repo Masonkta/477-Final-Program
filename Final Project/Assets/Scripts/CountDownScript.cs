@@ -42,7 +42,7 @@ public class CountDownScript : MonoBehaviour
         }
 
         DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
-
+        alienSusMeter = 0f;
     }
 
 
@@ -56,7 +56,7 @@ public class CountDownScript : MonoBehaviour
             SceneManager.LoadScene("StartScene");
         }
 
-        alienSusStuff();
+        if (Time.timeSinceLevelLoad > 2f) alienSusStuff();
 
 
 

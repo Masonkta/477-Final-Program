@@ -44,8 +44,7 @@ public class miniMapScript : MonoBehaviour
             if (DDOL.highestTaskAchieved == GameState.EXIT)
                 miniMapCamera.SetActive(false);
 
-        xOnMap.SetActive(DDOL.highestTaskAchieved == GameState.EXIT && miniMapCamera);
-            
+        if (DDOL) xOnMap.SetActive(DDOL.highestTaskAchieved == GameState.GRABBED_KEY && miniMapCamera.activeInHierarchy);
     }
 
     void toggleMap(){
