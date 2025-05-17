@@ -13,7 +13,7 @@ public class UIClicker : MonoBehaviour
     public DDOL godScript;
     public GameObject optionsCanvas;
     public HeadLock headLockScript;
-
+    private bool optionsOpen = false;
     void Start()
     {
         godScript = GameObject.Find("DDOL").GetComponent<DDOL>();
@@ -56,7 +56,16 @@ public class UIClicker : MonoBehaviour
             }
             currentlyHoveredButton = hoveredButton;
         }
-    }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (optionsOpen)
+            {
+                CloseOptions();
+            }
+        }
+
+}
 
     void SetButtonAlpha(Button button, float alpha)
     {
@@ -92,6 +101,7 @@ public class UIClicker : MonoBehaviour
 
         optionsCanvas.SetActive(true);
         headLockScript.inputEnabled = false;
+        optionsOpen = true;
     }
 
     public void CloseOptions()
@@ -99,6 +109,7 @@ public class UIClicker : MonoBehaviour
 
         optionsCanvas.SetActive(false);  
         headLockScript.inputEnabled = true;
+        optionsOpen = false;
     }
     public void QuitGame()
     {

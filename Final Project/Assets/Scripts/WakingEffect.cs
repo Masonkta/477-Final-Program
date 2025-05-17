@@ -10,8 +10,7 @@ public class WakingEffect : MonoBehaviour
     public AudioSource heartbeatAudio;
     public Volume postProcessVolume;
 
-    private float[] blinkDurations = { 0.6f, 0.8f }; 
-    private float fadeDuration = 0.3f;
+    private float[] blinkDurations = { 0.8f, 0.6f }; 
 
     private Vignette vignette;
     private DepthOfField dof;
@@ -55,39 +54,57 @@ public class WakingEffect : MonoBehaviour
 
     IEnumerator BlinkSequence()
     {
-        yield return new WaitForSeconds(1f); //initial pause before first blink
-                                             //heartbeatAudio.Play();
-        while (currentBlink < blinkDurations.Length)
-        {
-            yield return StartCoroutine(Fade(1, 0));
-            yield return new WaitForSeconds(blinkDurations[currentBlink]);
+        yield return new WaitForSeconds(1f); // initial pause before first blink
 
-            float t = (currentBlink + 1) / (float)blinkDurations.Length;
+        int totalBlinks = blinkDurations.Length;
+
+        while (currentBlink < totalBlinks)
+        {
+            float fadeOutDuration;
+            float blinkPause;
+            float fadeInDuration;
+
+            if (currentBlink == 0)
+            {
+           
+                fadeOutDuration = .5f;
+                blinkPause = 1.0f;
+                fadeInDuration = .5f;
+            }
+            else
+            {
+
+                fadeOutDuration = 0.3f;
+                blinkPause = 0.4f;
+                fadeInDuration = 0.3f;
+            }
+
+            yield return StartCoroutine(Fade(1, 0, fadeOutDuration));
+            yield return new WaitForSeconds(blinkPause);
+
+            float t = (currentBlink + 1) / (float)totalBlinks;
             float newXRotation = Mathf.Lerp(startXRotation, endXRotation, t);
             targetRotation = Quaternion.Euler(newXRotation, yRotation, 0f);
 
-            yield return StartCoroutine(Fade(0, 1));
-            yield return new WaitForSeconds(0.4f); // short pause between blinks
+            yield return StartCoroutine(Fade(0, 1, fadeInDuration));
+            yield return new WaitForSeconds(0.1f); // short pause between blinks
 
             currentBlink++;
         }
 
-        // Final fade in
-        yield return StartCoroutine(Fade(1, 0));
+        // Final fade in (in case you want to emphasize waking up fully)
+        yield return StartCoroutine(Fade(1, 0, 0.5f));
 
         targetRotation = Quaternion.Euler(endXRotation, yRotation, 0f);
-        yield return new WaitForSeconds(0.1f); // allow a few frames to smooth rotation
+        yield return new WaitForSeconds(0.1f); // allow smoothing
 
-        yield return StartCoroutine(Fade(1, 0));
         fadeImage.gameObject.SetActive(false);
-
-        //heartbeatAudio.Stop();
         uiclickerscript.enabled = true;
         headlockscript.enabled = true;
     }
 
 
-    IEnumerator Fade(float startAlpha, float endAlpha)
+    IEnumerator Fade(float startAlpha, float endAlpha, float duration)
     {
         float elapsed = 0f;
         Color color = fadeImage.color;
@@ -102,14 +119,10 @@ public class WakingEffect : MonoBehaviour
             endGaussianEnd = 100f;
         }
 
-        // Fade timing
-        float fadeTimeMultiplier = 1.0f;
-
-        while (elapsed < fadeDuration * fadeTimeMultiplier)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / (fadeDuration * fadeTimeMultiplier);
-            // Fade image alpha
+            float t = elapsed / duration;
             color.a = Mathf.Lerp(startAlpha, endAlpha, t);
             fadeImage.color = color;
             vignette.intensity.value = Mathf.Lerp(0.6f, 0f, t);
@@ -118,17 +131,13 @@ public class WakingEffect : MonoBehaviour
             yield return null;
         }
 
-        // Snap to final values
         color.a = endAlpha;
         fadeImage.color = color;
         vignette.intensity.value = endAlpha == 0 ? 0f : 0.6f;
         dof.gaussianStart.value = endGaussianStart;
         dof.gaussianEnd.value = endGaussianEnd;
 
-        // Disable DoF completely after final blink
         if (currentBlink >= blinkDurations.Length)
-        {
             dof.active = false;
-        }
     }
 }
