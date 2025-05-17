@@ -51,7 +51,7 @@ public class pauseInCityScene : MonoBehaviour
 
     void getInput()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Escape) && paused)
             timeEscapePressed += Time.deltaTime;
         else
         {
@@ -60,8 +60,9 @@ public class pauseInCityScene : MonoBehaviour
         }
         if (timeEscapePressed < 0f) timeEscapePressed = 0f;
 
-        if ((Input.GetKeyUp(KeyCode.Escape) && !readyToPause) || (timeEscapePressed > 0.02f && readyToPause))
+        if (Input.GetKeyUp(KeyCode.Escape))// && !readyToPause) || (timeEscapePressed > 0.02f && readyToPause))
         {
+            
             readyToPause = false;
             if (inventoryController.inventoryPanelStatus) // Only do this stuff if you press escape while only inventory is up
             {
