@@ -17,7 +17,7 @@ public class gameHandler : MonoBehaviour
         if (GameObject.Find("Game UI")){
             GameObject UI = GameObject.Find("Game UI");
             if (UI.transform.Find("Inventory Panel")){
-                Debug.Log("found panel");
+                // Debug.Log("found panel");
                 InventoryPanel = UI.transform.Find("Inventory Panel").gameObject;
             }
         }

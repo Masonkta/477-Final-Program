@@ -9,6 +9,7 @@ public class miniMapScript : MonoBehaviour
     bool mapButtonClicked;
     public GameObject miniMapCamera;
     public DDOL DDOL;
+    public GameObject xOnMap;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,7 @@ public class miniMapScript : MonoBehaviour
         miniMapCamera.SetActive(false);
 
         DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
+        print(gameObject.name);
     }
 
     // Update is called once per frame
@@ -41,6 +43,9 @@ public class miniMapScript : MonoBehaviour
         if (DDOL)
             if (DDOL.highestTaskAchieved == GameState.EXIT)
                 miniMapCamera.SetActive(false);
+
+        xOnMap.SetActive(DDOL.highestTaskAchieved == GameState.EXIT && miniMapCamera);
+            
     }
 
     void toggleMap(){

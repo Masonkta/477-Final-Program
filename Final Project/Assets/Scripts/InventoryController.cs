@@ -114,7 +114,10 @@ public class InventoryController : MonoBehaviour
                         // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
                         if (DDOL)
                             if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
+                            {
                                 DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
+                                DDOL.awardPointsForTask();
+                            }
                     }
                 }
                 else if (!objInRange)
@@ -206,7 +209,11 @@ public class InventoryController : MonoBehaviour
         {
             Player.GetComponent<playerMovement>().hasKey = true;
             if (DDOL)
+            {
+                DDOL.awardPointsForTask();
                 DDOL.highestTaskAchieved = GameState.GRABBED_KEY; // NOW WE GRABBED KEY AND ARE READY
+            }
+
         }
         for (int i = 0; i < inventoryBoxes.Count; i++){
             if (boxContents[i] == null){

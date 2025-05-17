@@ -51,7 +51,7 @@ public class CountDownScript : MonoBehaviour
         timeElapsed += Time.deltaTime;
         if (timeElapsed > timeLimit)
         {
-            print("SCENE LOAD");
+            // print("SCENE LOAD");
             DDOL.resets += 1;
             SceneManager.LoadScene("StartScene");
         }
