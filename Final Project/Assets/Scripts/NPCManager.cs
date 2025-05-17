@@ -337,6 +337,7 @@ public class NPCManager : MonoBehaviour
                 typing = StartCoroutine(TypeText(dialogue, talkText));
                 yield return typing;
                 //THIS HAS AROUSED SUSPICION
+                //DDOL.resets += 1;
                 GameHandler.GetComponent<CountDownScript>().captured = true;
             }
         }
@@ -446,6 +447,7 @@ public class NPCManager : MonoBehaviour
             String dialogue = "You don't look like a Colonel. I'm going to have to call this in.";
             typing = StartCoroutine(TypeText(dialogue, talkText));
             yield return typing;
+            //DDOL.resets += 1;
             GameHandler.GetComponent<CountDownScript>().captured = true;
         }
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
