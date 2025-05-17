@@ -51,7 +51,7 @@ public class pauseInCityScene : MonoBehaviour
 
     void getInput()
     {
-        if (Input.GetKey(KeyCode.Escape) && paused)
+        if (Input.GetKey(KeyCode.Escape) && optionsPanel.activeInHierarchy)
             timeEscapePressed += Time.deltaTime;
         else
         {

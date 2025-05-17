@@ -8,6 +8,7 @@ public class miniMapScript : MonoBehaviour
     Button mapButton;
     bool mapButtonClicked;
     public GameObject miniMapCamera;
+    public DDOL DDOL;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,20 +18,29 @@ public class miniMapScript : MonoBehaviour
         mapButton.onClick.AddListener(toggleMap);
         miniMapCamera = GameObject.Find("minimapCamera");
         miniMapCamera.SetActive(false);
+
+        DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M) || mapButtonClicked){
-            if (miniMapCamera.activeInHierarchy){
+        if (Input.GetKeyDown(KeyCode.M) || mapButtonClicked)
+        {
+            if (miniMapCamera.activeInHierarchy)
+            {
                 miniMapCamera.SetActive(false);
             }
-            else{
+            else
+            {
                 miniMapCamera.SetActive(true);
             }
             mapButtonClicked = false;
         }
+
+        if (DDOL)
+            if (DDOL.highestTaskAchieved == GameState.EXIT)
+                miniMapCamera.SetActive(false);
     }
 
     void toggleMap(){
