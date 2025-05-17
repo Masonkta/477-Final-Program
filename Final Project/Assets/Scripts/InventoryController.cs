@@ -177,8 +177,15 @@ public class InventoryController : MonoBehaviour
                 noteItself.SetActive(true);
             }
         }
-    } 
-    
+    }
+
+    public void CloseInventory()
+    {
+        InventoryPanel.SetActive(false);
+        inventoryPanelStatus = false;
+        ToggleCursor();
+    }
+
     void ToggleCursor()
     {
         if (Cursor.lockState == CursorLockMode.Locked)

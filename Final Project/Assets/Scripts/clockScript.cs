@@ -10,6 +10,7 @@ public class clockScript : MonoBehaviour
     public GameObject playerCamera;
     public playerMovement playerMovement;
     public GameObject helpTextForClock;
+    public GameObject digitalClockAid;
     public GameObject hintForClock;
     public GameObject clockCamera;
 
@@ -29,6 +30,7 @@ public class clockScript : MonoBehaviour
     public Transform s4;
     public Transform m4;
     public Transform h4;
+    public CountDownScript CDScript;
 
     void Start()
     {
@@ -49,11 +51,23 @@ public class clockScript : MonoBehaviour
             if (Input.GetMouseButton(1)){
                 helpTextForClock.SetActive(false);
                 hintForClock.SetActive(true);
+                digitalClockAid.SetActive(true);
+
+                // Set text on digital time
+                float timeLeft = CDScript.timeLimit - CDScript.timeElapsed;
+                timeLeft = Mathf.Clamp(timeLeft, 0f, CDScript.timeLimit);
+                int minutes = Mathf.FloorToInt(timeLeft / 60f);
+                int seconds = Mathf.FloorToInt(timeLeft % 60f);
+                string formattedTime = string.Format("{0:00}:{1:00}", minutes, seconds);
+                digitalClockAid.GetComponent<TextMeshProUGUI>().text = formattedTime;
+
                 playerCamera.SetActive(false);
                 clockCamera.SetActive(true);
             }
             else{
                 hintForClock.SetActive(false);
+                digitalClockAid.SetActive(false);
+
                 playerCamera.SetActive(true);
                 clockCamera.SetActive(false);
             }
