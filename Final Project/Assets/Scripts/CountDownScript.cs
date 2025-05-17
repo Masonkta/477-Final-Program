@@ -56,7 +56,7 @@ public class CountDownScript : MonoBehaviour
             SceneManager.LoadScene("StartScene");
         }
 
-        if (Time.timeSinceLevelLoad > 2f) alienSusStuff();
+        alienSusStuff();
 
 
 
@@ -81,9 +81,9 @@ public class CountDownScript : MonoBehaviour
         }
 
         if (anyAreSus)
-            alienSusMeter += Time.deltaTime / 5f;
+            alienSusMeter += Time.deltaTime / 7f;
         else
-            alienSusMeter -= Time.deltaTime / 10f;
+            alienSusMeter -= Time.deltaTime / 25f;
         alienSusMeter = Mathf.Clamp(alienSusMeter, 0f, 1.1f);
 
         float susBarScale = Map(alienSusMeter, 0f, 1f, 0f, 11.6f); susBarScale = Mathf.Clamp(susBarScale, 0f, 11.6f);
