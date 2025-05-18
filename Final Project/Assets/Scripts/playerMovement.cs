@@ -19,6 +19,7 @@ public class playerMovement : MonoBehaviour
     public float runSpeed = 18f;
     float moveSpeed;
     public float actualMoveSpeed;
+    public float relativeSpeed;
     Vector3 movement;
     public Vector3 playerVelocity;
     public float groundCheckDistance = 1.08f;
@@ -118,9 +119,13 @@ public class playerMovement : MonoBehaviour
         movement = forwardTransform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")));
         if (movement.magnitude == 0) moveSpeed = 0f;
 
-        actualMoveSpeed += (moveSpeed - actualMoveSpeed) / 50f;
+        float smoothFactor = moveSpeed > 0f ? 2f : 5f; // Adjust this value to control the smoothing speed
+        actualMoveSpeed += (moveSpeed - actualMoveSpeed) * (1 - Mathf.Exp(-smoothFactor * Time.deltaTime));
+
         playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
-        playerAnimator.speed = Map(actualMoveSpeed / runSpeed, 0f, 1f, 3f, 1.2f);
+        relativeSpeed = actualMoveSpeed / runSpeed;
+        playerAnimator.speed = relativeSpeed >= 0.235f ? (1.3f/(6.6f*relativeSpeed-0.6f)+1.3f) : (-(1.1f / (0.5f * relativeSpeed + 0.3f)) + 5.3f);
+        print(relativeSpeed > 0.235f ? (1.3f / (6.6f * relativeSpeed - 0.6f) + 1.3f) : -(1.1f / (0.5f * relativeSpeed + 0.3f) + 5.3f));
         // playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
 
         if (canMove)
