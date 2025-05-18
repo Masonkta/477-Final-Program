@@ -32,8 +32,10 @@ public class TalkScript : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (Player){
-            if (other.transform.name.StartsWith("Alien Player") && spoke == false){
-                if (pickUpText.text == ""){
+            if (other.transform.name.StartsWith("Alien Player") && spoke == false)
+            {
+                if (pickUpText.text == "")
+                {
                     helpText.text = "Press T to talk";
                 }
                 Debug.Log(Player.transform.name);
@@ -60,6 +62,10 @@ public class TalkScript : MonoBehaviour
         if (other.transform.name.StartsWith("Alien Player"))
         {
             helpText.text = "";
+            if (GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().Stop();
+            }
         }
     }
 }

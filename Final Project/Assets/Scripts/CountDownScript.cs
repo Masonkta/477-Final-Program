@@ -55,6 +55,10 @@ public class CountDownScript : MonoBehaviour
             DDOL.resets += 1;
             SceneManager.LoadScene("StartScene");
         }
+        if (timeElapsed > (timeLimit - 30f) && !transform.Find("Chime").GetComponent<AudioSource>().isPlaying)
+        {
+            transform.Find("Chime").GetComponent<AudioSource>().Play();
+        }
 
         alienSusStuff();
 

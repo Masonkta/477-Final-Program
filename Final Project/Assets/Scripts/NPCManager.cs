@@ -99,6 +99,24 @@ public class NPCManager : MonoBehaviour
     {
         float speed = (transform.position - lastPosition).magnitude / Time.deltaTime;
 
+        if (speed > 0.01f && !GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().Play();
+        }
+        else if (!(speed > 0.01f) && GetComponent<AudioSource>().isPlaying)
+        {
+            GetComponent<AudioSource>().Stop();
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            GetComponent<AudioSource>().pitch = 1.4f;
+        }
+        else
+        {
+            GetComponent<AudioSource>().pitch = 0.5f;
+        }
+
         //toggling the cursor based on whether or not the talk panel is active
         if (talkPanel.activeInHierarchy != talkPanelStatus)
         {
@@ -136,6 +154,10 @@ public class NPCManager : MonoBehaviour
             NPCChest.y = Player.transform.position.y;
             Player.transform.LookAt(NPCChest);
             StartCoroutine(leaveDelay());
+            if (!talkingTo.GetComponent<AudioSource>().isPlaying)
+            {
+                talkingTo.GetComponent<AudioSource>().Play();
+            }
 
             talkingTo.GetComponent<TalkScript>().spoke = true;
             if (talkingTo.transform.name == "NPC Doctor")
@@ -190,6 +212,10 @@ public class NPCManager : MonoBehaviour
         freezeCamera = false;
         talkingTo.GetComponent<TalkScript>().spoke = false;
         buttonSelection = "";
+        if (talkingTo.GetComponent<AudioSource>().isPlaying)
+        {
+            talkingTo.GetComponent<AudioSource>().Stop();
+        }
         if (typing != null)
         {
             StopCoroutine(typing);
@@ -338,6 +364,7 @@ public class NPCManager : MonoBehaviour
                 yield return typing;
                 //THIS HAS AROUSED SUSPICION
                 //DDOL.resets += 1;
+                GameHandler.transform.Find("Alarm").GetComponent<AudioSource>().Play();
                 GameHandler.GetComponent<CountDownScript>().captured = true;
             }
         }
@@ -448,6 +475,7 @@ public class NPCManager : MonoBehaviour
             typing = StartCoroutine(TypeText(dialogue, talkText));
             yield return typing;
             //DDOL.resets += 1;
+            GameHandler.transform.Find("Alarm").GetComponent<AudioSource>().Play();
             GameHandler.GetComponent<CountDownScript>().captured = true;
         }
         talkingTo.GetComponent<TalkScript>().hasBeenSpokenTo = true;
