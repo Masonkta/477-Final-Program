@@ -83,6 +83,7 @@ public class UIClicker : MonoBehaviour
     {
         if (godScript.highestTaskAchieved == GameState.WOKE_UP)
             godScript.highestTaskAchieved = GameState.ENTERED_CITY;
+            godScript.currentState = GameState.ENTERED_CITY;
 
         Debug.Log("START");
         StartCoroutine(PlaySaluteAndLoadScene());

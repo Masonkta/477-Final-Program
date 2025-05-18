@@ -117,6 +117,7 @@ public class InventoryController : MonoBehaviour
                             {
                                 DDOL.awardPointsForTask();
                                 DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
+                                DDOL.currentState = GameState.GRABBED_NOTE;
                             }
                     }
                 }
@@ -212,6 +213,8 @@ public class InventoryController : MonoBehaviour
             {
                 DDOL.awardPointsForTask();
                 DDOL.highestTaskAchieved = GameState.GRABBED_KEY; // NOW WE GRABBED KEY AND ARE READY
+                DDOL.currentState = GameState.GRABBED_KEY;
+
             }
 
         }

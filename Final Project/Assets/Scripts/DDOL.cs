@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using HighScore;
 using System;
+using Unity.VisualScripting;
 
 public enum GameState
 {
@@ -17,7 +18,7 @@ public enum GameState
 }
 
 public class DDOL : MonoBehaviour
-{   
+{
     public GameState highestTaskAchieved;
     public float sensitivityMultiplier = 1f; // 0.3x - 3x
     public float textReadSpeedMultiplier = 2f; // 1 - 5
@@ -33,6 +34,9 @@ public class DDOL : MonoBehaviour
     public GameObject player;
     public bool countTime = true;
     private static DDOL instance;
+    public GameState previousState;
+    public GameState currentState;
+    public AudioClip onChangeClip;
 
     // ADD CLOCK LOGIC
 
@@ -72,6 +76,13 @@ public class DDOL : MonoBehaviour
 
         taskWeightMult -= Time.deltaTime / 30f;
         taskWeightMult = Mathf.Clamp(taskWeightMult, 1f, 3f);
+
+        if (currentState != previousState)
+        {
+            OnStateChanged();
+            previousState = currentState;
+        }
+
     }
 
     public void awardPointsForTask()
@@ -85,7 +96,7 @@ public class DDOL : MonoBehaviour
         countTime = false;
         if (weightedTasksCompleted > 16f) weightedTasksCompleted = 16f;
         score = 6800f - totalPlayTime - 700f * resets - 100f * (NPCVisits - 3) + weightedTasksCompleted * 200f;
-        
+
         if (score < 0f) score = 0f;
     }
 
@@ -104,6 +115,15 @@ public class DDOL : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnStateChanged()
+    {
+        // Play sound on state change
+        if (onChangeClip != null && GetComponent<AudioSource>() != null)
+        {
+            GetComponent<AudioSource>().PlayOneShot(onChangeClip);
+        }
     }
 
 }

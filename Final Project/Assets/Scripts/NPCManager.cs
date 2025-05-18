@@ -153,6 +153,7 @@ public class NPCManager : MonoBehaviour
             Vector3 NPCChest = talkingTo.transform.parent.position;
             NPCChest.y = Player.transform.position.y;
             Player.transform.LookAt(NPCChest);
+            DDOL.NPCVisits += 1;
             StartCoroutine(leaveDelay());
             if (!talkingTo.GetComponent<AudioSource>().isPlaying)
             {
@@ -458,6 +459,7 @@ public class NPCManager : MonoBehaviour
                     {
                         DDOL.awardPointsForTask();
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_COLONEL; // NOW WE TALKED TO COLONEL
+                        DDOL.currentState = GameState.TALKED_TO_COLONEL;
                     }
 
                 typing = StartCoroutine(TypeText(dialogue, talkText));
@@ -808,9 +810,10 @@ public class NPCManager : MonoBehaviour
                 // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
                 if (DDOL)
                     if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY || DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
-                    {                
+                    {
                         DDOL.awardPointsForTask();
                         DDOL.highestTaskAchieved = GameState.TALKED_TO_NPC; // NOW WE TALKED TO NPC
+                        DDOL.currentState = GameState.TALKED_TO_NPC;
                     }
 
                 typing = StartCoroutine(TypeText(dialogue, talkText));
