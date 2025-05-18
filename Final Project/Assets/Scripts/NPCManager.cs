@@ -365,6 +365,7 @@ public class NPCManager : MonoBehaviour
                 yield return typing;
                 //THIS HAS AROUSED SUSPICION
                 //DDOL.resets += 1;
+                GameHandler.GetComponent<CountDownScript>().alienSusMeter = 1f;
                 GameHandler.transform.Find("Alarm").GetComponent<AudioSource>().Play();
                 GameHandler.GetComponent<CountDownScript>().captured = true;
             }
@@ -477,6 +478,7 @@ public class NPCManager : MonoBehaviour
             typing = StartCoroutine(TypeText(dialogue, talkText));
             yield return typing;
             //DDOL.resets += 1;
+            GameHandler.GetComponent<CountDownScript>().alienSusMeter = 1f;
             GameHandler.transform.Find("Alarm").GetComponent<AudioSource>().Play();
             GameHandler.GetComponent<CountDownScript>().captured = true;
         }

@@ -115,6 +115,7 @@ public class CountDownScript : MonoBehaviour
         if (captured)
         {
             playerMovement.canMove = false;
+            alienSusMeter = 1f;
 
             if (blackFadeOut.color.a < 0.97f)
             {
@@ -124,7 +125,7 @@ public class CountDownScript : MonoBehaviour
             }
             else
             {
-                
+
                 DDOL.resets += 1;
                 SceneManager.LoadScene("StartScene");
             }
