@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using HighScore;
+using System;
 
 public enum GameState
 {
@@ -30,7 +31,7 @@ public class DDOL : MonoBehaviour
 
     [Header("City Scene Stuff")]
     public GameObject player;
-
+    public bool countTime = true;
     private static DDOL instance;
 
     // ADD CLOCK LOGIC
@@ -38,6 +39,7 @@ public class DDOL : MonoBehaviour
 
     private void Awake()
     {
+        countTime = true;
         if (instance != null && instance != this)
         {
             Destroy(gameObject); // Destroy duplicate
@@ -57,13 +59,13 @@ public class DDOL : MonoBehaviour
         if (scene.name == "City Scene")
             player = GameObject.Find("Alien Player");
         if (scene.name == "Victory Screen")
-            calculateAndSubmitHighScore();
+            calculateHighScore();
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalPlayTime += Time.deltaTime;
+        if (countTime) totalPlayTime += Time.deltaTime;
 
         sensitivityMultiplier = Mathf.Clamp(sensitivityMultiplier, 0.3f, 3f);
         textReadSpeedMultiplier = Mathf.Clamp(textReadSpeedMultiplier, 0.5f, 5f);
@@ -78,14 +80,19 @@ public class DDOL : MonoBehaviour
         taskWeightMult = 3f;
     }
 
-    void calculateAndSubmitHighScore()
+    void calculateHighScore()
     {
+        countTime = false;
         score = 1200 - totalPlayTime - 100 * resets - 20 * (NPCVisits - 3);
-
+        
         if (score < 0f) score = 0f;
+    }
+
+    public void submitHighScore(string name)
+    {
         // Submit this score to cherry's site
-        print(score);
-        HS.SubmitHighScore(this, "Carl", (int)score);
+        print(name + " got a score of " + (int)score);
+        HS.SubmitHighScore(this, name, (int)score);
     }
 
     private void OnEnable()
