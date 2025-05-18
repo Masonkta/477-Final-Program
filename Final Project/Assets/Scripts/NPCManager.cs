@@ -489,7 +489,7 @@ public class NPCManager : MonoBehaviour
         talkPanel.SetActive(true);
         if (DDOL)
         {
-            DDOL.awardPointsForTask();
+            if (!DDOL.hasEverTalkedToFirstDoctorInStartScene) DDOL.awardPointsForTask();
             DDOL.hasEverTalkedToFirstDoctorInStartScene = true;
         }
 

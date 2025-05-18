@@ -68,8 +68,9 @@ public class lastSceneCanvasController : MonoBehaviour
     {
         DDOL.submitHighScore(playerInputName);
         confirmationText.gameObject.SetActive(true);
-        confirmationText.text = "Successfully submitted score of " + (int)DDOL.score + " by \"" + playerInputName + "\"";
-        nameTypeBox.SetActive(false);
+        confirmationText.text = "Successfully submitted score of " + (int)DDOL.score + " by \"" + playerInputName + "\".";
+        nameEnterArea.gameObject.SetActive(false);
+        submitBtn.gameObject.SetActive(false);
     }
 
     void handleFadeIn()

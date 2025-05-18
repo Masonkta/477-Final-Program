@@ -83,7 +83,8 @@ public class DDOL : MonoBehaviour
     void calculateHighScore()
     {
         countTime = false;
-        score = 1200 - totalPlayTime - 100 * resets - 20 * (NPCVisits - 3);
+        if (weightedTasksCompleted > 16f) weightedTasksCompleted = 16f;
+        score = 6800f - totalPlayTime - 700f * resets - 100f * (NPCVisits - 3) + weightedTasksCompleted * 200f;
         
         if (score < 0f) score = 0f;
     }
