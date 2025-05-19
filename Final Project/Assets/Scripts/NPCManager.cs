@@ -421,7 +421,7 @@ public class NPCManager : MonoBehaviour
         twoOptionPanel.SetActive(true);
         speakerText.text = "You";
         twoOptionOneText.text = "I am a private.";
-        twoOptionTwoText.text = "I am your Colnel. How dare you question me!";
+        twoOptionTwoText.text = "I am your Colonel. How dare you question me!";
         while (buttonSelection == "")
         {
             yield return null; // wait for next frame
