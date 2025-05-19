@@ -15,6 +15,8 @@ public class UIClicker : MonoBehaviour
     public HeadLock headLockScript;
     private bool optionsOpen = false;
     public Vector3 lookTarget;
+    public ElectricityScreenEffect screenEffect;
+    public GameObject electricityParticles;
 
     void Start()
     {
@@ -107,8 +109,10 @@ public class UIClicker : MonoBehaviour
         // Play salute animation
         if (m_Animator != null)
             m_Animator.SetTrigger("Salute");
+        electricityParticles.SetActive(true);
+        screenEffect.StartEffect();
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
 
         // Load city scene
         SceneManager.LoadScene("City Scene");
