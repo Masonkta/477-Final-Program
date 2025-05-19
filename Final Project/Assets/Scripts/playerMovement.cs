@@ -125,7 +125,7 @@ public class playerMovement : MonoBehaviour
         playerAnimator.SetFloat("Speed", actualMoveSpeed / runSpeed);
         relativeSpeed = actualMoveSpeed / runSpeed;
         playerAnimator.speed = relativeSpeed >= 0.235f ? (1.3f/(6.6f*relativeSpeed-0.6f)+1.3f) : (-(1.1f / (0.5f * relativeSpeed + 0.3f)) + 5.3f);
-        print(relativeSpeed > 0.235f ? (1.3f / (6.6f * relativeSpeed - 0.6f) + 1.3f) : -(1.1f / (0.5f * relativeSpeed + 0.3f) + 5.3f));
+        // print(relativeSpeed > 0.235f ? (1.3f / (6.6f * relativeSpeed - 0.6f) + 1.3f) : -(1.1f / (0.5f * relativeSpeed + 0.3f) + 5.3f));
         // playerAnimator.speed = 1.5f / (8.9f * actualMoveSpeed / runSpeed + 0.9f) + 1.3f;
 
         if (canMove)

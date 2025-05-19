@@ -4458,6 +4458,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3269777817147129556, guid: 2518603d14b587149905aae26c52049b, type: 3}
+      propertyPath: xSens
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269777817147129556, guid: 2518603d14b587149905aae26c52049b, type: 3}
+      propertyPath: ySens
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269777817147129556, guid: 2518603d14b587149905aae26c52049b, type: 3}
+      propertyPath: runSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269777817147129556, guid: 2518603d14b587149905aae26c52049b, type: 3}
       propertyPath: walkSpeed
       value: 3
       objectReference: {fileID: 0}
