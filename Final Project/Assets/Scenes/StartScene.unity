@@ -7490,7 +7490,7 @@ MonoBehaviour:
   previousState: 0
   currentState: 0
   onChangeClip: {fileID: 8300000, guid: cd8d539a1915ebf4096f3f9aa8f7e29e, type: 3}
-  startButton: {fileID: 0}
+  startButton: {fileID: 3116598798994744668}
 --- !u!4 &1205486286
 Transform:
   m_ObjectHideFlags: 0
@@ -20185,7 +20185,7 @@ MonoBehaviour:
   GameHandler: {fileID: 594089801}
   ChairCanvas: {fileID: 2020199892}
   player2Model: {fileID: 1738118052}
-  startButton: {fileID: 0}
+  startButton: {fileID: 3116598798994744668}
   zoomDuration: 1
   rotationDuration: 1
   loweringDuration: 1
