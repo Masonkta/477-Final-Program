@@ -37,6 +37,7 @@ public class DDOL : MonoBehaviour
     public GameState previousState;
     public GameState currentState;
     public AudioClip onChangeClip;
+    public GameObject startButton;
 
     // ADD CLOCK LOGIC
 
@@ -56,8 +57,11 @@ public class DDOL : MonoBehaviour
         HS.Init(this, "Final Directive");
     }
 
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void Start()
+    {
+            startButton.SetActive(false);
+    }
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Scene loaded: " + scene.name + ", Mode: " + mode);
         if (scene.name == "City Scene")

@@ -12,7 +12,8 @@ public class PlayerSitDown : MonoBehaviour
     public GameObject CursorCanvas;
     public GameObject GameHandler;
     public GameObject ChairCanvas;
-    public GameObject player2Model;  
+    public GameObject player2Model;
+    public GameObject startButton;
 
     public float zoomDuration = 2.5f;
     public float rotationDuration = 2f;
@@ -128,6 +129,7 @@ public class PlayerSitDown : MonoBehaviour
 
         CursorCanvas.SetActive(true);
         UiEventSystem.SetActive(true);
+        startButton.SetActive(true);
 
         playerController.transform.position = player2OriginalPosition;
         playerController.transform.rotation = player2OriginalRotation;

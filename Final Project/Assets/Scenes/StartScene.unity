@@ -5882,6 +5882,7 @@ MonoBehaviour:
   godScript: {fileID: 1205486285}
   optionsCanvas: {fileID: 1217415646}
   headLockScript: {fileID: 985568419}
+  lookTarget: {x: 0, y: 0, z: 0}
 --- !u!114 &985568421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7489,6 +7490,7 @@ MonoBehaviour:
   previousState: 0
   currentState: 0
   onChangeClip: {fileID: 8300000, guid: cd8d539a1915ebf4096f3f9aa8f7e29e, type: 3}
+  startButton: {fileID: 0}
 --- !u!4 &1205486286
 Transform:
   m_ObjectHideFlags: 0
@@ -15986,7 +15988,7 @@ GameObject:
   - component: {fileID: 384909357399762175}
   - component: {fileID: 5943808411887417557}
   m_Layer: 0
-  m_Name: Button
+  m_Name: Start Button
   m_TagString: UIButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18073,7 +18075,7 @@ GameObject:
   - component: {fileID: 5716276230713758932}
   - component: {fileID: 5847247428067814091}
   m_Layer: 0
-  m_Name: Button (1)
+  m_Name: Options Button
   m_TagString: UIButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20183,6 +20185,7 @@ MonoBehaviour:
   GameHandler: {fileID: 594089801}
   ChairCanvas: {fileID: 2020199892}
   player2Model: {fileID: 1738118052}
+  startButton: {fileID: 0}
   zoomDuration: 1
   rotationDuration: 1
   loweringDuration: 1
