@@ -3440,7 +3440,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &442140855
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5973,6 +5973,9 @@ MonoBehaviour:
   lookTarget: {x: 0, y: 0, z: 0}
   screenEffect: {fileID: 442140856}
   electricityParticles: {fileID: 2019663916}
+  fadeOverlay: {fileID: 1309301767}
+  AudioSource: {fileID: 511649527}
+  SoundClip: {fileID: 8300000, guid: 6da10df4933eb444489d30c934db5ccd, type: 3}
 --- !u!114 &985568421
 MonoBehaviour:
   m_ObjectHideFlags: 0

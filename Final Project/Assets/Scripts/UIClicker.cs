@@ -17,6 +17,9 @@ public class UIClicker : MonoBehaviour
     public Vector3 lookTarget;
     public ElectricityScreenEffect screenEffect;
     public GameObject electricityParticles;
+    public Image fadeOverlay;
+    public AudioSource AudioSource;
+    public AudioClip SoundClip;
 
     void Start()
     {
@@ -109,10 +112,19 @@ public class UIClicker : MonoBehaviour
         // Play salute animation
         if (m_Animator != null)
             m_Animator.SetTrigger("Salute");
+
+        AudioSource.clip = SoundClip;
+        AudioSource.volume = 0.7f;
+        AudioSource.Play();
         electricityParticles.SetActive(true);
         screenEffect.StartEffect();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f); 
+
+        yield return StartCoroutine(TiltCameraDown(playerCamera.transform, 70f, 2f));
+
+
+        yield return StartCoroutine(FadeToBlack(2f));
 
         // Load city scene
         SceneManager.LoadScene("City Scene");
@@ -132,6 +144,44 @@ public class UIClicker : MonoBehaviour
         }
 
         cameraTransform.rotation = targetRot; // Snap to final rotation
+    }
+
+  
+
+    private IEnumerator FadeToBlack(float duration)
+    {
+        Color c = fadeOverlay.color;
+        float startAlpha = 0f;
+        float endAlpha = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            c.a = Mathf.Lerp(startAlpha, endAlpha, elapsed / duration);
+            fadeOverlay.color = c;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        c.a = endAlpha;
+        fadeOverlay.color = c;
+    }
+
+
+    private IEnumerator TiltCameraDown(Transform cam, float angle, float duration)
+    {
+        Quaternion startRot = cam.rotation;
+        Quaternion endRot = Quaternion.Euler(cam.eulerAngles.x + angle, cam.eulerAngles.y, cam.eulerAngles.z);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            cam.rotation = Quaternion.Slerp(startRot, endRot, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cam.rotation = endRot;
     }
 
 
