@@ -689,6 +689,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 10c7f1185d06f1645ae2690811d2ea4d, type: 2}
+    - target: {fileID: -4683669308469848369, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8b5068e7175f90b43828f9c956243277, type: 2}
+    - target: {fileID: -3195828791156449804, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1aebc030079e8f848b82bfda57ba1a0e, type: 2}
     - target: {fileID: -2093772787462966335, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -729,6 +737,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 30a8705f4ae3f5a4faa28456e61e29d0, type: 2}
+    - target: {fileID: -1120989108687609925, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10c7f1185d06f1645ae2690811d2ea4d, type: 2}
     - target: {fileID: 919132149155446097, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
       propertyPath: m_Name
       value: Room
@@ -757,6 +769,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -8.886
       objectReference: {fileID: 0}
+    - target: {fileID: 4321514657177891973, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 10c7f1185d06f1645ae2690811d2ea4d, type: 2}
     - target: {fileID: 4865064391339405807, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.6913452
@@ -785,6 +801,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 210f7ad00841b814386dc60fe9bb52a7, type: 2}
+    - target: {fileID: 8567717000986892130, guid: a00259c52bf0879489cb42d32138d8b5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1aebc030079e8f848b82bfda57ba1a0e, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
