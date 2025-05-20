@@ -101,47 +101,50 @@ public class InventoryController : MonoBehaviour
         //the player is not holding anything
         else
         {
-            //determines if the player can and should grab the object
             GameObject[] collectable = GameObject.FindGameObjectsWithTag("Collectable");
+            GameObject closest = null;
+            float minDist = grabDistance;
+
             foreach (GameObject obj in collectable)
             {
-                float distance = (Player.transform.position - obj.transform.position).magnitude;
-                //Debug.Log(obj.transform.name);
-                //Debug.Log(distance);
-                //Debug.Log(grabDistance);
-                //Debug.Log(obj.transform.name);
-                if (distance < grabDistance)
+                float distance = Vector3.Distance(Player.transform.position, obj.transform.position);
+                if (distance < minDist)
                 {
-                    objInRange = true;
-                    pickUpText.text = "Press E to collect " + obj.transform.name;
-                    if (Input.GetKeyDown(KeyCode.E) && !obj.name.StartsWith("note"))
+                    closest = obj;
+                    minDist = distance;
+                }
+            }
+
+            if (closest != null)
+            {
+                objInRange = true;
+                pickUpText.text = "Press E to collect " + closest.transform.name;
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!closest.name.StartsWith("note"))
                     {
-                        PickUpObject(obj);
+                        PickUpObject(closest);
                     }
-                    else if (Input.GetKeyDown(KeyCode.E) && obj.name.StartsWith("note"))
+                    else
                     {
-                        // Debug.Log("pressed E while near note");
-                        // grabObject(obj);
-                        PickUpObject(obj);
-                        // Debug.Log("the obj was a note and called grabObject");
+                        PickUpObject(closest);
                         noteGrabbed = true;
                         timeOfNoteGrabbed = Time.time;
                         noteItself.SetActive(true);
 
-                        // THIS IS WHEN WE SWITCH STATES TO VISIT PARKING GARAGE
-                        if (DDOL)
-                            if (DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
-                            {
-                                DDOL.awardPointsForTask();
-                                DDOL.highestTaskAchieved = GameState.GRABBED_NOTE; // NOW WE GRABBED NOTE
-                                DDOL.currentState = GameState.GRABBED_NOTE;
-                            }
+                        if (DDOL && DDOL.highestTaskAchieved != GameState.GRABBED_KEY)
+                        {
+                            DDOL.awardPointsForTask();
+                            DDOL.highestTaskAchieved = GameState.GRABBED_NOTE;
+                            DDOL.currentState = GameState.GRABBED_NOTE;
+                        }
                     }
                 }
-                else if (!objInRange)
-                {
-                    pickUpText.text = "";
-                }
+            }
+            else
+            {
+                pickUpText.text = "";
             }
         }
         objInRange = false;
