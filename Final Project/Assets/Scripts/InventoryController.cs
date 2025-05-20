@@ -7,12 +7,13 @@ using UnityEngine.UI;
 
 public class InventoryController : MonoBehaviour
 {
-    public bool inventoryPanelStatus = false; 
+    public bool inventoryPanelStatus = false;
     public GameObject InventoryPanel;
     GameObject Player;
+    public playerMovement playerMovement;
     public float grabDistance = 5f;
-    List<GameObject> inventoryBoxes = new List<GameObject>{null, null, null, null, null, null, null, null, null, null};
-    List<GameObject> boxContents = new List<GameObject>{null, null, null, null, null, null, null, null, null, null};    
+    List<GameObject> inventoryBoxes = new List<GameObject> { null, null, null, null, null, null, null, null, null, null };
+    List<GameObject> boxContents = new List<GameObject> { null, null, null, null, null, null, null, null, null, null };
     TextMeshProUGUI pickUpText;
     GameObject hand;
     GameObject Collectables;
@@ -34,6 +35,7 @@ public class InventoryController : MonoBehaviour
         InventoryButton = UI.transform.Find("Inventory Button").GetComponent<Button>();
         InventoryButton.onClick.AddListener(toggleInventory);
         Player = GameObject.Find("Alien Player");
+        playerMovement = Player.GetComponent<playerMovement>();
         hand = Player.transform.Find("Hand").gameObject;
         GameObject Panel = UI.transform.Find("Panel").gameObject;
         Transform textTransform = Panel.transform.Find("PickUpText");
@@ -76,8 +78,17 @@ public class InventoryController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.E))
             {
                 //put the object in inventory
-                grabObject(hand.transform.GetChild(0).gameObject);
+                if (!InventoryIsFull())
+                {
+                    grabObject(hand.transform.GetChild(0).gameObject);
+                }
+                else
+                {
+                    pickUpText.text = "Inventory is full!";
+                }
             }
+
+            // immediately grab key 
             if (hand.transform.GetChild(0).name == "key")
                 grabObject(hand.transform.GetChild(0).gameObject);
         }
@@ -132,21 +143,24 @@ public class InventoryController : MonoBehaviour
         {
             noteItself.SetActive(false);
             Debug.Log(hand.transform.GetChild(0).name);
-            grabObject(hand.transform.GetChild(0).gameObject); 
+            grabObject(hand.transform.GetChild(0).gameObject);
         }
-                  
-    }   
 
-    void toggleInventory(){
+    }
+
+    void toggleInventory()
+    {
         inventoryButtonClicked = true;
-    }  
+    }
 
-    void inventoryBoxClicked(int num){
+    void inventoryBoxClicked(int num)
+    {
         Debug.Log("Box # " + num + " clicked");
 
         //puts the selected object in your "hand"
         Debug.Log(hand.transform.transform.childCount);
-        if (boxContents[num] != null){
+        if (boxContents[num] != null)
+        {
             if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note")
             {
                 boxContents[num].SetActive(true);
@@ -204,7 +218,8 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    void grabObject(GameObject obj){
+    void grabObject(GameObject obj)
+    {
         //find the next inventory box to put the item in
         if (obj.transform.name == "key")
         {
@@ -218,8 +233,10 @@ public class InventoryController : MonoBehaviour
             }
 
         }
-        for (int i = 0; i < inventoryBoxes.Count; i++){
-            if (boxContents[i] == null){
+        for (int i = 0; i < inventoryBoxes.Count; i++)
+        {
+            if (boxContents[i] == null)
+            {
                 boxContents[i] = obj;
                 TextMeshProUGUI boxText = inventoryBoxes[i].transform.Find("Text (TMP)").GetComponent<TextMeshProUGUI>();
                 boxText.text = boxContents[i].transform.name;
@@ -236,23 +253,38 @@ public class InventoryController : MonoBehaviour
         //}
     }
 
-    void DropObject(){
+    void DropObject()
+    {
         // notes cannot be dropped - maybe a UI statement that says "cant drop this item"
-        if (hand.transform.GetChild(0).name != "note") {
+        if (hand.transform.GetChild(0).name != "note")
+        {
             hand.transform.GetChild(0).tag = "Collectable";
             hand.transform.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
             hand.transform.GetChild(0).SetParent(Collectables.transform);
-        } else {
+        }
+        else
+        {
             Debug.Log("cant drop notes my dude");
         }
     }
 
-    void PickUpObject(GameObject obj){
-        if (hand.transform.childCount == 0){
+    void PickUpObject(GameObject obj)
+    {
+        if (hand.transform.childCount == 0)
+        {
             obj.transform.position = hand.transform.position;
             obj.transform.SetParent(hand.transform);
             obj.GetComponent<Rigidbody>().isKinematic = true;
             obj.tag = "Untagged";
         }
     }   
+    
+    bool InventoryIsFull()
+    {
+        foreach (GameObject item in boxContents)
+        {
+            if (item == null) return false;
+        }
+        return true;
+    }
 }
