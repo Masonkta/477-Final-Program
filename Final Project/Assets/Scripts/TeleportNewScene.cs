@@ -43,7 +43,7 @@ public class TeleportNewScene : MonoBehaviour
     void Update() {
         if (willTeleport && Input.GetKeyDown(KeyCode.G) && playerMovement.hasKey) {
             Debug.Log("G was pressed");
-            enterText.enabled = false;
+            if (enterText) enterText.enabled = false;
             willTeleport = false;
 
 
@@ -87,13 +87,13 @@ public class TeleportNewScene : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        enterText.enabled = true;
-        enterText.text = playerMovement.hasKey ? "[G] Enter Building" : "You need a key to access.";
+        if (enterText) enterText.enabled = true;
+        if (enterText) enterText.text = playerMovement.hasKey ? "[G] Enter Building" : "You need a key to access.";
         willTeleport = true;
     }
 
     public void OnTriggerExit(Collider other) {
-        enterText.enabled = false;
+        if (enterText) enterText.enabled = false;
         willTeleport = false;
     }
 }
