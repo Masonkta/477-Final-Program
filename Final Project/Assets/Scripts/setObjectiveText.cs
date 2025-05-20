@@ -24,7 +24,7 @@ public class setObjectiveText : MonoBehaviour
         if (DDOL)
         {
             if (DDOL.highestTaskAchieved == GameState.ENTERED_CITY)
-                objectiveText.text = "Current Objective:\nExplore the city, gather intel. Keep distance from marching soldiers.";
+                objectiveText.text = "Current Objective:\nExplore the city, gather intel from standing soldiers. Keep distance from marching soldiers.";
             else if (DDOL.highestTaskAchieved == GameState.TALKED_TO_COLONEL)
                 objectiveText.text = "Current Objective:\nInvestigate the parking garage as instructed. Maybe you'll find something.";
             else if (DDOL.highestTaskAchieved == GameState.TALKED_TO_NPC)
