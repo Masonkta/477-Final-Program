@@ -572,12 +572,7 @@ public class NPCManager : MonoBehaviour
                 yield return typing;
             }
             speakerText.text = "Doctor";
-            dialogue = "We found a weak link in their forces and have penatrated the digital conciousness through time. You are here to act as a pilot in a way for this conciousness.";
-            typing = StartCoroutine(TypeText(dialogue, talkText));
-            yield return typing;
-
-            speakerText.text = "Doctor";
-            dialogue = "We have limited resources, so we can only give you five minutes in that time before we have to reset you. You'll return back to the very moment you left. ";
+            dialogue = "We found a weak link in their forces and have penatrated the digital conciousness through time. We can only give you five minutes in that conciousness before we have to reset you.";
             typing = StartCoroutine(TypeText(dialogue, talkText));
             yield return typing;
 
@@ -601,11 +596,6 @@ public class NPCManager : MonoBehaviour
             {
                 speakerText.text = "Doctor";
                 dialogue = "There was a small resistance group still intact at this time that we were able to access. Your mission is to find their base and report back here.";
-                typing = StartCoroutine(TypeText(dialogue, talkText));
-                yield return typing;
-
-                speakerText.text = "Doctor";
-                dialogue = "Be careful to not arouse suspicion though because from what I hear these things play pretty fast and loose with the death penalty which would not be fun for your nervous system.";
                 typing = StartCoroutine(TypeText(dialogue, talkText));
                 yield return typing;
 
