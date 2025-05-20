@@ -25,6 +25,7 @@ public class InventoryController : MonoBehaviour
     public GameObject noteItself;
     public DDOL DDOL;
     bool objInRange = false;
+    public bool isWarning = false; float timeOfLastWarning;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +53,7 @@ public class InventoryController : MonoBehaviour
         }
 
         DDOL = GameObject.Find("DDOL").GetComponent<DDOL>();
+        timeOfLastWarning = Time.time;
     }
 
     // Update is called once per frame
@@ -71,6 +73,9 @@ public class InventoryController : MonoBehaviour
         if (hand.transform.childCount > 0)
         {
             pickUpText.text = "R to drop " + hand.transform.GetChild(0).name + " or press E to store it in your inventory.";
+            if (Time.time - timeOfLastWarning < 1.4f)
+                pickUpText.text = "Inventory is full.";
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 DropObject();
@@ -84,7 +89,8 @@ public class InventoryController : MonoBehaviour
                 }
                 else
                 {
-                    pickUpText.text = "Inventory is full!";
+                    pickUpText.text = "Inventory is full.";
+                    timeOfLastWarning = Time.time;
                 }
             }
 
@@ -146,6 +152,20 @@ public class InventoryController : MonoBehaviour
             grabObject(hand.transform.GetChild(0).gameObject);
         }
 
+        if (hand.transform.childCount > 0)
+        {
+
+            // Update position every frame to match hand position + camHeight
+            Transform held = hand.transform.GetChild(0);
+            held.position = hand.transform.position + Vector3.up * Map(playerMovement.actualCamHeight, 0.1f, 2.2f, 1.5f, -0.3f);
+
+            // ... the rest of your existing code here ...
+        }
+    }   
+
+    float Map(float value, float start1, float end1, float start2, float end2)
+    {
+        return (value - start1) / (end1 - start1) * (end2 - start2) + start2;
     }
 
     void toggleInventory()
@@ -164,6 +184,7 @@ public class InventoryController : MonoBehaviour
             if (hand.transform.transform.childCount == 0 && boxContents[num].name != "note")
             {
                 boxContents[num].SetActive(true);
+                // if (playerMovement) boxContents[num].transform.position = hand.transform.position + Vector3.up * playerMovement.actualCamHeight;
                 boxContents[num].transform.position = hand.transform.position;
                 boxContents[num].transform.SetParent(hand.transform);
                 boxContents[num].GetComponent<Rigidbody>().isKinematic = true;
@@ -272,6 +293,7 @@ public class InventoryController : MonoBehaviour
     {
         if (hand.transform.childCount == 0)
         {
+            // if (playerMovement) obj.transform.position = hand.transform.position + Vector3.up * playerMovement.actualCamHeight;
             obj.transform.position = hand.transform.position;
             obj.transform.SetParent(hand.transform);
             obj.GetComponent<Rigidbody>().isKinematic = true;
