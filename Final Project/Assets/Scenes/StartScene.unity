@@ -2229,7 +2229,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bbe03dc478c09a3479f4d496a2b8477a, type: 2}
+  - {fileID: 2100000, guid: 5665fba11e780ec47b33c2f732f901ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25122,8 +25122,8 @@ MonoBehaviour:
   Canvastv2: {fileID: 1663196141}
   tv1: {fileID: 6296448282293035846}
   tv2: {fileID: 223121099}
-  originalMaterialTV1: {fileID: 2100000, guid: bbe03dc478c09a3479f4d496a2b8477a, type: 2}
-  originalMaterialTV2: {fileID: 2100000, guid: bbe03dc478c09a3479f4d496a2b8477a, type: 2}
+  originalMaterialTV1: {fileID: 2100000, guid: 5665fba11e780ec47b33c2f732f901ee, type: 2}
+  originalMaterialTV2: {fileID: 2100000, guid: 5665fba11e780ec47b33c2f732f901ee, type: 2}
 --- !u!65 &6580111891184035596
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26921,7 +26921,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bbe03dc478c09a3479f4d496a2b8477a, type: 2}
+  - {fileID: 2100000, guid: 5665fba11e780ec47b33c2f732f901ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
